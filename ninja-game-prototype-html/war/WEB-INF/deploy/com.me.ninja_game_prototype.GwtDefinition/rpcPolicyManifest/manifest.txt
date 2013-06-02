@@ -1,0 +1,2 @@
+# Module com.me.ninja_game_prototype.GwtDefinition
+# RPC service class, partial path of RPC policy file
