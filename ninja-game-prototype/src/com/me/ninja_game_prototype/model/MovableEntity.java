@@ -1,4 +1,4 @@
-package com.me.ninja_game_prototype.Model;
+package com.me.ninja_game_prototype.model;
 
 import com.badlogic.gdx.math.Vector2;
 
@@ -13,7 +13,8 @@ public abstract class MovableEntity extends Entity {
 		velocity = new Vector2(0,0);
 	}
 
-	public void update(Ninja ninja){
+	public void update()
+	{
 		bounds.x = position.x;
 		bounds.y = position.y;
 	}

@@ -1,4 +1,4 @@
-package com.me.ninja_game_prototype.Screens;
+package com.me.ninja_game_prototype.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -6,10 +6,10 @@ import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.me.ninja_game_prototype.NinjaGamePrototype;
-import com.me.ninja_game_prototype.View.Audio;
+import com.me.ninja_game_prototype.audio.GameAudio;
 
-public class EndScreen implements Screen{
-
+public class EndScreen implements Screen
+{
 	NinjaGamePrototype game;
 	BitmapFont font1;
 	BitmapFont font2;
@@ -21,7 +21,7 @@ public class EndScreen implements Screen{
 	
 	
 	public EndScreen(NinjaGamePrototype game){
-		Audio.stopWalk();
+		GameAudio.stopWalk();
 		this.game = game;
 		batch = new SpriteBatch();
 		font1 = new BitmapFont(Gdx.files.internal("data/font.fnt"), false);
@@ -58,20 +58,16 @@ public class EndScreen implements Screen{
 
 	@Override
 	public void hide() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void pause() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void resume() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override

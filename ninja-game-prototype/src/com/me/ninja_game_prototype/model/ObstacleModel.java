@@ -1,14 +1,14 @@
-package com.me.ninja_game_prototype.Model;
+package com.me.ninja_game_prototype.model;
 
 import com.badlogic.gdx.math.Vector2;
 
-public class Obstacle extends Entity{
+public class ObstacleModel extends Entity{
 	
 	String identifier;
 	boolean rumble;
 	boolean audioFlag = true;
 	
-	public Obstacle(Vector2 position, float width, float height) {
+	public ObstacleModel(Vector2 position, float width, float height) {
 		super(position, width, height);
 	}
 	

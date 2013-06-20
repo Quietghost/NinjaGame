@@ -1,6 +1,7 @@
-package com.me.ninja_game_prototype.View;
+package com.me.ninja_game_prototype.view;
 
 import java.io.IOException;
+import java.util.List;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
@@ -15,15 +16,30 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.me.ninja_game_prototype.NinjaGamePrototype;
-import com.me.ninja_game_prototype.Model.Exit;
-import com.me.ninja_game_prototype.Model.Ninja;
-import com.me.ninja_game_prototype.Model.Obstacle;
+import com.me.ninja_game_prototype.model.ExitModel;
+import com.me.ninja_game_prototype.model.NinjaModel;
+import com.me.ninja_game_prototype.model.ObstacleModel;
+import com.me.ninja_game_prototype.model.WorldModel;
 
-public class WorldRenderer {
+public class WorldView
+{
+	/* static */
 	
-	World world;
+	/* singleton */
+	private static WorldView instance;
+
+	private WorldView() {
+	}
+
+	public static WorldView get() {
+		if (WorldView.instance == null) {
+			WorldView.instance = new WorldView();
+		}
+		return WorldView.instance;
+	}
+	
+	/* instance */
 	SpriteBatch batch;
-	Ninja ninja;
 	OrthographicCamera cam;
 	Texture mapTexture;
 	Texture ninjaTexture;
@@ -32,18 +48,12 @@ public class WorldRenderer {
 	Texture obstacleTexture2;
 	float width, height;
 	ShapeRenderer shaperenderer;
-	Obstacle obstacle1;
-	Obstacle obstacle2;
-	Exit exit;
 	ParticleEmitter hit;
 	
 	Sound sound = Gdx.audio.newSound(Gdx.files.internal("data/hit_ouch.mp3"));
 
-	public WorldRenderer(World world){
-		this.world = world;
-		
-		world.setWorldrenderer(this);
-		
+	public void init()
+	{
 		width = (Gdx.graphics.getWidth());
 		height = (Gdx.graphics.getHeight());
 		
@@ -95,39 +105,39 @@ public class WorldRenderer {
 	/**
 	 * @param cam the cam to set
 	 */
-	public void setCam(OrthographicCamera cam) {
+	public void setCam(OrthographicCamera cam)
+	{
 		this.cam = cam;
 	}
 
-	public void render(){
+	public void render()
+	{
 		
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		
-		ninja = world.getNinja();
-		obstacle1 = world.getObstacle1();
-		obstacle2 = world.getObstacle2();
-		exit = world.getExit();
+		NinjaModel ninja = WorldModel.get().getNinja();
+		ExitModel exit = WorldModel.get().getExit();
+		List<ObstacleModel> obstacles = WorldModel.get().getObstacles();
 		
 		batch.begin();
-		if(!ninja.isMoved()){
+		if(!ninja.isMoved())
+		{
 			batch.draw(mapTexture, 0, 0);
-			batch.draw(ninjaTexture, ninja.getPosition().x, ninja.getPosition().y, ninja.getWidth(), ninja.getHeight());
-			batch.draw(obstacleTexture1, obstacle1.getPosition().x, obstacle1.getPosition().y, obstacle1.getWidth(), obstacle1.getHeight());
-			batch.draw(obstacleTexture2, obstacle2.getPosition().x, obstacle2.getPosition().y, obstacle2.getWidth(), obstacle2.getHeight());
-			
+			batch.draw(ninjaTexture, ninja.entity.getPosition().x, ninja.entity.getPosition().y, ninja.entity.getWidth(), ninja.entity.getHeight());
+			for (ObstacleModel obstacle : obstacles)
+			{
+				batch.draw(obstacleTexture1, obstacle.getPosition().x, obstacle.getPosition().y, obstacle.getWidth(), obstacle.getHeight());
+			}
 		}else{
-			batch.draw(ninjaTexture_dark, ninja.getPosition().x + ninjaTexture_dark.getWidth()/2, ninja.getPosition().y + ninjaTexture_dark.getHeight());
+			batch.draw(ninjaTexture_dark, ninja.entity.getPosition().x + ninjaTexture_dark.getWidth()/2, ninja.entity.getPosition().y + ninjaTexture_dark.getHeight());
 		}
 		
-		if(obstacle1.isRumble()){
-			hit.setPosition(obstacle1.getPosition().x + obstacle1.getWidth()/2, obstacle1.getPosition().y + obstacle1.getHeight()/2);
-			hit.draw(batch, Gdx.graphics.getDeltaTime());
-		}
-		
-		if(obstacle2.isRumble()){
-			hit.setPosition(obstacle2.getPosition().x + obstacle2.getWidth()/2, obstacle2.getPosition().y + obstacle2.getHeight()/2);
-			hit.draw(batch, Gdx.graphics.getDeltaTime());
+		for (ObstacleModel obstacle : obstacles) {
+			if(obstacle.isRumble()){
+				hit.setPosition(obstacle.getPosition().x + obstacle.getWidth()/2, obstacle.getPosition().y + obstacle.getHeight()/2);
+				hit.draw(batch, Gdx.graphics.getDeltaTime());
+			}
 		}
 
 		batch.end();
@@ -136,10 +146,11 @@ public class WorldRenderer {
 			shaperenderer.setProjectionMatrix(cam.combined);
 			shaperenderer.begin(ShapeType.Line);
 			shaperenderer.setColor(Color.ORANGE);
-			shaperenderer.rect(ninja.getBounds().x, ninja.getBounds().y, ninja.getBounds().width, ninja.getBounds().height);
+			shaperenderer.rect(ninja.entity.getBounds().x, ninja.entity.getBounds().y, ninja.entity.getBounds().width, ninja.entity.getBounds().height);
 			shaperenderer.setColor(Color.RED);
-			shaperenderer.rect(obstacle1.getBounds().x, obstacle1.getBounds().y, obstacle1.getBounds().width, obstacle1.getBounds().height);
-			shaperenderer.rect(obstacle2.getBounds().x, obstacle2.getBounds().y, obstacle2.getBounds().width, obstacle2.getBounds().height);
+			for (ObstacleModel obstacle : obstacles) {
+				shaperenderer.rect(obstacle.getBounds().x, obstacle.getBounds().y, obstacle.getBounds().width, obstacle.getBounds().height);
+			}
 			shaperenderer.rect(exit.getBounds().x, exit.getBounds().y, exit.getBounds().width, exit.getBounds().height);
 			shaperenderer.end();
 		}

@@ -1,4 +1,4 @@
-package com.me.ninja_game_prototype.TweenApplication;
+package com.me.ninja_game_prototype.view.tween;
 
 import aurelienribon.tweenengine.TweenAccessor;
 

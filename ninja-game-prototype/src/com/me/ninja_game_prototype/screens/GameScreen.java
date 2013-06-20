@@ -1,28 +1,27 @@
-package com.me.ninja_game_prototype.Screens;
+package com.me.ninja_game_prototype.screens;
 
 import com.badlogic.gdx.Screen;
 import com.me.ninja_game_prototype.NinjaGamePrototype;
-import com.me.ninja_game_prototype.View.World;
-import com.me.ninja_game_prototype.View.WorldRenderer;
+import com.me.ninja_game_prototype.controller.WorldController;
+import com.me.ninja_game_prototype.model.GameModel;
+import com.me.ninja_game_prototype.model.WorldModel;
+import com.me.ninja_game_prototype.view.WorldView;
 
 public class GameScreen implements Screen{
 
 	NinjaGamePrototype game;
-	World world;
-	WorldRenderer render;
 	
 	public GameScreen (NinjaGamePrototype game){
 		this.game = game;
-		world = new World(game);
-		render = new WorldRenderer(world);
+		new WorldController();
 	}
 	
-	
 	@Override
-	public void render(float delta) {
-		if(!world.isGameEnd()){
-			world.update();
-			render.render();
+	public void render(float delta)
+	{
+		if(!GameModel.get().isGameEnd()){
+			WorldModel.get().update();
+			WorldView.get().render();
 		}else{
 			game.setScreen(new EndScreen(game));
 		}
@@ -55,8 +54,8 @@ public class GameScreen implements Screen{
 
 	@Override
 	public void dispose() {
-		world.dispose();
-		render.dispose();
+		WorldModel.get().dispose();
+		WorldView.get().dispose();
 	}
 
 }
