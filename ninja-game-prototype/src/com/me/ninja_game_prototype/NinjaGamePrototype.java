@@ -32,14 +32,14 @@ public class NinjaGamePrototype extends Game {
 	}
 
 	/**
-	 * @return the aTTEMPTS
+	 * @return the ATTEMPTS
 	 */
 	public int getATTEMPTS() {
 		return ATTEMPTS;
 	}
 
 	/**
-	 * @param aTTEMPTS the aTTEMPTS to set
+	 * @param ATTEMPTS the ATTEMPTS to set
 	 */
 	public void addATTEMPTS() {
 		ATTEMPTS += 1;

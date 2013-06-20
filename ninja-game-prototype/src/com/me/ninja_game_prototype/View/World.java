@@ -66,14 +66,14 @@ public class World {
 			
 			if (obstacle1.isRumble() && obstacle1.isAudioFlag()){
 				Audio.hitObstacle();
-				Gdx.app.log(NinjaGamePrototype.LOG, "Hit 1!! ");
+				if (NinjaGamePrototype.DEBUG) Gdx.app.log(NinjaGamePrototype.LOG, "Hit 1!! ");
 				obstacle1.setAudioFlag(false);
 			}
 			
 		}else{
 			obstacle1.setRumble(false);
 			obstacle1.setAudioFlag(true);
-			Gdx.app.log(NinjaGamePrototype.LOG, "Else 1!! ");
+			if (NinjaGamePrototype.DEBUG) Gdx.app.log(NinjaGamePrototype.LOG, "Else 1!! ");
 		}
 		
 		if (ninja.getBounds().overlaps(obstacle2.getBounds())){
@@ -88,14 +88,14 @@ public class World {
 			
 			if (obstacle2.isRumble() && obstacle2.isAudioFlag()){
 				Audio.hitObstacle();
-				Gdx.app.log(NinjaGamePrototype.LOG, "Hit 2!! ");
+				if (NinjaGamePrototype.DEBUG) Gdx.app.log(NinjaGamePrototype.LOG, "Hit 2!! ");
 				obstacle2.setAudioFlag(false);
 			}
 			
 		}else{
 			obstacle2.setRumble(false);
 			obstacle2.setAudioFlag(true);
-			Gdx.app.log(NinjaGamePrototype.LOG, "Else 2!! ");
+			if (NinjaGamePrototype.DEBUG) Gdx.app.log(NinjaGamePrototype.LOG, "Else 2!! ");
 		}
 		
 		if (ninja.getBounds().overlaps(exit.getBounds())){

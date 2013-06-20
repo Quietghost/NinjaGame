@@ -15,7 +15,6 @@ public class GameScreen implements Screen{
 		this.game = game;
 		world = new World(game);
 		render = new WorldRenderer(world);
-		
 	}
 	
 	

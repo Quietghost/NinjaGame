@@ -82,7 +82,7 @@ public class SplashScreen implements Screen{
 
 	
 	private void tweenCompleted() {
-		Gdx.app.log(NinjaGamePrototype.LOG, "finished");
+		if (NinjaGamePrototype.DEBUG) Gdx.app.log(NinjaGamePrototype.LOG, "finished");
 		game.setScreen(new GameScreen(game));
 	}
 	
