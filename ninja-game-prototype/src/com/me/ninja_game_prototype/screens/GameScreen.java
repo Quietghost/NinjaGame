@@ -1,9 +1,9 @@
-package com.me.ninja_game_prototype.Screens;
+package com.me.ninja_game_prototype.screens;
 
 import com.badlogic.gdx.Screen;
 import com.me.ninja_game_prototype.NinjaGamePrototype;
-import com.me.ninja_game_prototype.View.World;
-import com.me.ninja_game_prototype.View.WorldRenderer;
+import com.me.ninja_game_prototype.model.World;
+import com.me.ninja_game_prototype.view.WorldRenderer;
 
 public class GameScreen implements Screen{
 

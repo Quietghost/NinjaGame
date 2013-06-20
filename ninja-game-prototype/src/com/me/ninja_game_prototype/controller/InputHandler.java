@@ -1,10 +1,12 @@
-package com.me.ninja_game_prototype.View;
+package com.me.ninja_game_prototype.controller;
 
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.me.ninja_game_prototype.Model.Ninja;
+import com.me.ninja_game_prototype.model.Ninja;
+import com.me.ninja_game_prototype.model.World;
+import com.me.ninja_game_prototype.view.Audio;
 
 public class InputHandler implements InputProcessor{
 

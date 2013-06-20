@@ -1,4 +1,4 @@
-package com.me.ninja_game_prototype.Screens;
+package com.me.ninja_game_prototype.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.me.ninja_game_prototype.NinjaGamePrototype;
-import com.me.ninja_game_prototype.View.Audio;
+import com.me.ninja_game_prototype.view.Audio;
 
 public class EndScreen implements Screen{
 

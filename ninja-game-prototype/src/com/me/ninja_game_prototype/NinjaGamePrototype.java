@@ -2,8 +2,8 @@ package com.me.ninja_game_prototype;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.FPSLogger;
-import com.me.ninja_game_prototype.Screens.EndScreen;
-import com.me.ninja_game_prototype.Screens.SplashScreen;
+import com.me.ninja_game_prototype.screens.EndScreen;
+import com.me.ninja_game_prototype.screens.SplashScreen;
 
 public class NinjaGamePrototype extends Game {
 	

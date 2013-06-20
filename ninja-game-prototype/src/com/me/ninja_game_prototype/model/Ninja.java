@@ -1,8 +1,8 @@
-package com.me.ninja_game_prototype.Model;
+package com.me.ninja_game_prototype.model;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
-import com.me.ninja_game_prototype.View.Audio;
+import com.me.ninja_game_prototype.view.Audio;
 
 public class Ninja extends MovableEntity{
 	

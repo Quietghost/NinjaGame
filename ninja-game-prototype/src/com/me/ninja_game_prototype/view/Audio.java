@@ -1,4 +1,4 @@
-package com.me.ninja_game_prototype.View;
+package com.me.ninja_game_prototype.view;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;

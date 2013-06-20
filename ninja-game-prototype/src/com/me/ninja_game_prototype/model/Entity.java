@@ -1,4 +1,4 @@
-package com.me.ninja_game_prototype.Model;
+package com.me.ninja_game_prototype.model;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;

@@ -1,11 +1,11 @@
-package com.me.ninja_game_prototype.View;
+package com.me.ninja_game_prototype.model;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.me.ninja_game_prototype.NinjaGamePrototype;
-import com.me.ninja_game_prototype.Model.Exit;
-import com.me.ninja_game_prototype.Model.Ninja;
-import com.me.ninja_game_prototype.Model.Obstacle;
+import com.me.ninja_game_prototype.controller.InputHandler;
+import com.me.ninja_game_prototype.view.Audio;
+import com.me.ninja_game_prototype.view.WorldRenderer;
 
 public class World {
 

@@ -1,4 +1,4 @@
-package com.me.ninja_game_prototype.View;
+package com.me.ninja_game_prototype.view;
 
 import java.io.IOException;
 
@@ -14,10 +14,14 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.maps.tiled.AtlasTmxMapLoader;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.me.ninja_game_prototype.NinjaGamePrototype;
-import com.me.ninja_game_prototype.Model.Exit;
-import com.me.ninja_game_prototype.Model.Ninja;
-import com.me.ninja_game_prototype.Model.Obstacle;
+import com.me.ninja_game_prototype.model.Exit;
+import com.me.ninja_game_prototype.model.Ninja;
+import com.me.ninja_game_prototype.model.Obstacle;
+import com.me.ninja_game_prototype.model.World;
 
 public class WorldRenderer {
 	
@@ -41,8 +45,10 @@ public class WorldRenderer {
 
 	public WorldRenderer(World world){
 		this.world = world;
-		
 		world.setWorldrenderer(this);
+		
+		// load tmx file
+		loadAssets();
 		
 		width = (Gdx.graphics.getWidth());
 		height = (Gdx.graphics.getHeight());
@@ -83,6 +89,15 @@ public class WorldRenderer {
 		hit.setSprite(sparkle);
 		hit.getScale().setHigh(10);
 		hit.start();
+	}
+	
+	private void loadAssets()
+	{
+        TiledMap map;
+        AtlasTmxMapLoader atlas;
+        
+        // Load the tmx file into map
+        map = new TmxMapLoader().load("map2.tmx");
 	}
 	
 	/**

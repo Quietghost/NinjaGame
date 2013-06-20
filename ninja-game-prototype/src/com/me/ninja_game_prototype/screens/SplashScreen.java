@@ -1,4 +1,4 @@
-package com.me.ninja_game_prototype.Screens;
+package com.me.ninja_game_prototype.screens;
 
 import aurelienribon.tweenengine.BaseTween;
 import aurelienribon.tweenengine.Tween;
@@ -16,7 +16,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.me.ninja_game_prototype.NinjaGamePrototype;
 import com.me.ninja_game_prototype.TweenApplication.SpriteTween;
-import com.me.ninja_game_prototype.View.Audio;
+import com.me.ninja_game_prototype.view.Audio;
 
 public class SplashScreen implements Screen{
 
