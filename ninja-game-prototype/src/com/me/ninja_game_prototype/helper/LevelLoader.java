@@ -113,7 +113,7 @@ public class LevelLoader {
 			e.printStackTrace();
 		}
 		
-//		System.exit(0);
+		System.exit(0);
 		
 //		WorldModel.get().addObstacles(new ObstacleModel(new Vector2(320,310), 64, 64), "");
 //		WorldModel.get().addObstacles(new ObstacleModel(new Vector2(100,110), 108, 92), "");
