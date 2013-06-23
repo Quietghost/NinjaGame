@@ -8,7 +8,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.me.ninja_game_prototype.NinjaGamePrototype;
 import com.me.ninja_game_prototype.audio.GameAudio;
-import com.me.ninja_game_prototype.view.WorldView;
 
 public class WorldModel extends Observable
 {
@@ -28,11 +27,6 @@ public class WorldModel extends Observable
 	}
 	
 	/* instance */
-	NinjaGamePrototype game; // TODO refactore 
-	WorldView worldrenderer; // TODO refactore 
-	float timeSinceCollision = 0; // TODO refactore 
-	
-	// refactored
 	private List<ObstacleModel> obstacles = new ArrayList<ObstacleModel>();
 	private ExitModel exit;
 	private NinjaModel ninja;
@@ -80,11 +74,11 @@ public class WorldModel extends Observable
 			if (ninja.entity.getBounds().overlaps(obstacle.getBounds())){
 				obstacle.setRumble(true);
 				
-				timeSinceCollision += Gdx.graphics.getDeltaTime();
-				if(timeSinceCollision > 0.5f) {
+				GameModel.get().addTimeSinceCollision(Gdx.graphics.getDeltaTime());
+				if(GameModel.get().getTimeSinceCollision() > 0.5f) {
 					ninja.entity.setPosition(new Vector2(200,400));
-					timeSinceCollision = 0;
-					game.addATTEMPTS();
+					GameModel.get().setTimeSinceCollision(0);
+					GameModel.get().addAttempt();
 				}
 				
 				if (obstacle.isRumble() && obstacle.isAudioFlag()){

@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.me.ninja_game_prototype.NinjaGamePrototype;
 import com.me.ninja_game_prototype.audio.GameAudio;
+import com.me.ninja_game_prototype.model.GameModel;
 
 public class EndScreen implements Screen
 {
@@ -27,7 +28,7 @@ public class EndScreen implements Screen
 		font1 = new BitmapFont(Gdx.files.internal("data/font.fnt"), false);
 		font2 = new BitmapFont(Gdx.files.internal("data/font1.fnt"), false);
 		font3 = new BitmapFont(Gdx.files.internal("data/font2.fnt"), false);
-		str3 = "Failed attempts: " + game.getATTEMPTS();
+		str3 = "Failed attempts: " + GameModel.get().getAttempts();
 	}
 	
 	

@@ -18,6 +18,9 @@ public class GameModel {
 	
 	/* instance */
 	private boolean gameEnd = false;
+	private int attempts = 0;
+	private float timeSinceCollision = 0; 
+
 
 	public boolean isGameEnd() {
 		return gameEnd;
@@ -25,5 +28,25 @@ public class GameModel {
 
 	public void setGameEnd(boolean gameEnd) {
 		this.gameEnd = gameEnd;
+	}
+	
+	public int getAttempts() {
+		return attempts;
+	}
+
+	public void addAttempt() {
+		attempts += 1;
+	}
+
+	public float getTimeSinceCollision() {
+		return timeSinceCollision;
+	}
+
+	public void setTimeSinceCollision(float timeSinceCollision) {
+		this.timeSinceCollision = timeSinceCollision;
+	}
+
+	public void addTimeSinceCollision(float deltaTime) {
+		this.timeSinceCollision += deltaTime;
 	}
 }

@@ -9,7 +9,6 @@ public class NinjaGamePrototype extends Game {
 	public static final String VERSION = "0.0.1 PreAlpha";
 	public static final String LOG = "Panpipe Ninja";
 	public static boolean DEBUG = false;
-	public static int ATTEMPTS = 0;
 	
 	FPSLogger log;
 	
@@ -30,14 +29,6 @@ public class NinjaGamePrototype extends Game {
 	public void render() {		
 		super.render();
 		log.log();
-	}
-
-	public int getATTEMPTS() {
-		return ATTEMPTS;
-	}
-
-	public void addATTEMPTS() {
-		ATTEMPTS += 1;
 	}
 
 	@Override
