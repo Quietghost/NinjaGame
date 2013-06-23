@@ -3,6 +3,9 @@ package com.me.ninja_game_prototype.view;
 import java.io.IOException;
 import java.util.List;
 
+import box2dLight.PointLight;
+import box2dLight.RayHandler;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
@@ -13,9 +16,17 @@ import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.World;
 import com.me.ninja_game_prototype.NinjaGamePrototype;
+import com.me.ninja_game_prototype.helper.ShaderSettings;
 import com.me.ninja_game_prototype.model.ExitModel;
 import com.me.ninja_game_prototype.model.NinjaModel;
 import com.me.ninja_game_prototype.model.ObstacleModel;
@@ -49,11 +60,21 @@ public class WorldView
 	float width, height;
 	ShapeRenderer shaperenderer;
 	ParticleEmitter hit;
+	World box2dworld;
+	ShaderProgram shader;
+	Box2DDebugRenderer box2drenderer;
+	RayHandler rayhandler;
+	PointLight p;
 	
 	Sound sound = Gdx.audio.newSound(Gdx.files.internal("data/hit_ouch.mp3"));
 
 	public void init()
 	{
+		
+		box2drenderer = new Box2DDebugRenderer();
+		
+		box2dworld = new World(new Vector2(0,  -9.8f), false);
+		
 		width = (Gdx.graphics.getWidth());
 		height = (Gdx.graphics.getHeight());
 		
@@ -61,8 +82,8 @@ public class WorldView
 		cam.setToOrtho(false, width, height);
 		cam.update();
 		
-		batch = new SpriteBatch();
-		batch.setProjectionMatrix(cam.combined);
+		width = (Gdx.graphics.getWidth());
+		height = (Gdx.graphics.getHeight());
 		
 		mapTexture = new Texture("data/map.png");
 		//mapTexture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
@@ -77,6 +98,19 @@ public class WorldView
 		
 		obstacleTexture2 = new Texture("data/obstacle_2.png");
 		//obstacleTexture2.setFilter(TextureFilter.Linear, TextureFilter.Linear);
+		
+		ShaderProgram.pedantic = false;
+		
+		shader = new ShaderProgram(ShaderSettings.VERT, ShaderSettings.FRAG);
+		
+		batch = new SpriteBatch(1000, shader);
+		batch.setShader(shader);
+		
+		batch.setProjectionMatrix(cam.combined);
+		
+		shader.begin();
+		shader.setUniformf("resolution", Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		shader.end();
 		
 		shaperenderer = new ShapeRenderer();
 		
@@ -93,6 +127,61 @@ public class WorldView
 		hit.setSprite(sparkle);
 		hit.getScale().setHigh(10);
 		hit.start();
+		
+		RayHandler.setGammaCorrection(true);
+        RayHandler.useDiffuseLight(true);
+        
+		rayhandler = new RayHandler(box2dworld);
+		rayhandler.setAmbientLight(0.2f, 0.2f, 0.2f, 0.1f);
+		rayhandler.setBlurNum(1);
+		rayhandler.setCombinedMatrix(cam.combined);
+		
+		p = new PointLight(rayhandler, 1000, Color.WHITE, 700, 0, height);
+		
+		// Create our body definition
+		BodyDef obstacle1BodyDef = new BodyDef();  
+		// Set its world position
+		obstacle1BodyDef.position.set(new Vector2(WorldModel.get().getObstacles().get(0).getPosition().x +
+				+ (WorldModel.get().getObstacles().get(0).getBounds().width/2),
+				WorldModel.get().getObstacles().get(0).getPosition().y +
+				+ (WorldModel.get().getObstacles().get(0).getBounds().height/2)));  
+
+		// Create a body from the defintion and add it to the world
+		Body obstacle1Body = box2dworld.createBody(obstacle1BodyDef);
+		obstacle1Body.setUserData(WorldModel.get().getObstacles().get(0));
+
+		// Create a polygon shape
+		PolygonShape obstacle1Box = new PolygonShape();  
+		// Set the polygon shape as a box which is twice the size of our view port and 20 high
+		// (setAsBox takes half-width and half-height as arguments)
+		obstacle1Box.setAsBox(WorldModel.get().getObstacles().get(0).getBounds().width/2, WorldModel.get().getObstacles().get(0).getBounds().height/2);
+		// Create a fixture from our polygon shape and add it to our ground body  
+		obstacle1Body.createFixture(obstacle1Box, 0.0f); 
+		// Clean up after ourselves
+		obstacle1Box.dispose();
+		
+		// Create our body definition
+		BodyDef obstacle2BodyDef = new BodyDef();  
+		// Set its world position
+		obstacle2BodyDef.position.set(new Vector2(WorldModel.get().getObstacles().get(1).getPosition().x +
+				+ (WorldModel.get().getObstacles().get(1).getBounds().width/2),
+				WorldModel.get().getObstacles().get(1).getPosition().y +
+				+ (WorldModel.get().getObstacles().get(1).getBounds().height/2)));
+
+		// Create a body from the defintion and add it to the world
+		Body obstacle2Body = box2dworld.createBody(obstacle2BodyDef);  
+		obstacle2Body.setUserData(WorldModel.get().getObstacles().get(1));
+		
+		// Create a polygon shape
+		PolygonShape obstacle2Box = new PolygonShape();  
+		// Set the polygon shape as a box which is twice the size of our view port and 20 high
+		// (setAsBox takes half-width and half-height as arguments)
+		obstacle2Box.setAsBox(WorldModel.get().getObstacles().get(1).getBounds().width/2, WorldModel.get().getObstacles().get(1).getBounds().height/2);
+		// Create a fixture from our polygon shape and add it to our ground body  
+		obstacle2Body.createFixture(obstacle2Box, 0.0f); 
+		// Clean up after ourselves
+		obstacle2Box.dispose();
+		
 	}
 	
 	/**
@@ -119,6 +208,11 @@ public class WorldView
 		NinjaModel ninja = WorldModel.get().getNinja();
 		ExitModel exit = WorldModel.get().getExit();
 		List<ObstacleModel> obstacles = WorldModel.get().getObstacles();
+		
+		if(!ninja.isMoved()){
+			box2drenderer.render(box2dworld, cam.combined);
+			box2dworld.step(1/60f, 6, 2);
+		}
 		
 		batch.begin();
 		if(!ninja.isMoved())
@@ -153,6 +247,10 @@ public class WorldView
 			}
 			shaperenderer.rect(exit.getBounds().x, exit.getBounds().y, exit.getBounds().width, exit.getBounds().height);
 			shaperenderer.end();
+		}
+		
+		if(!ninja.isMoved()){
+			rayhandler.updateAndRender();
 		}
 	}
 	

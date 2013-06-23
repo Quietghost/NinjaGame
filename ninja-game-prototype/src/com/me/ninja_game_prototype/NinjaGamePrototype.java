@@ -2,6 +2,7 @@ package com.me.ninja_game_prototype;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.FPSLogger;
+import com.me.ninja_game_prototype.screens.GameScreen;
 import com.me.ninja_game_prototype.screens.SplashScreen;
 
 public class NinjaGamePrototype extends Game {
@@ -17,7 +18,7 @@ public class NinjaGamePrototype extends Game {
 		log = new FPSLogger();
 		
 		// TODO App-Controller here
-		setScreen(new SplashScreen(this));
+		setScreen(new GameScreen(this));
 	}
 
 	@Override
