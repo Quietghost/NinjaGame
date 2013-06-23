@@ -9,6 +9,12 @@
  <tileset firstgid="302" name="obstacle_2" tilewidth="54" tileheight="46">
   <image source="data/obstacle_2.png" width="54" height="46"/>
  </tileset>
+ <tileset firstgid="303" name="ninja" tilewidth="27" tileheight="31">
+  <image source="data/ninja.png" width="27" height="31"/>
+ </tileset>
+ <tileset firstgid="304" name="eyes" tilewidth="27" tileheight="23">
+  <image source="data/eyes.png" width="27" height="23"/>
+ </tileset>
  <layer name="L_Floor" width="20" height="15">
   <data encoding="base64" compression="zlib">
    eJyt0UWIEFAUQNEZXditM3YH2J1gd4LdCXYn2J1gd4LdCXYn2J1gdy7s9szuu5/HO4u/+HfzIiJif6KIJi3pSE8GMpKJzGQhK9nITg5ykovc5Al6eclHfgpQkEIUpghFKUZxSlCSUpSmDGUpF/TKU4GKVKIyVahKNapTg5rUojZ1qEs96tMg6DWkEY1pQlOa0ZwWtKQVrWlDW9rRng50pFPQ60wXutKN7vSgJ73oTR/60o/+DGAggxjMkKA3lGEMZwQjGcVoxjCWcYxnAhOZxGSmMJVpQW86M5jJLGYzh7nMYz4LWMgiFrOEpSxjOSuC3kpWsZo1rGUd69nARjaxmS1sZRvb2cFOdgW93exhL/vYzwEOcojDHOEoxzjOCU5yitOcCXpnOcd5LnCRS1zmCle5xnVucJNb3OYOd7kX9O7zgIc84jFPeMoznvOCl7ziNW94yzve8yHoxdztI5/4zBe+8o3v/OAnv/jNH/7GfIy0xCFu5P+9eN7xSUBCEpGYJCQlGclJQUpSkZo0RBEd9GJz/gHZxHO3
@@ -33,5 +39,9 @@
  </objectgroup>
  <objectgroup name="O_Exit" width="20" height="15">
   <object name="Exit" x="609" y="288" width="29" height="63"/>
+ </objectgroup>
+ <objectgroup name="O_Ninja" width="20" height="15">
+  <object name="day" gid="303" x="238" y="93"/>
+  <object name="night" gid="304" x="239" y="89"/>
  </objectgroup>
 </map>
