@@ -4,6 +4,7 @@ import java.util.Iterator;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.FileTextureData;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapLayers;
 import com.badlogic.gdx.maps.MapObject;
@@ -37,15 +38,8 @@ public class LevelLoader {
 	{
 		WorldModel.get().clear();
 		
-		// TODO load tmx file
 		try {
-//			File fXmlFile = Gdx.files.internal("map2.tmx").file();
-//			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-//			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-//			Document doc = dBuilder.parse(fXmlFile);
-			
-			// Load the tmx file into map
-	        TiledMap map = new TmxMapLoader().load("map2.tmx");
+	        TiledMap map = new TmxMapLoader().load("map3.tmx");
 	        Iterator it;
 	        
 	        it = map.getProperties().getKeys();
@@ -58,6 +52,7 @@ public class LevelLoader {
 	        System.out.println("Layers: "+layers.getCount());
 	        TiledMapTileLayer floor = (TiledMapTileLayer) layers.get("L_Floor");
 	        TiledMapTileLayer wall = (TiledMapTileLayer) layers.get("L_Wall");
+	        TiledMapTileLayer exit = (TiledMapTileLayer) layers.get("L_Exit");
 	        
 	        it = layers.iterator();
 	        while (it.hasNext()) {
@@ -102,6 +97,10 @@ public class LevelLoader {
 	        
 	        Texture tx = tr.getTexture();
 	        System.out.println("Texture: "+tx.toString());
+	        
+	        FileTextureData td = (FileTextureData) tx.getTextureData();
+	        System.out.println("Path: "+td.getFileHandle().path());
+	        System.out.println("Name: "+td.getFileHandle().name());
 			
 //		} catch (ParserConfigurationException e) {
 //			e.printStackTrace();
@@ -113,7 +112,7 @@ public class LevelLoader {
 			e.printStackTrace();
 		}
 		
-//		System.exit(0);
+		//System.exit(0);
 		
 //		WorldModel.get().addObstacles(new ObstacleModel(new Vector2(320,310), 64, 64), "");
 //		WorldModel.get().addObstacles(new ObstacleModel(new Vector2(100,110), 108, 92), "");
