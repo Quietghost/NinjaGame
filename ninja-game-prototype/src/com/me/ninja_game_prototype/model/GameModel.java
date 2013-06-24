@@ -20,6 +20,8 @@ public class GameModel {
 	private boolean gameEnd = false;
 	private int attempts = 0;
 	private float timeSinceCollision = 0; 
+	private boolean songModeShow = false;
+	private boolean songModeHide = false;
 
 
 	public boolean isGameEnd() {
@@ -48,5 +50,21 @@ public class GameModel {
 
 	public void addTimeSinceCollision(float deltaTime) {
 		this.timeSinceCollision += deltaTime;
+	}
+
+	public boolean isSongModeShow() {
+		return songModeShow;
+	}
+
+	public void setSongModeShow(boolean songModeShow) {
+		this.songModeShow = songModeShow;
+	}
+	
+	public boolean isSongModeHide() {
+		return songModeHide;
+	}
+
+	public void setSongModeHide(boolean songModeHide) {
+		this.songModeHide = songModeHide;
 	}
 }

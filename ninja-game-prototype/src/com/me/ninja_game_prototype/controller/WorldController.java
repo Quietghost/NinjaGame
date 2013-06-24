@@ -28,8 +28,10 @@ public class WorldController implements InputProcessor
 	@Override
 	public boolean keyDown(int keycode)
 	{
-		WorldModel.get().getNinja().setFlagInput(2);
-		WorldModel.get().getNinja().setMoved(true);
+		if (keycode != Keys.O){
+			WorldModel.get().getNinja().setFlagInput(2);
+			WorldModel.get().getNinja().setMoved(true);
+		}
 		
 		if(!GameModel.get().isGameEnd())
 			GameAudio.walk();
@@ -47,7 +49,17 @@ public class WorldController implements InputProcessor
 		case Keys.D:
 			WorldModel.get().getNinja().entity.getVelocity().x = 1;
 			break;
+		case Keys.O:
+			if (GameModel.get().isSongModeShow()){
+				GameModel.get().setSongModeHide(true);
+				GameModel.get().setSongModeShow(false);
+			}else{
+				GameModel.get().setSongModeHide(false);
+				GameModel.get().setSongModeShow(true);
+			}
+			break;
 		}
+		
 		return false;
 	}
 

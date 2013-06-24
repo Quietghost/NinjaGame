@@ -28,6 +28,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.me.ninja_game_prototype.NinjaGamePrototype;
 import com.me.ninja_game_prototype.helper.ShaderSettings;
 import com.me.ninja_game_prototype.model.ExitModel;
+import com.me.ninja_game_prototype.model.GameModel;
 import com.me.ninja_game_prototype.model.NinjaModel;
 import com.me.ninja_game_prototype.model.ObstacleModel;
 import com.me.ninja_game_prototype.model.WorldModel;
@@ -51,12 +52,14 @@ public class WorldView
 	
 	/* instance */
 	SpriteBatch batch;
+	SpriteBatch menu;
 	OrthographicCamera cam;
 	Texture mapTexture;
 	Texture ninjaTexture;
 	Texture ninjaTexture_dark;
 	Texture obstacleTexture1;
 	Texture obstacleTexture2;
+	Texture panpipe;
 	float width, height;
 	ShapeRenderer shaperenderer;
 	ParticleEmitter hit;
@@ -65,6 +68,7 @@ public class WorldView
 	Box2DDebugRenderer box2drenderer;
 	RayHandler rayhandler;
 	PointLight p;
+	float fadeTimeAlpha = 0;
 	
 	Sound sound = Gdx.audio.newSound(Gdx.files.internal("data/hit_ouch.mp3"));
 
@@ -86,18 +90,16 @@ public class WorldView
 		height = (Gdx.graphics.getHeight());
 		
 		mapTexture = new Texture("data/map.png");
-		//mapTexture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
-		
 		ninjaTexture = new Texture("data/ninja.png");
-		//ninjaTexture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
+		
 		ninjaTexture_dark = new Texture("data/eyes.png");
-		ninjaTexture_dark.setFilter(TextureFilter.Linear, TextureFilter.Linear);
+		ninjaTexture_dark.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
 		
 		obstacleTexture1 = new Texture("data/obstacle_1.png");
-		//obstacleTexture1.setFilter(TextureFilter.Linear, TextureFilter.Linear);
-		
 		obstacleTexture2 = new Texture("data/obstacle_2.png");
-		//obstacleTexture2.setFilter(TextureFilter.Linear, TextureFilter.Linear);
+		
+		panpipe = new Texture("data/panpipe2.png");
+		panpipe.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		
 		ShaderProgram.pedantic = false;
 		
@@ -105,8 +107,10 @@ public class WorldView
 		
 		batch = new SpriteBatch(1000, shader);
 		batch.setShader(shader);
-		
 		batch.setProjectionMatrix(cam.combined);
+		
+		menu = new SpriteBatch();
+		menu.setProjectionMatrix(cam.combined);
 		
 		shader.begin();
 		shader.setUniformf("resolution", Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -252,6 +256,31 @@ public class WorldView
 		if(!ninja.isMoved()){
 			rayhandler.updateAndRender();
 		}
+		
+		if(GameModel.get().isSongModeShow()){
+			menu.begin();
+			fadeTimeAlpha = fadeTimeAlpha + Gdx.graphics.getDeltaTime();
+			if (fadeTimeAlpha >= 1.0f){
+				fadeTimeAlpha = 1.0f;
+			}
+			menu.setColor(1.0f, 1.0f, 1.0f, fadeTimeAlpha);
+			menu.draw(panpipe, Gdx.graphics.getWidth()/2 - panpipe.getWidth()/2, 
+					Gdx.graphics.getHeight()/2 - panpipe.getHeight()/2);
+			menu.end();
+		}
+		
+		if(GameModel.get().isSongModeHide()){
+			menu.begin();
+			fadeTimeAlpha = fadeTimeAlpha - Gdx.graphics.getDeltaTime();
+			if (fadeTimeAlpha <= 0.0f){
+				fadeTimeAlpha = 0.0f;
+			}
+			menu.setColor(1.0f, 1.0f, 1.0f, fadeTimeAlpha);
+			menu.draw(panpipe, Gdx.graphics.getWidth()/2 - panpipe.getWidth()/2, 
+					Gdx.graphics.getHeight()/2 - panpipe.getHeight()/2);
+			menu.end();
+		}
+		
 	}
 	
 	public void dispose(){
