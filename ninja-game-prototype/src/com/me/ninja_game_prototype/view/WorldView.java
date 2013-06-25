@@ -40,11 +40,12 @@ public class WorldView
 	/* singleton */
 	private static WorldView instance;
 
-	private WorldView() {
-	}
+	private WorldView() {}
 
-	public static WorldView get() {
-		if (WorldView.instance == null) {
+	public static WorldView get()
+	{
+		if (WorldView.instance == null)
+		{
 			WorldView.instance = new WorldView();
 		}
 		return WorldView.instance;
@@ -57,8 +58,6 @@ public class WorldView
 	Texture mapTexture;
 	Texture ninjaTexture;
 	Texture ninjaTexture_dark;
-	Texture obstacleTexture1;
-	Texture obstacleTexture2;
 	Texture panpipe;
 	float width, height;
 	ShapeRenderer shaperenderer;
@@ -74,9 +73,8 @@ public class WorldView
 
 	public void init()
 	{
-		
+		// TODO replace with non debug
 		box2drenderer = new Box2DDebugRenderer();
-		
 		box2dworld = new World(new Vector2(0,  -9.8f), false);
 		
 		width = (Gdx.graphics.getWidth());
@@ -86,23 +84,16 @@ public class WorldView
 		cam.setToOrtho(false, width, height);
 		cam.update();
 		
-		width = (Gdx.graphics.getWidth());
-		height = (Gdx.graphics.getHeight());
-		
 		mapTexture = new Texture("data/map.png");
 		ninjaTexture = new Texture("data/ninja.png");
 		
 		ninjaTexture_dark = new Texture("data/eyes.png");
 		ninjaTexture_dark.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
 		
-		obstacleTexture1 = new Texture("data/obstacle_1.png");
-		obstacleTexture2 = new Texture("data/obstacle_2.png");
-		
 		panpipe = new Texture("data/panpipe2.png");
 		panpipe.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		
 		ShaderProgram.pedantic = false;
-		
 		shader = new ShaderProgram(ShaderSettings.VERT, ShaderSettings.FRAG);
 		
 		batch = new SpriteBatch(1000, shader);
@@ -120,9 +111,12 @@ public class WorldView
 		
 		hit = new ParticleEmitter();
 		
-		try{
+		try
+		{
 			hit.load(Gdx.files.internal("data/particle").reader(5000));
-		}catch(IOException e){
+		}
+		catch(IOException e)
+		{
 			e.printStackTrace();
 		}
 		
@@ -142,62 +136,31 @@ public class WorldView
 		
 		p = new PointLight(rayhandler, 1000, Color.WHITE, 700, 0, height);
 		
-		// Create our body definition
-		BodyDef obstacle1BodyDef = new BodyDef();  
-		// Set its world position
-		obstacle1BodyDef.position.set(new Vector2(WorldModel.get().getObstacles().get(0).getPosition().x +
-				+ (WorldModel.get().getObstacles().get(0).getBounds().width/2),
-				WorldModel.get().getObstacles().get(0).getPosition().y +
-				+ (WorldModel.get().getObstacles().get(0).getBounds().height/2)));  
+		for (ObstacleModel obstacle : WorldModel.get().getObstacles())
+		{
+			BodyDef bodyDef = new BodyDef();  
+			bodyDef.position.set(
+				new Vector2(
+					obstacle.getPosition().x + (obstacle.getBounds().width/2),
+					obstacle.getPosition().y + (obstacle.getBounds().height/2)
+				)
+			);  
+			
+			Body body = box2dworld.createBody(bodyDef);
+			body.setUserData(obstacle);
 
-		// Create a body from the defintion and add it to the world
-		Body obstacle1Body = box2dworld.createBody(obstacle1BodyDef);
-		obstacle1Body.setUserData(WorldModel.get().getObstacles().get(0));
-
-		// Create a polygon shape
-		PolygonShape obstacle1Box = new PolygonShape();  
-		// Set the polygon shape as a box which is twice the size of our view port and 20 high
-		// (setAsBox takes half-width and half-height as arguments)
-		obstacle1Box.setAsBox(WorldModel.get().getObstacles().get(0).getBounds().width/2, WorldModel.get().getObstacles().get(0).getBounds().height/2);
-		// Create a fixture from our polygon shape and add it to our ground body  
-		obstacle1Body.createFixture(obstacle1Box, 0.0f); 
-		// Clean up after ourselves
-		obstacle1Box.dispose();
-		
-		// Create our body definition
-		BodyDef obstacle2BodyDef = new BodyDef();  
-		// Set its world position
-		obstacle2BodyDef.position.set(new Vector2(WorldModel.get().getObstacles().get(1).getPosition().x +
-				+ (WorldModel.get().getObstacles().get(1).getBounds().width/2),
-				WorldModel.get().getObstacles().get(1).getPosition().y +
-				+ (WorldModel.get().getObstacles().get(1).getBounds().height/2)));
-
-		// Create a body from the defintion and add it to the world
-		Body obstacle2Body = box2dworld.createBody(obstacle2BodyDef);  
-		obstacle2Body.setUserData(WorldModel.get().getObstacles().get(1));
-		
-		// Create a polygon shape
-		PolygonShape obstacle2Box = new PolygonShape();  
-		// Set the polygon shape as a box which is twice the size of our view port and 20 high
-		// (setAsBox takes half-width and half-height as arguments)
-		obstacle2Box.setAsBox(WorldModel.get().getObstacles().get(1).getBounds().width/2, WorldModel.get().getObstacles().get(1).getBounds().height/2);
-		// Create a fixture from our polygon shape and add it to our ground body  
-		obstacle2Body.createFixture(obstacle2Box, 0.0f); 
-		// Clean up after ourselves
-		obstacle2Box.dispose();
-		
+			PolygonShape box = new PolygonShape();  
+			box.setAsBox(obstacle.getBounds().width/2, obstacle.getBounds().height/2);
+			body.createFixture(box, 0.0f); 
+			box.dispose();
+		}
 	}
 	
-	/**
-	 * @return the cam
-	 */
-	public OrthographicCamera getCam() {
+	public OrthographicCamera getCam()
+	{
 		return cam;
 	}
 
-	/**
-	 * @param cam the cam to set
-	 */
 	public void setCam(OrthographicCamera cam)
 	{
 		this.cam = cam;
@@ -213,26 +176,30 @@ public class WorldView
 		ExitModel exit = WorldModel.get().getExit();
 		List<ObstacleModel> obstacles = WorldModel.get().getObstacles();
 		
-		if(!ninja.isMoved()){
+		if(!WorldModel.get().isNight()){
 			box2drenderer.render(box2dworld, cam.combined);
 			box2dworld.step(1/60f, 6, 2);
 		}
 		
 		batch.begin();
-		if(!ninja.isMoved())
+		if(!WorldModel.get().isNight())
 		{
 			batch.draw(mapTexture, 0, 0);
-			batch.draw(ninjaTexture, ninja.entity.getPosition().x, ninja.entity.getPosition().y, ninja.entity.getWidth(), ninja.entity.getHeight());
+			batch.draw(ninjaTexture, ninja.getPosition().x, ninja.getPosition().y, ninja.getWidth(), ninja.getHeight());
 			for (ObstacleModel obstacle : obstacles)
 			{
-				batch.draw(obstacleTexture1, obstacle.getPosition().x, obstacle.getPosition().y, obstacle.getWidth(), obstacle.getHeight());
+				batch.draw(obstacle.getTexture(), obstacle.getPosition().x, obstacle.getPosition().y, obstacle.getWidth(), obstacle.getHeight());
 			}
-		}else{
-			batch.draw(ninjaTexture_dark, ninja.entity.getPosition().x + ninjaTexture_dark.getWidth()/2, ninja.entity.getPosition().y + ninjaTexture_dark.getHeight());
+		}
+		else
+		{
+			batch.draw(ninjaTexture_dark, ninja.getPosition().x + ninjaTexture_dark.getWidth()/2, ninja.getPosition().y + ninjaTexture_dark.getHeight());
 		}
 		
-		for (ObstacleModel obstacle : obstacles) {
-			if(obstacle.isRumble()){
+		for (ObstacleModel obstacle : obstacles)
+		{
+			if(obstacle.isRumble())
+			{
 				hit.setPosition(obstacle.getPosition().x + obstacle.getWidth()/2, obstacle.getPosition().y + obstacle.getHeight()/2);
 				hit.draw(batch, Gdx.graphics.getDeltaTime());
 			}
@@ -240,24 +207,28 @@ public class WorldView
 
 		batch.end();
 		
-		if (NinjaGamePrototype.DEBUG){
+		if (NinjaGamePrototype.DEBUG)
+		{
 			shaperenderer.setProjectionMatrix(cam.combined);
 			shaperenderer.begin(ShapeType.Line);
 			shaperenderer.setColor(Color.ORANGE);
-			shaperenderer.rect(ninja.entity.getBounds().x, ninja.entity.getBounds().y, ninja.entity.getBounds().width, ninja.entity.getBounds().height);
+			shaperenderer.rect(ninja.getBounds().x, ninja.getBounds().y, ninja.getBounds().width, ninja.getBounds().height);
 			shaperenderer.setColor(Color.RED);
-			for (ObstacleModel obstacle : obstacles) {
+			for (ObstacleModel obstacle : obstacles)
+			{
 				shaperenderer.rect(obstacle.getBounds().x, obstacle.getBounds().y, obstacle.getBounds().width, obstacle.getBounds().height);
 			}
 			shaperenderer.rect(exit.getBounds().x, exit.getBounds().y, exit.getBounds().width, exit.getBounds().height);
 			shaperenderer.end();
 		}
 		
-		if(!ninja.isMoved()){
+		if(!WorldModel.get().isNight())
+		{
 			rayhandler.updateAndRender();
 		}
 		
-		if(GameModel.get().isSongModeShow()){
+		if(GameModel.get().isSongModeShow())
+		{
 			menu.begin();
 			fadeTimeAlpha = fadeTimeAlpha + Gdx.graphics.getDeltaTime();
 			if (fadeTimeAlpha >= 1.0f){
@@ -269,7 +240,8 @@ public class WorldView
 			menu.end();
 		}
 		
-		if(GameModel.get().isSongModeHide()){
+		if(GameModel.get().isSongModeHide())
+		{
 			menu.begin();
 			fadeTimeAlpha = fadeTimeAlpha - Gdx.graphics.getDeltaTime();
 			if (fadeTimeAlpha <= 0.0f){
@@ -283,11 +255,12 @@ public class WorldView
 		
 	}
 	
-	public void dispose(){
+	public void dispose()
+	{
 		batch.dispose();
 		ninjaTexture.dispose();
-		obstacleTexture1.dispose();
-		obstacleTexture2.dispose();
+//		obstacleTexture1.dispose();
+//		obstacleTexture2.dispose();
 		ninjaTexture_dark.dispose();
 	}
 }

@@ -5,11 +5,12 @@ import com.badlogic.gdx.math.Vector2;
 public abstract class MovableEntity extends Entity {
 
 	protected Vector2 velocity;
-	protected float SPEED;
+	protected float speed;
 	
-	public MovableEntity(float SPEED, float width, float height, Vector2 position){
+	public MovableEntity(float speed, Vector2 position, float width, float height)
+	{
 		super(position, width, height);
-		this.SPEED = SPEED;
+		this.speed = speed;
 		velocity = new Vector2(0,0);
 	}
 
@@ -19,18 +20,21 @@ public abstract class MovableEntity extends Entity {
 		bounds.y = position.y;
 	}
 	
-	/**
-	 * @return the velocity
-	 */
-	public Vector2 getVelocity() {
+	public Vector2 getVelocity()
+	{
 		return velocity;
 	}
 
-	/**
-	 * @param velocity the velocity to set
-	 */
-	public void setVelocity(Vector2 velocity) {
+	public void setVelocity(Vector2 velocity)
+	{
 		this.velocity = velocity;
 	}
 
+	public float getSpeed() {
+		return speed;
+	}
+
+	public void setSpeed(float speed) {
+		this.speed = speed;
+	}
 }

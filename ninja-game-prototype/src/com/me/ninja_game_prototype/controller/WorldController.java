@@ -30,7 +30,7 @@ public class WorldController implements InputProcessor
 	{
 		if (keycode != Keys.O){
 			WorldModel.get().getNinja().setFlagInput(2);
-			WorldModel.get().getNinja().setMoved(true);
+			WorldModel.get().setNight(true);
 		}
 		
 		if(!GameModel.get().isGameEnd())
@@ -38,16 +38,16 @@ public class WorldController implements InputProcessor
 		
 		switch(keycode){
 		case Keys.W:
-			WorldModel.get().getNinja().entity.getVelocity().y = 1;
+			WorldModel.get().getNinja().getVelocity().y = 1;
 			break;
 		case Keys.S:
-			WorldModel.get().getNinja().entity.getVelocity().y = -1;
+			WorldModel.get().getNinja().getVelocity().y = -1;
 			break;
 		case Keys.A:
-			WorldModel.get().getNinja().entity.getVelocity().x = -1;
+			WorldModel.get().getNinja().getVelocity().x = -1;
 			break;
 		case Keys.D:
-			WorldModel.get().getNinja().entity.getVelocity().x = 1;
+			WorldModel.get().getNinja().getVelocity().x = 1;
 			break;
 		case Keys.O:
 			if (GameModel.get().isSongModeShow()){
@@ -70,20 +70,20 @@ public class WorldController implements InputProcessor
 
 		switch(keycode){
 		case Keys.W:
-			if(WorldModel.get().getNinja().entity.getVelocity().y == 1)
-				WorldModel.get().getNinja().entity.getVelocity().y = 0;
+			if(WorldModel.get().getNinja().getVelocity().y == 1)
+				WorldModel.get().getNinja().getVelocity().y = 0;
 			break;
 		case Keys.S:
-			if(WorldModel.get().getNinja().entity.getVelocity().y == -1)
-				WorldModel.get().getNinja().entity.getVelocity().y = 0;
+			if(WorldModel.get().getNinja().getVelocity().y == -1)
+				WorldModel.get().getNinja().getVelocity().y = 0;
 			break;
 		case Keys.A:
-			if(WorldModel.get().getNinja().entity.getVelocity().x == -1)
-				WorldModel.get().getNinja().entity.getVelocity().x = 0;
+			if(WorldModel.get().getNinja().getVelocity().x == -1)
+				WorldModel.get().getNinja().getVelocity().x = 0;
 			break;
 		case Keys.D:
-			if(WorldModel.get().getNinja().entity.getVelocity().x == 1)
-				WorldModel.get().getNinja().entity.getVelocity().x = 0;
+			if(WorldModel.get().getNinja().getVelocity().x == 1)
+				WorldModel.get().getNinja().getVelocity().x = 0;
 			break;
 		}
 		return false;
@@ -102,7 +102,7 @@ public class WorldController implements InputProcessor
 			GameAudio.walk();
 			
 			WorldModel.get().getNinja().setFlagInput(1);
-			WorldModel.get().getNinja().setMoved(true);
+			WorldModel.get().setNight(true);
 			
 			touch.set(screenX,screenY,0);
 			WorldView.get().getCam().unproject(touch);
@@ -110,9 +110,9 @@ public class WorldController implements InputProcessor
 			
 			WorldModel.get().getNinja().setGoal(new Vector2(vect2Touch));
 			
-			vect2Touch.sub(WorldModel.get().getNinja().entity.getPosition()).nor();
+			vect2Touch.sub(WorldModel.get().getNinja().getPosition()).nor();
 			
-			WorldModel.get().getNinja().entity.setVelocity(new Vector2(WorldModel.get().getNinja().entity.getPosition().cpy().scl(vect2Touch).nor()));
+			WorldModel.get().getNinja().setVelocity(new Vector2(WorldModel.get().getNinja().getPosition().cpy().scl(vect2Touch).nor()));
 		}
 		return true;
 	}

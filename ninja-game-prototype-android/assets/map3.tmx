@@ -31,12 +31,12 @@
   </data>
  </layer>
  <objectgroup name="O_Obstacles" width="20" height="15">
-  <object name="Box_1" gid="301" x="280" y="200"/>
-  <object name="Cabinet_1" gid="302" x="192" y="343"/>
-  <object name="Cabinet_2" gid="302" x="464" y="244"/>
+  <object name="Box_1" gid="301" x="280" y="200"><properties><property name="gid" value="301"/></properties></object>
+  <object name="Cabinet_1" gid="302" x="192" y="343"><properties><property name="gid" value="302"/></properties></object>
+  <object name="Cabinet_2" gid="302" x="464" y="244"><properties><property name="gid" value="302"/></properties></object>
  </objectgroup>
  <objectgroup name="O_Ninja" width="20" height="15">
-  <object name="day" gid="303" x="238" y="93"/>
-  <object name="night" gid="304" x="239" y="89"/>
+  <object name="day" gid="303" x="238" y="93"><properties><property name="gid" value="303"/></properties></object>
+  <object name="night" gid="304" x="239" y="89"><properties><property name="gid" value="304"/></properties></object>
  </objectgroup>
 </map>

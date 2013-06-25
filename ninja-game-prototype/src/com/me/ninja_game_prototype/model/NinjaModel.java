@@ -3,6 +3,8 @@ package com.me.ninja_game_prototype.model;
 import java.util.Observable;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.me.ninja_game_prototype.audio.GameAudio;
 
@@ -10,11 +12,19 @@ public class NinjaModel extends Observable
 {
 	private Vector2 goal = new Vector2();
 	private int flagInput;
-	private boolean moved;
 	
-	public MovableEntity entity;
-	public NinjaModel(float SPEED, float width, float height, Vector2 position) {
-		entity = new NinjaEntity(SPEED, width, height, position);
+	public MovableEntity entityDay;
+	public MovableEntity entityNight;
+	public ObjectModel day;
+	public ObjectModel night;
+	
+	public NinjaModel(MapObject day, MapObject night)
+	{
+		this.day = new ObjectModel(day);
+		this.night = new ObjectModel(night);
+		
+		entityDay = new NinjaEntity(0, this.day.getWidth(), this.day.getHeight(), this.day.getPosition());
+		entityNight = new NinjaEntity(0, this.night.getWidth(), this.night.getHeight(), this.night.getPosition());
 	}
 
 	public void update()
@@ -22,24 +32,24 @@ public class NinjaModel extends Observable
 		switch (flagInput)
 		{
 			case 1:
-				if (!entity.bounds.contains(this.getGoal()) && entity.position.dst(goal) > 5)
+				if (!getBounds().contains(getGoal()) && getPosition().dst(getGoal()) > 5)
 				{		
-					entity.position.add(entity.velocity.cpy().scl(Gdx.graphics.getDeltaTime() * entity.SPEED));
+					getPosition().add(getVelocity().cpy().scl(Gdx.graphics.getDeltaTime() * getSpeed()));
 				}else{
-					entity.setPosition(new Vector2(goal.x - entity.bounds.width/2, goal.y - entity.bounds.height/2));
-					entity.setVelocity(new Vector2(0, 0));
+					setPosition(new Vector2(getGoal().x - getBounds().width/2, goal.y - getBounds().height/2));
+					setVelocity(new Vector2(0, 0));
 					GameAudio.stopWalk();
 				}
 				
-				entity.bounds.x = entity.position.x;
-				entity.bounds.y = entity.position.y;
+				getBounds().x = getPosition().x;
+				getBounds().y = getPosition().y;
 				break;
 			case 2:
 					
-				entity.position.add(entity.velocity.cpy().scl(Gdx.graphics.getDeltaTime() * entity.SPEED));
+				getPosition().add(getVelocity().cpy().scl(Gdx.graphics.getDeltaTime() * getSpeed()));
 				
-				entity.bounds.x = entity.position.x;
-				entity.bounds.y = entity.position.y;
+				getBounds().x = getPosition().x;
+				getBounds().y = getPosition().y;
 				break;
 		}
 		
@@ -49,9 +59,9 @@ public class NinjaModel extends Observable
 	
 	class NinjaEntity extends MovableEntity
 	{
-		public NinjaEntity(float SPEED, float width, float height, Vector2 position)
+		public NinjaEntity(float speed, float width, float height, Vector2 position)
 		{
-			super(SPEED, width, height, position);
+			super(speed, position, width, height);
 		}
 	}
 
@@ -76,14 +86,55 @@ public class NinjaModel extends Observable
 		this.flagInput = flagInput;
 	}
 
-	public boolean isMoved()
-	{
-		return moved;
+	public Rectangle getBounds() {
+		return entityDay.getBounds();
 	}
-
-	public void setMoved(boolean moved)
+	
+	public float getWidth()
 	{
-		this.moved = moved;
+		return entityDay.getWidth();
 	}
-
+	
+	public float getHeight()
+	{
+		return entityDay.getHeight();
+	}
+	
+	// TODO ninja day/night size
+	public void setBounds() {/*can't do this until day and night have same size*/}
+	public void setWidth() {/*can't do this until day and night have same size*/}
+	public void setHeight() {/*can't do this until day and night have same size*/}
+	
+	public Vector2 getPosition()
+	{
+		return entityDay.getPosition();
+	}
+	
+	public void setPosition(Vector2 position)
+	{
+		entityDay.setPosition(position);
+		entityNight.setPosition(position);
+	}
+	
+	public Vector2 getVelocity()
+	{
+		return entityDay.getVelocity();
+	}
+	
+	public void setVelocity(Vector2 velocity)
+	{
+		entityDay.setVelocity(velocity);
+		entityNight.setVelocity(velocity);
+	}
+	
+	public float getSpeed()
+	{
+		return entityDay.getSpeed();
+	}
+	
+	public void setSpeed(float speed)
+	{
+		entityDay.setSpeed(speed);
+		entityNight.setSpeed(speed);
+	}
 }
