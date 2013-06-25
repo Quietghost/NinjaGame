@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.FileTextureData;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 public class ObjectModel extends Entity
@@ -19,9 +20,13 @@ public class ObjectModel extends Entity
 	{
 		super(new Vector2(0,0), 0, 0);
 		
+		TiledMapTile tile = WorldModel.get().getMap().getTileSets().getTile(Integer.valueOf((String)o.getProperties().get("gid")));
+    	
     	this.setPosition(new Vector2((Integer)o.getProperties().get("x"),(Integer)o.getProperties().get("y")));
+    	this.setBounds(new Rectangle((Integer)o.getProperties().get("x"),(Integer)o.getProperties().get("y"), 
+    			tile.getTextureRegion().getRegionWidth(),
+    			tile.getTextureRegion().getRegionHeight()));
 
-    	TiledMapTile tile = WorldModel.get().getMap().getTileSets().getTile(Integer.valueOf((String)o.getProperties().get("gid")));
     	this.setHeight(tile.getTextureRegion().getRegionHeight());
     	this.setWidth(tile.getTextureRegion().getRegionWidth());
     	this.texture = tile.getTextureRegion().getTexture();
