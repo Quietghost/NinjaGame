@@ -24,17 +24,19 @@ import com.me.ninja_game_prototype.model.ObstacleModel;
 import com.me.ninja_game_prototype.model.WallModel;
 import com.me.ninja_game_prototype.model.WorldModel;
 
-public class LevelLoader {
+public class LevelLoader
+{
 	/* static */
 	
 	/* singleton */
 	private static LevelLoader instance;
 
-	private LevelLoader() {
-	}
+	private LevelLoader() {}
 
-	public static LevelLoader get() {
-		if (LevelLoader.instance == null) {
+	public static LevelLoader get()
+	{
+		if (LevelLoader.instance == null)
+		{
 			LevelLoader.instance = new LevelLoader();
 		}
 		return LevelLoader.instance;
@@ -47,7 +49,8 @@ public class LevelLoader {
 		
 		try {
 			TmxMapLoader loader = new TmxMapLoader();
-	        TiledMap map = loader.load("map3.tmx", new TmxMapLoader.Parameters() {
+	        TiledMap map = loader.load("map3.tmx", new TmxMapLoader.Parameters()
+	        {
 	        	public boolean yUp = false;
 
 	        	public boolean generateMipMaps = false;
@@ -61,7 +64,8 @@ public class LevelLoader {
 			Iterator it;
 	        
 	        it = map.getProperties().getKeys();
-	        while (it.hasNext()) {
+	        while (it.hasNext())
+	        {
 	        	String key = (String) it.next();
 	        	System.out.println(key+": "+map.getProperties().get(key));
 			}	        
@@ -78,7 +82,8 @@ public class LevelLoader {
 	        // load obstacles
 	        MapLayer obstacles = layers.get("O_Obstacles");
 	        it = obstacles.getObjects().iterator();
-	        while (it.hasNext()) {
+	        while (it.hasNext())
+	        {
 	        	WorldModel.get().addObstacles(new ObstacleModel((MapObject) it.next()));
 			}
 	        
@@ -88,10 +93,12 @@ public class LevelLoader {
 	        WorldModel.get().setNinja(ninja);
 	        
 	        // TODO remove debug
+	        // ------------------------------------------
 	        // debug
 	        // tiled layer
 	        it = layers.iterator();
-	        while (it.hasNext()) {
+	        while (it.hasNext())
+	        {
 	        	MapLayer l = (MapLayer) it.next();
 	        	System.out.println("Layer: "+l.getName());
 			}
@@ -101,13 +108,15 @@ public class LevelLoader {
 	        MapProperties floorP = floor.getProperties();
 	        
 	        it = floorO.iterator();
-	        while (it.hasNext()) {
+	        while (it.hasNext())
+	        {
 	        	MapObject o = (MapObject) it.next();
 	        	System.out.println("O: "+o.getName());
 			}
 	        
 	        it = floorP.getKeys();
-	        while (it.hasNext()) {
+	        while (it.hasNext())
+	        {
 	        	String key = (String) it.next();
 	        	System.out.println("P "+key+": "+floorP.get(key));
 			}
@@ -118,7 +127,8 @@ public class LevelLoader {
 	        TiledMapTile t = c.getTile();
 	        
 	        it = t.getProperties().getKeys();
-	        while (it.hasNext()) {
+	        while (it.hasNext())
+	        {
 	        	String key = (String) it.next();
 	        	System.out.println("Tile "+key+": "+t.getProperties().get(key));
 			}
@@ -137,13 +147,15 @@ public class LevelLoader {
 	        System.out.println("Objects: "+obstacles.getObjects().getCount());
 	        
 	        it = obstacles.getObjects().iterator();
-	        while (it.hasNext()) {
+	        while (it.hasNext())
+	        {
 	        	MapObject o = (MapObject) it.next();
 	        	System.out.println("O: "+o.getName());
 			}
 	        
 	        it = obstacles.getProperties().getKeys();
-	        while (it.hasNext()) {
+	        while (it.hasNext())
+	        {
 	        	String key = (String) it.next();
 	        	System.out.println("P "+key+": "+obstacles.getProperties().get(key));
 			}
@@ -164,7 +176,8 @@ public class LevelLoader {
 	        System.out.println("Name: "+td.getFileHandle().name());
 	        
 	        it = box.getProperties().getKeys();
-	        while (it.hasNext()) {
+	        while (it.hasNext())
+	        {
 	        	String key = (String) it.next();
 	        	System.out.println("P "+key+": "+box.getProperties().get(key));
 			}

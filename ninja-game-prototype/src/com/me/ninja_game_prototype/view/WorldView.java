@@ -56,8 +56,6 @@ public class WorldView
 	SpriteBatch menu;
 	OrthographicCamera cam;
 	Texture mapTexture;
-	Texture ninjaTexture;
-	Texture ninjaTexture_dark;
 	Texture panpipe;
 	float width, height;
 	ShapeRenderer shaperenderer;
@@ -73,8 +71,7 @@ public class WorldView
 
 	public void init()
 	{
-		// TODO replace with non debug
-		box2drenderer = new Box2DDebugRenderer();
+		box2drenderer = new Box2DDebugRenderer(); // TODO non debug?
 		box2dworld = new World(new Vector2(0,  -9.8f), false);
 		
 		width = (Gdx.graphics.getWidth());
@@ -85,10 +82,9 @@ public class WorldView
 		cam.update();
 		
 		mapTexture = new Texture("data/map.png");
-		ninjaTexture = new Texture("data/ninja.png");
 		
-		ninjaTexture_dark = new Texture("data/eyes.png");
-		ninjaTexture_dark.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
+		// TODO do wee need this?
+		WorldModel.get().getNinja().getNightTexture().setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
 		
 		panpipe = new Texture("data/panpipe2.png");
 		panpipe.setFilter(TextureFilter.Linear, TextureFilter.Linear);
@@ -176,7 +172,8 @@ public class WorldView
 		ExitModel exit = WorldModel.get().getExit();
 		List<ObstacleModel> obstacles = WorldModel.get().getObstacles();
 		
-		if(!WorldModel.get().isNight()){
+		if(!WorldModel.get().isNight())
+		{
 			box2drenderer.render(box2dworld, cam.combined);
 			box2dworld.step(1/60f, 6, 2);
 		}
@@ -185,7 +182,7 @@ public class WorldView
 		if(!WorldModel.get().isNight())
 		{
 			batch.draw(mapTexture, 0, 0);
-			batch.draw(ninjaTexture, ninja.getPosition().x, ninja.getPosition().y, ninja.getWidth(), ninja.getHeight());
+			batch.draw(ninja.getTexture(), ninja.getPosition().x, ninja.getPosition().y, ninja.getWidth(), ninja.getHeight());
 			for (ObstacleModel obstacle : obstacles)
 			{
 				batch.draw(obstacle.getTexture(), obstacle.getPosition().x, obstacle.getPosition().y, obstacle.getWidth(), obstacle.getHeight());
@@ -193,7 +190,7 @@ public class WorldView
 		}
 		else
 		{
-			batch.draw(ninjaTexture_dark, ninja.getPosition().x + ninjaTexture_dark.getWidth()/2, ninja.getPosition().y + ninjaTexture_dark.getHeight());
+			batch.draw(ninja.getNightTexture(), ninja.getPosition().x + ninja.getWidth()/2, ninja.getPosition().y + ninja.getHeight());
 		}
 		
 		for (ObstacleModel obstacle : obstacles)
@@ -231,7 +228,8 @@ public class WorldView
 		{
 			menu.begin();
 			fadeTimeAlpha = fadeTimeAlpha + Gdx.graphics.getDeltaTime();
-			if (fadeTimeAlpha >= 1.0f){
+			if (fadeTimeAlpha >= 1.0f)
+			{
 				fadeTimeAlpha = 1.0f;
 			}
 			menu.setColor(1.0f, 1.0f, 1.0f, fadeTimeAlpha);
@@ -258,9 +256,9 @@ public class WorldView
 	public void dispose()
 	{
 		batch.dispose();
-		ninjaTexture.dispose();
+//		ninjaTexture.dispose();
 //		obstacleTexture1.dispose();
 //		obstacleTexture2.dispose();
-		ninjaTexture_dark.dispose();
+//		ninjaTexture_dark.dispose();
 	}
 }

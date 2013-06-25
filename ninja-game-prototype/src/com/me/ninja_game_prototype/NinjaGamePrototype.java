@@ -8,7 +8,7 @@ public class NinjaGamePrototype extends Game {
 	
 	public static final String VERSION = "0.0.1 PreAlpha";
 	public static final String LOG = "Panpipe Ninja";
-	public static boolean DEBUG = true;
+	public static boolean DEBUG = false;
 	
 	FPSLogger log;
 	

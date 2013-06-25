@@ -1,24 +1,19 @@
 package com.me.ninja_game_prototype.model;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Vector2;
+import com.me.ninja_game_prototype.helper.MapObjectDateGatherer;
 
-public class ObstacleModel extends ObjectModel
+public class ObstacleModel extends Entity
 {
 	private String identifier;
 	private boolean rumble;
 	private boolean audioFlag = true;
 	
-	public ObstacleModel(Vector2 position, float width, float height, Texture texture)
-	{
-		super(position, width, height);
-		this.setTexture(texture);
-	}
-	
 	public ObstacleModel(MapObject o)
 	{
-		super(o);
+		super(new Vector2(0,0), 0, 0);
+		MapObjectDateGatherer.gather(o, this);
 	}
 
 	public void update()

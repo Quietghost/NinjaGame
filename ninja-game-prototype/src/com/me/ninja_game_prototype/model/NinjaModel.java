@@ -1,30 +1,30 @@
 package com.me.ninja_game_prototype.model;
 
-import java.util.Observable;
-
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.me.ninja_game_prototype.audio.GameAudio;
+import com.me.ninja_game_prototype.helper.MapObjectDateGatherer;
 
-public class NinjaModel extends Observable
+public class NinjaModel extends MovableEntity
 {
 	private Vector2 goal = new Vector2();
 	private int flagInput;
-	
-	public MovableEntity entityDay;
-	public MovableEntity entityNight;
-	public ObjectModel day;
-	public ObjectModel night;
+	private Texture nightTexture;
 	
 	public NinjaModel(MapObject day, MapObject night)
 	{
-		this.day = new ObjectModel(day);
-		this.night = new ObjectModel(night);
+		super(0, new Vector2(0,0), 0, 0);
 		
-		entityDay = new NinjaEntity(0, this.day.getWidth(), this.day.getHeight(), this.day.getPosition());
-		entityNight = new NinjaEntity(0, this.night.getWidth(), this.night.getHeight(), this.night.getPosition());
+		MapObjectDateGatherer.gather(night, this);
+		this.nightTexture = getTexture();
+		
+		float w = getWidth(); float h = getHeight();
+		MapObjectDateGatherer.gather(day, this);
+		
+		// Do ninja textures day and night have different dimensions?
+		if (getWidth()!=w || getHeight()!=h) System.exit(0); 
 	}
 
 	public void update()
@@ -57,14 +57,6 @@ public class NinjaModel extends Observable
 		notifyObservers(ObserverMessage.NINJA);
 	}
 	
-	class NinjaEntity extends MovableEntity
-	{
-		public NinjaEntity(float speed, float width, float height, Vector2 position)
-		{
-			super(speed, position, width, height);
-		}
-	}
-
 	public Vector2 getGoal()
 	{
 		return goal;
@@ -86,55 +78,65 @@ public class NinjaModel extends Observable
 		this.flagInput = flagInput;
 	}
 
-	public Rectangle getBounds() {
-		return entityDay.getBounds();
-	}
-	
-	public float getWidth()
+	public Texture getNightTexture()
 	{
-		return entityDay.getWidth();
+		return nightTexture;
 	}
-	
-	public float getHeight()
+
+	public void setNightTexture(Texture nightTexture)
 	{
-		return entityDay.getHeight();
+		this.nightTexture = nightTexture;
 	}
 	
-	// TODO ninja day/night size
-	public void setBounds() {/*can't do this until day and night have same size*/}
-	public void setWidth() {/*can't do this until day and night have same size*/}
-	public void setHeight() {/*can't do this until day and night have same size*/}
-	
-	public Vector2 getPosition()
-	{
-		return entityDay.getPosition();
-	}
-	
-	public void setPosition(Vector2 position)
-	{
-		entityDay.setPosition(position);
-		entityNight.setPosition(position);
-	}
-	
-	public Vector2 getVelocity()
-	{
-		return entityDay.getVelocity();
-	}
-	
-	public void setVelocity(Vector2 velocity)
-	{
-		entityDay.setVelocity(velocity);
-		entityNight.setVelocity(velocity);
-	}
-	
-	public float getSpeed()
-	{
-		return entityDay.getSpeed();
-	}
-	
-	public void setSpeed(float speed)
-	{
-		entityDay.setSpeed(speed);
-		entityNight.setSpeed(speed);
-	}
+//	public Rectangle getBounds() {
+//		return entityDay.getBounds();
+//	}
+//	
+//	public float getWidth()
+//	{
+//		return entityDay.getWidth();
+//	}
+//	
+//	public float getHeight()
+//	{
+//		return entityDay.getHeight();
+//	}
+//	
+//	// TODO ninja day/night size
+//	public void setBounds() {/*can't do this until day and night have same size*/}
+//	public void setWidth() {/*can't do this until day and night have same size*/}
+//	public void setHeight() {/*can't do this until day and night have same size*/}
+//	
+//	public Vector2 getPosition()
+//	{
+//		return entityDay.getPosition();
+//	}
+//	
+//	public void setPosition(Vector2 position)
+//	{
+//		entityDay.setPosition(position);
+//		entityNight.setPosition(position);
+//	}
+//	
+//	public Vector2 getVelocity()
+//	{
+//		return entityDay.getVelocity();
+//	}
+//	
+//	public void setVelocity(Vector2 velocity)
+//	{
+//		entityDay.setVelocity(velocity);
+//		entityNight.setVelocity(velocity);
+//	}
+//	
+//	public float getSpeed()
+//	{
+//		return entityDay.getSpeed();
+//	}
+//	
+//	public void setSpeed(float speed)
+//	{
+//		entityDay.setSpeed(speed);
+//		entityNight.setSpeed(speed);
+//	}
 }
