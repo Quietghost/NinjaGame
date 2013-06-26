@@ -56,6 +56,14 @@ public class NinjaModel extends MovableEntity
 				break;
 		}
 		
+		// no ghost
+		if (WorldModel.get().getWall().overlaps(this))
+		{
+			getPosition().x = preX;
+			getPosition().y = preY;
+		}
+
+		// Exit?
 		if (WorldModel.get().getExit().overlaps(this))
 		{
 			// TODO audio controller
@@ -65,13 +73,7 @@ public class NinjaModel extends MovableEntity
 //			}
 			GameModel.get().setGameEnd(true);
 		}
-		
-		if (WorldModel.get().getWall().overlaps(this))
-		{
-			getPosition().x = preX;
-			getPosition().y = preY;
-		}
-		
+
 		setChanged();
 		notifyObservers(ObserverMessage.NINJA);
 	}
