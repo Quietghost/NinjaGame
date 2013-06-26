@@ -53,6 +53,16 @@ public class NinjaModel extends MovableEntity
 				break;
 		}
 		
+		if (WorldModel.get().getExit().overlaps(this))
+		{
+			// TODO audio controller
+//			if (exit.isAudioFlag()){
+//				GameAudio.playExit();
+//				exit.setAudioFlag(false);
+//			}
+			GameModel.get().setGameEnd(true);
+		}
+		
 		setChanged();
 		notifyObservers(ObserverMessage.NINJA);
 	}

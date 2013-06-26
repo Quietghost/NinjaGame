@@ -134,16 +134,6 @@ public class WorldModel extends Observable
 				if (NinjaGamePrototype.DEBUG) Gdx.app.log(NinjaGamePrototype.LOG, "Else 1!! ");
 			}
 		}
-		
-// TODO		if (ninja.getBounds().overlaps(exit.getBounds()))
-//		{
-//			// TODO audio controller
-////			if (exit.isAudioFlag()){
-////				GameAudio.playExit();
-////				exit.setAudioFlag(false);
-////			}
-//			GameModel.get().setGameEnd(true);
-//		}
 	}
 	
 	public void dispose()

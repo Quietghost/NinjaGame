@@ -3,7 +3,6 @@ package com.me.ninja_game_prototype.helper;
 import java.util.Iterator;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FileTextureData;
 import com.badlogic.gdx.maps.MapLayer;
@@ -16,7 +15,6 @@ import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.math.Vector2;
 import com.me.ninja_game_prototype.model.ExitModel;
 import com.me.ninja_game_prototype.model.FloorModel;
 import com.me.ninja_game_prototype.model.NinjaModel;
@@ -49,36 +47,18 @@ public class LevelLoader
 		
 		try {
 			TmxMapLoader loader = new TmxMapLoader();
-	        TiledMap map = loader.load("map3.tmx");/*, new TmxMapLoader.Parameters()
-	        {
-	        	public boolean yUp = false;
-
-	        	public boolean generateMipMaps = false;
-	    		public TextureFilter textureMinFilter = TextureFilter.Nearest;
-	    		public TextureFilter textureMagFilter = TextureFilter.Nearest;
-	        });*/
-	        
+	        TiledMap map = loader.load("map3.tmx");	        
 	        WorldModel.get().setMap(map);
 	        
 	        @SuppressWarnings("rawtypes")
 			Iterator it;
 	        
-	        it = map.getProperties().getKeys();
-	        while (it.hasNext())
-	        {
-	        	String key = (String) it.next();
-	        	System.out.println(key+": "+map.getProperties().get(key));
-			}	        
-	        
-	        MapLayers layers = map.getLayers();
-	        System.out.println("Layers: "+layers.getCount());
-	        
-	        WorldModel.get().setExit(new ExitModel((TiledMapTileLayer) layers.get("L_Exit")));
-	        WorldModel.get().setFloor(new FloorModel((TiledMapTileLayer) layers.get("L_Floor")));
-	        WorldModel.get().setWall(new WallModel((TiledMapTileLayer) layers.get("L_Wall")));
+	        WorldModel.get().setExit(new ExitModel((TiledMapTileLayer) map.getLayers().get("L_Exit")));
+	        WorldModel.get().setFloor(new FloorModel((TiledMapTileLayer) map.getLayers().get("L_Floor")));
+	        WorldModel.get().setWall(new WallModel((TiledMapTileLayer) map.getLayers().get("L_Wall")));
 	        
 	        // load obstacles
-	        MapLayer obstacles = layers.get("O_Obstacles");
+	        MapLayer obstacles = map.getLayers().get("O_Obstacles");
 	        it = obstacles.getObjects().iterator();
 	        while (it.hasNext())
 	        {
@@ -86,15 +66,24 @@ public class LevelLoader
 			}
 	        
 	        // load ninja
-	        NinjaModel ninja = new NinjaModel(layers.get("O_Ninja").getObjects().get("day"), layers.get("O_Ninja").getObjects().get("night"));
+	        NinjaModel ninja = new NinjaModel(map.getLayers().get("O_Ninja").getObjects().get("day"), map.getLayers().get("O_Ninja").getObjects().get("night"));
 	        ninja.setSpeed(60); // TODO load from configuration
 	        WorldModel.get().setNinja(ninja);
 	        
 	        // TODO remove debug
 	        // ------------------------------------------
 	        // debug
-	        // tiled layer
 	        /*
+	        it = map.getProperties().getKeys();
+	        while (it.hasNext())
+	        {
+	        	String key = (String) it.next();
+	        	System.out.println(key+": "+map.getProperties().get(key));
+			}	        
+	        MapLayers layers = map.getLayers();
+	        System.out.println("Layers: "+layers.getCount());
+	        
+	        // tiled layer
 	        TiledMapTileLayer floor = (TiledMapTileLayer) layers.get("L_Floor");
 	        it = layers.iterator();
 	        while (it.hasNext())
@@ -188,6 +177,8 @@ public class LevelLoader
 		{
 			e.printStackTrace();
 		}
+		
+//		System.exit(0);
 		
 //		WorldModel.get().addObstacles(new ObstacleModel(new Vector2(320,310), 64, 64, ""));
 //		WorldModel.get().addObstacles(new ObstacleModel(new Vector2(100,110), 108, 92, ""));
