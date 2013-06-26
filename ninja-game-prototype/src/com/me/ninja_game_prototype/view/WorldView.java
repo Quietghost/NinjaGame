@@ -19,6 +19,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -28,9 +29,11 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.me.ninja_game_prototype.NinjaGamePrototype;
 import com.me.ninja_game_prototype.helper.ShaderSettings;
 import com.me.ninja_game_prototype.model.ExitModel;
+import com.me.ninja_game_prototype.model.FloorModel;
 import com.me.ninja_game_prototype.model.GameModel;
 import com.me.ninja_game_prototype.model.NinjaModel;
 import com.me.ninja_game_prototype.model.ObstacleModel;
+import com.me.ninja_game_prototype.model.WallModel;
 import com.me.ninja_game_prototype.model.WorldModel;
 
 public class WorldView
@@ -53,9 +56,8 @@ public class WorldView
 	
 	/* instance */
 	SpriteBatch batch;
-	SpriteBatch menu;
+	SpriteBatch menuBatch;
 	OrthographicCamera cam;
-	Texture mapTexture;
 	Texture panpipe;
 	float width, height;
 	ShapeRenderer shaperenderer;
@@ -66,6 +68,8 @@ public class WorldView
 	RayHandler rayhandler;
 	PointLight p;
 	float fadeTimeAlpha = 0;
+	
+	OrthogonalTiledMapRenderer mapRenderer;
 	
 	Sound sound = Gdx.audio.newSound(Gdx.files.internal("data/hit_ouch.mp3"));
 
@@ -81,8 +85,6 @@ public class WorldView
 		cam.setToOrtho(false, width, height);
 		cam.update();
 		
-		mapTexture = new Texture("data/map.png");
-		
 		// TODO do wee need this?
 		WorldModel.get().getNinja().getNightTexture().setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
 		
@@ -92,12 +94,15 @@ public class WorldView
 		ShaderProgram.pedantic = false;
 		shader = new ShaderProgram(ShaderSettings.VERT, ShaderSettings.FRAG);
 		
-		batch = new SpriteBatch(1000, shader);
+		mapRenderer = new OrthogonalTiledMapRenderer(WorldModel.get().getMap());
+		mapRenderer.setView(cam);
+		
+		batch = mapRenderer.getSpriteBatch();
 		batch.setShader(shader);
 		batch.setProjectionMatrix(cam.combined);
 		
-		menu = new SpriteBatch();
-		menu.setProjectionMatrix(cam.combined);
+		menuBatch = new SpriteBatch();
+		menuBatch.setProjectionMatrix(cam.combined);
 		
 		shader.begin();
 		shader.setUniformf("resolution", Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -164,13 +169,15 @@ public class WorldView
 
 	public void render()
 	{
-		
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		
-		NinjaModel ninja = WorldModel.get().getNinja();
-		ExitModel exit = WorldModel.get().getExit();
 		List<ObstacleModel> obstacles = WorldModel.get().getObstacles();
+		NinjaModel ninja = WorldModel.get().getNinja();
+		
+		FloorModel floor = WorldModel.get().getFloor();
+		WallModel wall = WorldModel.get().getWall();
+		ExitModel exit = WorldModel.get().getExit();
 		
 		if(!WorldModel.get().isNight())
 		{
@@ -181,16 +188,20 @@ public class WorldView
 		batch.begin();
 		if(!WorldModel.get().isNight())
 		{
-			batch.draw(mapTexture, 0, 0);
-			batch.draw(ninja.getTexture(), ninja.getPosition().x, ninja.getPosition().y, ninja.getWidth(), ninja.getHeight());
+			mapRenderer.renderTileLayer(floor.getLayer());
+			mapRenderer.renderTileLayer(wall.getLayer());
+			mapRenderer.renderTileLayer(exit.getLayer());
+			
+			batch.draw(ninja.getTexture(), ninja.getPosition().x, ninja.getPosition().y);
+
 			for (ObstacleModel obstacle : obstacles)
 			{
-				batch.draw(obstacle.getTexture(), obstacle.getPosition().x, obstacle.getPosition().y, obstacle.getWidth(), obstacle.getHeight());
+				batch.draw(obstacle.getTexture(), obstacle.getPosition().x, obstacle.getPosition().y);
 			}
 		}
 		else
 		{
-			batch.draw(ninja.getNightTexture(), ninja.getPosition().x + ninja.getWidth()/2, ninja.getPosition().y + ninja.getHeight());
+			batch.draw(ninja.getNightTexture(), ninja.getPosition().x, ninja.getPosition().y);
 		}
 		
 		for (ObstacleModel obstacle : obstacles)
@@ -215,7 +226,10 @@ public class WorldView
 			{
 				shaperenderer.rect(obstacle.getBounds().x, obstacle.getBounds().y, obstacle.getBounds().width, obstacle.getBounds().height);
 			}
-			shaperenderer.rect(exit.getBounds().x, exit.getBounds().y, exit.getBounds().width, exit.getBounds().height);
+			
+			
+// TODO			shaperenderer.rect(exit.getBounds().x, exit.getBounds().y, exit.getBounds().width, exit.getBounds().height);
+			
 			shaperenderer.end();
 		}
 		
@@ -226,29 +240,29 @@ public class WorldView
 		
 		if(GameModel.get().isSongModeShow())
 		{
-			menu.begin();
+			menuBatch.begin();
 			fadeTimeAlpha = fadeTimeAlpha + Gdx.graphics.getDeltaTime();
 			if (fadeTimeAlpha >= 1.0f)
 			{
 				fadeTimeAlpha = 1.0f;
 			}
-			menu.setColor(1.0f, 1.0f, 1.0f, fadeTimeAlpha);
-			menu.draw(panpipe, Gdx.graphics.getWidth()/2 - panpipe.getWidth()/2, 
+			menuBatch.setColor(1.0f, 1.0f, 1.0f, fadeTimeAlpha);
+			menuBatch.draw(panpipe, Gdx.graphics.getWidth()/2 - panpipe.getWidth()/2, 
 					Gdx.graphics.getHeight()/2 - panpipe.getHeight()/2);
-			menu.end();
+			menuBatch.end();
 		}
 		
 		if(GameModel.get().isSongModeHide())
 		{
-			menu.begin();
+			menuBatch.begin();
 			fadeTimeAlpha = fadeTimeAlpha - Gdx.graphics.getDeltaTime();
 			if (fadeTimeAlpha <= 0.0f){
 				fadeTimeAlpha = 0.0f;
 			}
-			menu.setColor(1.0f, 1.0f, 1.0f, fadeTimeAlpha);
-			menu.draw(panpipe, Gdx.graphics.getWidth()/2 - panpipe.getWidth()/2, 
+			menuBatch.setColor(1.0f, 1.0f, 1.0f, fadeTimeAlpha);
+			menuBatch.draw(panpipe, Gdx.graphics.getWidth()/2 - panpipe.getWidth()/2, 
 					Gdx.graphics.getHeight()/2 - panpipe.getHeight()/2);
-			menu.end();
+			menuBatch.end();
 		}
 		
 	}

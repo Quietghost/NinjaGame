@@ -7,7 +7,6 @@ import java.util.Observable;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.World;
 import com.me.ninja_game_prototype.NinjaGamePrototype;
 import com.me.ninja_game_prototype.audio.GameAudio;
 
@@ -136,15 +135,15 @@ public class WorldModel extends Observable
 			}
 		}
 		
-		if (ninja.getBounds().overlaps(exit.getBounds()))
-		{
-			// TODO audio controller
-//			if (exit.isAudioFlag()){
-//				GameAudio.playExit();
-//				exit.setAudioFlag(false);
-//			}
-			GameModel.get().setGameEnd(true);
-		}
+// TODO		if (ninja.getBounds().overlaps(exit.getBounds()))
+//		{
+//			// TODO audio controller
+////			if (exit.isAudioFlag()){
+////				GameAudio.playExit();
+////				exit.setAudioFlag(false);
+////			}
+//			GameModel.get().setGameEnd(true);
+//		}
 	}
 	
 	public void dispose()

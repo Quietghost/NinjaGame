@@ -49,14 +49,14 @@ public class LevelLoader
 		
 		try {
 			TmxMapLoader loader = new TmxMapLoader();
-	        TiledMap map = loader.load("map3.tmx", new TmxMapLoader.Parameters()
+	        TiledMap map = loader.load("map3.tmx");/*, new TmxMapLoader.Parameters()
 	        {
 	        	public boolean yUp = false;
 
 	        	public boolean generateMipMaps = false;
 	    		public TextureFilter textureMinFilter = TextureFilter.Nearest;
 	    		public TextureFilter textureMagFilter = TextureFilter.Nearest;
-	        });
+	        });*/
 	        
 	        WorldModel.get().setMap(map);
 	        
@@ -77,8 +77,6 @@ public class LevelLoader
 	        WorldModel.get().setFloor(new FloorModel((TiledMapTileLayer) layers.get("L_Floor")));
 	        WorldModel.get().setWall(new WallModel((TiledMapTileLayer) layers.get("L_Wall")));
 	        
-	        TiledMapTileLayer floor = (TiledMapTileLayer) layers.get("L_Floor");
-
 	        // load obstacles
 	        MapLayer obstacles = layers.get("O_Obstacles");
 	        it = obstacles.getObjects().iterator();
@@ -96,6 +94,8 @@ public class LevelLoader
 	        // ------------------------------------------
 	        // debug
 	        // tiled layer
+	        /*
+	        TiledMapTileLayer floor = (TiledMapTileLayer) layers.get("L_Floor");
 	        it = layers.iterator();
 	        while (it.hasNext())
 	        {
@@ -181,6 +181,7 @@ public class LevelLoader
 	        	String key = (String) it.next();
 	        	System.out.println("P "+key+": "+box.getProperties().get(key));
 			}
+			*/
 	        // -- end debug
 		}
 		catch (Exception e)
@@ -191,6 +192,6 @@ public class LevelLoader
 //		WorldModel.get().addObstacles(new ObstacleModel(new Vector2(320,310), 64, 64, ""));
 //		WorldModel.get().addObstacles(new ObstacleModel(new Vector2(100,110), 108, 92, ""));
 //		WorldModel.get().setNinja(new NinjaModel(60, 54, 62, new Vector2(200,400), "", ""));
-		WorldModel.get().setExit(new ExitModel(new Vector2(600,110), 54, 100, ""));
+//		WorldModel.get().setExit(new ExitModel(new Vector2(600,110), 54, 100, ""));
 	}
 }

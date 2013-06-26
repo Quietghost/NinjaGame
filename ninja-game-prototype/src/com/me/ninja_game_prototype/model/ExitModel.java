@@ -1,21 +1,14 @@
 package com.me.ninja_game_prototype.model;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.math.Vector2;
 
-public class ExitModel extends Entity
+public class ExitModel extends Layer
 {
 	String identifier;
 	
-	public ExitModel(Vector2 position, float width, float height, String texturePath)
-	{
-		super(position, width, height);
-	}
-
 	public ExitModel(TiledMapTileLayer tiledMapTileLayer)
 	{
-		// TODO constructor
-		this(new Vector2(0,0), 0, 0, "");
+		super(tiledMapTileLayer);
 	}
 
 	public String getIdentifier()
