@@ -186,6 +186,12 @@ public class WorldView
 		}
 		
 		batch.begin();
+
+		// TODO debug
+		mapRenderer.renderTileLayer(floor.getLayer());
+		mapRenderer.renderTileLayer(wall.getLayer());
+		mapRenderer.renderTileLayer(exit.getLayer());
+		
 		if(!WorldModel.get().isNight())
 		{
 			mapRenderer.renderTileLayer(floor.getLayer());

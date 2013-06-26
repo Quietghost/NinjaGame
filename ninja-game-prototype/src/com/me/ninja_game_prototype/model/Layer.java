@@ -33,15 +33,12 @@ public abstract class Layer
 				TextureRegion region = tile.getTextureRegion();
 				
 				// pay attention to orthogonal coordinate system
-				int y = (Integer)WorldModel.get().getMap().getProperties().get("height")*(Integer)WorldModel.get().getMap().getProperties().get("tileheight")-region.getRegionY();
+				int y = ((Integer)WorldModel.get().getMap().getProperties().get("height")-1)*(Integer)WorldModel.get().getMap().getProperties().get("tileheight")-region.getRegionY();
 				
 				Rectangle rect = new Rectangle(
 						region.getRegionX(),y,
 						region.getRegionWidth(),region.getRegionHeight()
 				);
-				
-				System.out.println(rect.toString());
-				System.out.println(entity.getBounds().toString());
 				
 				if (entity.getBounds().overlaps(rect)) return true;
 			}

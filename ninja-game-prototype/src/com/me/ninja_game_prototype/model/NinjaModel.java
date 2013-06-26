@@ -29,6 +29,9 @@ public class NinjaModel extends MovableEntity
 
 	public void update()
 	{
+		float preX = getPosition().x;
+		float preY = getPosition().y;
+		
 		switch (flagInput)
 		{
 			case 1:
@@ -61,6 +64,12 @@ public class NinjaModel extends MovableEntity
 //				exit.setAudioFlag(false);
 //			}
 			GameModel.get().setGameEnd(true);
+		}
+		
+		if (WorldModel.get().getWall().overlaps(this))
+		{
+			getPosition().x = preX;
+			getPosition().y = preY;
 		}
 		
 		setChanged();
