@@ -138,11 +138,8 @@ public class WorldView
         RayHandler.useDiffuseLight(true);
         
 		rayhandler = new RayHandler(box2dworld);
-		rayhandler.setAmbientLight(0.2f, 0.2f, 0.2f, 0.1f);
 		rayhandler.setBlurNum(1);
 		rayhandler.setCombinedMatrix(cam.combined);
-		
-		p = new PointLight(rayhandler, 1000, Color.WHITE, 700, 0, height);
 		
 		for (ObstacleModel obstacle : WorldModel.get().getObstacles())
 		{
@@ -196,28 +193,20 @@ public class WorldView
 		batch.begin();
 		polyBatch.begin();
 
+		mapRenderer.renderTileLayer(floor.getLayer());
+		mapRenderer.renderTileLayer(wall.getLayer());
+		mapRenderer.renderTileLayer(exit.getLayer());
+		
+		for (EnemyModel enemy: enemies)
+			batch.draw(enemy.getTexture(), enemy.getPosition().x, enemy.getPosition().y);
+		
+		for (ObstacleModel obstacle : obstacles)
+			batch.draw(obstacle.getTexture(), obstacle.getPosition().x, obstacle.getPosition().y);
+		
 		if(!WorldModel.get().isNight())
-		{
-			mapRenderer.renderTileLayer(floor.getLayer());
-			mapRenderer.renderTileLayer(wall.getLayer());
-			mapRenderer.renderTileLayer(exit.getLayer());
-			
 			batch.draw(ninja.getTexture(), ninja.getPosition().x, ninja.getPosition().y);
-
-			for (EnemyModel enemy: enemies)
-			{
-				batch.draw(enemy.getTexture(), enemy.getPosition().x, enemy.getPosition().y);
-			}
-			
-			for (ObstacleModel obstacle : obstacles)
-			{
-				batch.draw(obstacle.getTexture(), obstacle.getPosition().x, obstacle.getPosition().y);
-			}
-		}
 		else
-		{
 			batch.draw(ninja.getNightTexture(), ninja.getPosition().x, ninja.getPosition().y);
-		}
 		
 		for (ObstacleModel obstacle : obstacles)
 		{
@@ -266,10 +255,23 @@ public class WorldView
 		}
 
 		
+		rayhandler.removeAll();
 		if(!WorldModel.get().isNight())
 		{
-			rayhandler.updateAndRender();
+			p = new PointLight(rayhandler, 1000, Color.WHITE, 700, 0, height);
+			rayhandler.setAmbientLight(0.2f, 0.2f, 0.2f, 0.1f);
 		}
+		else
+		{
+			rayhandler.setAmbientLight(0, 0, 0, 0);
+			for (EnemyModel enemy: enemies)
+			{
+				p = new PointLight(rayhandler, 50, new Color(255, 255, 255, 0.2f), 100, enemy.getCenter().x, enemy.getCenter().y);
+			}
+			p = new PointLight(rayhandler, 5, new Color(255, 255, 255, 1), ninja.getWidth(), ninja.getCenter().x, ninja.getCenter().y);
+		}
+		rayhandler.updateAndRender();
+		
 		
 		if(GameModel.get().isSongModeShow())
 		{

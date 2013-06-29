@@ -63,12 +63,12 @@
   </object>
  </objectgroup>
  <objectgroup name="O_Enemies" width="20" height="15">
-  <object name="Enemy_1" gid="305" x="273" y="342">
+  <object name="Enemy_1" gid="305" x="284" y="326">
    <properties>
     <property name="gid" value="305"/>
    </properties>
   </object>
-  <object name="Enemy_2" gid="305" x="565" y="435">
+  <object name="Enemy_2" gid="305" x="582" y="414">
    <properties>
     <property name="gid" value="305"/>
    </properties>
@@ -80,10 +80,10 @@
   </object>
  </objectgroup>
  <objectgroup name="O_Enemies_Path" width="20" height="15">
-  <object name="Enemy_1" x="273" y="342">
+  <object name="Enemy_1" x="284" y="326">
    <polygon points="0,0 -6,29 -40,38 -99,38 -129,17 -127,-23 -103,-56 -50,-58 -9,-31"/>
   </object>
-  <object name="Enemy_2" x="565" y="435">
+  <object name="Enemy_2" x="582" y="414">
    <polygon points="0,6 -531,13 -525,-2 -8,-7"/>
   </object>
  </objectgroup>
