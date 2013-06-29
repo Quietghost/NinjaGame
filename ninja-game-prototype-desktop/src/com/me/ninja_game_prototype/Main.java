@@ -2,6 +2,7 @@ package com.me.ninja_game_prototype;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
+import com.me.ninja_game_prototype.helper.SongLoader;
 
 public class Main {
 	public static void main(String[] args) {
@@ -10,7 +11,7 @@ public class Main {
 		cfg.useGL20 = true;
 		cfg.width = 640;
 		cfg.height = 480;
-				
+			
 		new LwjglApplication(new NinjaGamePrototype(), cfg);
 	}
 }

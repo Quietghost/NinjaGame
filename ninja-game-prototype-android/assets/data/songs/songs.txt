@@ -1,0 +1,61 @@
+{
+	"song 1":
+	{
+	identifier: "song_blind_guards",
+	songNotes: 
+	        [
+	                "1",
+	                "1",
+	                "1",
+	                "1"
+	        ]
+	},
+	
+	"song 2":
+	{
+	identifier: "song_eleminate_obstacle",
+	songNotes: 
+	        [
+	                "2",
+	                "2",
+	                "2",
+	                "2"
+	        ]
+	},
+	
+	"song 3":
+	{
+	identifier: "song_irritate_guards",
+	songNotes: 
+	        [
+	                "3",
+	                "3",
+	                "3",
+	                "3"
+	        ]
+	},
+	
+	"song 4":
+	{
+	identifier: "song_make_light",
+	songNotes: 
+	        [
+	                "4",
+	                "4",
+	                "4",
+	                "4"
+	        ]
+	},
+	
+	"song 5":
+	{
+	identifier: "song_teleport_me",
+	songNotes: 
+	        [
+	                "1",
+	                "2",
+	                "3",
+	                "4"
+	        ]
+	}
+}

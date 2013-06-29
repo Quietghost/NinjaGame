@@ -19,11 +19,19 @@ public class SongRecorder {
 	}
 	
 	/* instance */
-	private Array<String> recordedSong;
+	private Array<String> recordedSong = new Array<String>();
 	
 	public Array<String> getRecordedSong() {
 		return recordedSong;
 	}
-
+	
+	public boolean isRecorded(){
+		//TODO Put size of a song in config file
+		if(this.recordedSong.size == 4){
+			return true;
+		}else{
+			return false;
+		}
+	}
 
 }

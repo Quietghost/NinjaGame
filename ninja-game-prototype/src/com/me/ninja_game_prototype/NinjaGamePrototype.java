@@ -2,6 +2,7 @@ package com.me.ninja_game_prototype;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.FPSLogger;
+import com.me.ninja_game_prototype.helper.SongLoader;
 import com.me.ninja_game_prototype.screens.GameScreen;
 
 public class NinjaGamePrototype extends Game {

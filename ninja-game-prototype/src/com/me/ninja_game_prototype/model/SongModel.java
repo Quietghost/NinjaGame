@@ -1,36 +1,37 @@
 package com.me.ninja_game_prototype.model;
 
-import java.util.List;
-
 import com.badlogic.gdx.utils.Array;
 
 public class SongModel {
-	/* static */
-	
-	/* singleton */
-	private static SongModel instance;
 
-	private SongModel() {
-		loadSongs();
-	}
-
-	public static SongModel get() {
-		if (SongModel.instance == null) {
-			SongModel.instance = new SongModel();
-		}
-		return SongModel.instance;
-	}
+	/*instances*/
+	String identifier;
+	Array<String> songNotes;
 	
-	/* instance */
-	List<Song> songs;
-	
-	
-	/*Methods*/
-	private void loadSongs(){
+	public SongModel(){
 		
 	}
 	
-	public void validateSong(Array<String> songNotes){
-		
+	public SongModel(String identifier, Array<String> songNotes){
+		this.identifier = identifier;
+		this.songNotes = songNotes;
 	}
+
+	public Array<String> getSongNotes() {
+		return songNotes;
+	}
+
+	public void setSongNotes(Array<String> songNotes) {
+		this.songNotes = songNotes;
+	}
+
+	public String getIdentifier() {
+		return identifier;
+	}
+
+	public void setIdentifier(String identifier) {
+		this.identifier = identifier;
+	}
+	
+	
 }
