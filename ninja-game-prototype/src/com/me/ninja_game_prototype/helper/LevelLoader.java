@@ -1,20 +1,17 @@
 package com.me.ninja_game_prototype.helper;
 
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.FileTextureData;
 import com.badlogic.gdx.maps.MapLayer;
-import com.badlogic.gdx.maps.MapLayers;
 import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.maps.MapObjects;
-import com.badlogic.gdx.maps.MapProperties;
+import com.badlogic.gdx.maps.objects.PolygonMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.math.Polygon;
+import com.me.ninja_game_prototype.model.EnemyModel;
 import com.me.ninja_game_prototype.model.ExitModel;
 import com.me.ninja_game_prototype.model.FloorModel;
 import com.me.ninja_game_prototype.model.NinjaModel;
@@ -47,7 +44,7 @@ public class LevelLoader
 		
 		try {
 			TmxMapLoader loader = new TmxMapLoader();
-	        TiledMap map = loader.load("map3.tmx");	        
+	        TiledMap map = loader.load("map4.tmx");	        
 	        WorldModel.get().setMap(map);
 	        
 	        @SuppressWarnings("rawtypes")
@@ -62,7 +59,25 @@ public class LevelLoader
 	        it = obstacles.getObjects().iterator();
 	        while (it.hasNext())
 	        {
-	        	WorldModel.get().addObstacles(new ObstacleModel((MapObject) it.next()));
+	        	WorldModel.get().addObstacle(new ObstacleModel((MapObject) it.next()));
+			}
+	        
+	        // load enemies
+	        MapLayer pathLayer = map.getLayers().get("O_Enemies_Path");
+	        it = pathLayer.getObjects().iterator();
+	        Map<String,Polygon> paths = new HashMap<String,Polygon>();
+	        while (it.hasNext())
+	        {
+	        	PolygonMapObject mo = (PolygonMapObject) it.next();
+	        	paths.put(mo.getName(), mo.getPolygon());
+			}
+	        
+	        MapLayer enemies = map.getLayers().get("O_Enemies");
+	        it = enemies.getObjects().iterator();
+	        while (it.hasNext())
+	        {
+	        	MapObject mo = (MapObject) it.next();
+	        	WorldModel.get().addEnemy(new EnemyModel(mo, paths.get(mo.getName())));
 			}
 	        
 	        // load ninja
@@ -133,7 +148,12 @@ public class LevelLoader
 	        System.out.println("Name: "+td.getFileHandle().name());
 			
 	        // object layer
-	        System.out.println("Objects: "+obstacles.getObjects().getCount());
+//	        MapLayer enemies = map.getLayers().get("O_Enemies");
+	        System.out.println("Enemies: "+enemies.getObjects().getCount());
+	        
+	        // object layer
+//	        MapLayer obstacles = map.getLayers().get("O_Obstacles");
+	        System.out.println("Obstacles: "+obstacles.getObjects().getCount());
 	        
 	        it = obstacles.getObjects().iterator();
 	        while (it.hasNext())
@@ -170,6 +190,7 @@ public class LevelLoader
 	        	String key = (String) it.next();
 	        	System.out.println("P "+key+": "+box.getProperties().get(key));
 			}
+			System.exit(0);
 			*/
 	        // -- end debug
 		}
@@ -177,8 +198,6 @@ public class LevelLoader
 		{
 			e.printStackTrace();
 		}
-		
-//		System.exit(0);
 		
 //		WorldModel.get().addObstacles(new ObstacleModel(new Vector2(320,310), 64, 64, ""));
 //		WorldModel.get().addObstacles(new ObstacleModel(new Vector2(100,110), 108, 92, ""));

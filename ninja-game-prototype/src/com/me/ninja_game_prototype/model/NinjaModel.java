@@ -10,6 +10,7 @@ import com.me.ninja_game_prototype.helper.MapObjectDateGatherer;
 public class NinjaModel extends MovableEntity
 {
 	private Vector2 goal = new Vector2();
+	private Vector2 startPosition = new Vector2();
 	private int flagInput;
 	private Texture nightTexture;
 	
@@ -24,7 +25,9 @@ public class NinjaModel extends MovableEntity
 		MapObjectDateGatherer.gather(day, this);
 		
 		// Do ninja textures day and night have different dimensions?
-		if (getWidth()!=w || getHeight()!=h) System.exit(0); 
+		if (getWidth()!=w || getHeight()!=h) System.exit(0);
+		
+		this.startPosition = new Vector2(getPosition().x, getPosition().y);
 	}
 
 	public void update()
@@ -37,30 +40,22 @@ public class NinjaModel extends MovableEntity
 			case 1:
 				if (!getBounds().contains(getGoal()) && getPosition().dst(getGoal()) > 5)
 				{		
-					getPosition().add(getVelocity().cpy().scl(Gdx.graphics.getDeltaTime() * getSpeed()));
+					addPosition(getVelocity().cpy().scl(Gdx.graphics.getDeltaTime() * getSpeed()));
 				}else{
 					setPosition(new Vector2(getGoal().x - getBounds().width/2, goal.y - getBounds().height/2));
 					setVelocity(new Vector2(0, 0));
 					GameAudio.stopWalk();
 				}
-				
-				getBounds().x = getPosition().x;
-				getBounds().y = getPosition().y;
 				break;
 			case 2:
-					
-				getPosition().add(getVelocity().cpy().scl(Gdx.graphics.getDeltaTime() * getSpeed()));
-				
-				getBounds().x = getPosition().x;
-				getBounds().y = getPosition().y;
+				addPosition(getVelocity().cpy().scl(Gdx.graphics.getDeltaTime() * getSpeed()));
 				break;
 		}
 		
 		// no ghost
 		if (WorldModel.get().getWall().overlaps(this))
 		{
-			getPosition().x = preX;
-			getPosition().y = preY;
+			setPosition(preX, preY);
 		}
 
 		// Exit?
@@ -77,7 +72,7 @@ public class NinjaModel extends MovableEntity
 		setChanged();
 		notifyObservers(ObserverMessage.NINJA);
 	}
-	
+
 	public Vector2 getGoal()
 	{
 		return goal;
@@ -108,56 +103,8 @@ public class NinjaModel extends MovableEntity
 	{
 		this.nightTexture = nightTexture;
 	}
-	
-//	public Rectangle getBounds() {
-//		return entityDay.getBounds();
-//	}
-//	
-//	public float getWidth()
-//	{
-//		return entityDay.getWidth();
-//	}
-//	
-//	public float getHeight()
-//	{
-//		return entityDay.getHeight();
-//	}
-//	
-//	// TODO ninja day/night size
-//	public void setBounds() {/*can't do this until day and night have same size*/}
-//	public void setWidth() {/*can't do this until day and night have same size*/}
-//	public void setHeight() {/*can't do this until day and night have same size*/}
-//	
-//	public Vector2 getPosition()
-//	{
-//		return entityDay.getPosition();
-//	}
-//	
-//	public void setPosition(Vector2 position)
-//	{
-//		entityDay.setPosition(position);
-//		entityNight.setPosition(position);
-//	}
-//	
-//	public Vector2 getVelocity()
-//	{
-//		return entityDay.getVelocity();
-//	}
-//	
-//	public void setVelocity(Vector2 velocity)
-//	{
-//		entityDay.setVelocity(velocity);
-//		entityNight.setVelocity(velocity);
-//	}
-//	
-//	public float getSpeed()
-//	{
-//		return entityDay.getSpeed();
-//	}
-//	
-//	public void setSpeed(float speed)
-//	{
-//		entityDay.setSpeed(speed);
-//		entityNight.setSpeed(speed);
-//	}
+
+	public void resetStartPosition() {
+		setPosition(startPosition.x, startPosition.y);
+	}
 }

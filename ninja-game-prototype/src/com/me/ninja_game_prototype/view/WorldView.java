@@ -14,12 +14,14 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
+import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Polyline;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -28,6 +30,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.me.ninja_game_prototype.NinjaGamePrototype;
 import com.me.ninja_game_prototype.helper.ShaderSettings;
+import com.me.ninja_game_prototype.model.EnemyModel;
 import com.me.ninja_game_prototype.model.ExitModel;
 import com.me.ninja_game_prototype.model.FloorModel;
 import com.me.ninja_game_prototype.model.GameModel;
@@ -56,6 +59,7 @@ public class WorldView
 	
 	/* instance */
 	SpriteBatch batch;
+	PolygonSpriteBatch polyBatch;
 	SpriteBatch menuBatch;
 	OrthographicCamera cam;
 	Texture panpipe;
@@ -100,6 +104,9 @@ public class WorldView
 		batch = mapRenderer.getSpriteBatch();
 		batch.setShader(shader);
 		batch.setProjectionMatrix(cam.combined);
+		
+		polyBatch = new PolygonSpriteBatch();
+		polyBatch.setProjectionMatrix(cam.combined);
 		
 		menuBatch = new SpriteBatch();
 		menuBatch.setProjectionMatrix(cam.combined);
@@ -173,6 +180,7 @@ public class WorldView
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		
 		List<ObstacleModel> obstacles = WorldModel.get().getObstacles();
+		List<EnemyModel> enemies = WorldModel.get().getEnemies();
 		NinjaModel ninja = WorldModel.get().getNinja();
 		
 		FloorModel floor = WorldModel.get().getFloor();
@@ -186,12 +194,8 @@ public class WorldView
 		}
 		
 		batch.begin();
+		polyBatch.begin();
 
-		// TODO debug
-		mapRenderer.renderTileLayer(floor.getLayer());
-		mapRenderer.renderTileLayer(wall.getLayer());
-		mapRenderer.renderTileLayer(exit.getLayer());
-		
 		if(!WorldModel.get().isNight())
 		{
 			mapRenderer.renderTileLayer(floor.getLayer());
@@ -200,6 +204,11 @@ public class WorldView
 			
 			batch.draw(ninja.getTexture(), ninja.getPosition().x, ninja.getPosition().y);
 
+			for (EnemyModel enemy: enemies)
+			{
+				batch.draw(enemy.getTexture(), enemy.getPosition().x, enemy.getPosition().y);
+			}
+			
 			for (ObstacleModel obstacle : obstacles)
 			{
 				batch.draw(obstacle.getTexture(), obstacle.getPosition().x, obstacle.getPosition().y);
@@ -220,24 +229,42 @@ public class WorldView
 		}
 
 		batch.end();
+		polyBatch.end();
 		
-		if (NinjaGamePrototype.DEBUG)
+		if (NinjaGamePrototype.SHOW_BOUNDINGBOXES || NinjaGamePrototype.SHOW_ENEMYPATHS)
 		{
 			shaperenderer.setProjectionMatrix(cam.combined);
 			shaperenderer.begin(ShapeType.Line);
-			shaperenderer.setColor(Color.ORANGE);
-			shaperenderer.rect(ninja.getBounds().x, ninja.getBounds().y, ninja.getBounds().width, ninja.getBounds().height);
-			shaperenderer.setColor(Color.RED);
-			for (ObstacleModel obstacle : obstacles)
+			
+			if (NinjaGamePrototype.SHOW_BOUNDINGBOXES)
 			{
-				shaperenderer.rect(obstacle.getBounds().x, obstacle.getBounds().y, obstacle.getBounds().width, obstacle.getBounds().height);
+				shaperenderer.setColor(Color.ORANGE);
+				shaperenderer.rect(ninja.getBounds().x, ninja.getBounds().y, ninja.getBounds().width, ninja.getBounds().height);
+				shaperenderer.setColor(Color.RED);
+				for (ObstacleModel obstacle : obstacles)
+				{
+					shaperenderer.rect(obstacle.getBounds().x, obstacle.getBounds().y, obstacle.getBounds().width, obstacle.getBounds().height);
+				}
+				
+	// TODO			shaperenderer.rect(exit.getBounds().x, exit.getBounds().y, exit.getBounds().width, exit.getBounds().height);
 			}
 			
-			
-// TODO			shaperenderer.rect(exit.getBounds().x, exit.getBounds().y, exit.getBounds().width, exit.getBounds().height);
+			if (NinjaGamePrototype.SHOW_ENEMYPATHS)
+			{
+				for (EnemyModel enemy: enemies)
+				{
+				
+					if (enemy.getTransformedVertices().length>0)
+					{
+						shaperenderer.setColor(Color.GREEN);
+						shaperenderer.polygon(enemy.getTransformedVertices());
+					}
+				}
+			}
 			
 			shaperenderer.end();
 		}
+
 		
 		if(!WorldModel.get().isNight())
 		{

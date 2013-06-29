@@ -6,7 +6,6 @@ import java.util.Observable;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.math.Vector2;
 import com.me.ninja_game_prototype.NinjaGamePrototype;
 import com.me.ninja_game_prototype.audio.GameAudio;
 
@@ -33,6 +32,7 @@ public class WorldModel extends Observable
 	/* instance */
 	private TiledMap map;
 	private List<ObstacleModel> obstacles = new ArrayList<ObstacleModel>();
+	private List<EnemyModel> enemies = new ArrayList<EnemyModel>();
 	private ExitModel exit;
 	private NinjaModel ninja;
 	private FloorModel floor;
@@ -54,12 +54,12 @@ public class WorldModel extends Observable
 		return obstacles;
 	}
 
-	public void addObstacles(ObstacleModel obstacle)
+	public void addObstacle(ObstacleModel obstacle)
 	{
 		this.obstacles.add(obstacle);
 	}
 	
-	public void removeObstacles(ObstacleModel obstacle)
+	public void removeObstacle(ObstacleModel obstacle)
 	{
 		this.obstacles.remove(obstacle);
 	}
@@ -84,19 +84,23 @@ public class WorldModel extends Observable
 		this.ninja = ninja;
 	}
 	
-	public FloorModel getFloor() {
+	public FloorModel getFloor()
+	{
 		return floor;
 	}
 
-	public void setFloor(FloorModel floor) {
+	public void setFloor(FloorModel floor)
+	{
 		this.floor = floor;
 	}
 
-	public WallModel getWall() {
+	public WallModel getWall()
+	{
 		return wall;
 	}
 
-	public void setWall(WallModel wall) {
+	public void setWall(WallModel wall)
+	{
 		this.wall = wall;
 	}
 
@@ -114,7 +118,7 @@ public class WorldModel extends Observable
 				GameModel.get().addTimeSinceCollision(Gdx.graphics.getDeltaTime());
 				if(GameModel.get().getTimeSinceCollision() > 0.5f)
 				{
-					ninja.setPosition(new Vector2(200,400));
+					ninja.resetStartPosition();
 					GameModel.get().setTimeSinceCollision(0);
 					GameModel.get().addAttempt();
 				}
@@ -131,7 +135,25 @@ public class WorldModel extends Observable
 			{
 				obstacle.setRumble(false);
 				obstacle.setAudioFlag(true);
-				if (NinjaGamePrototype.DEBUG) Gdx.app.log(NinjaGamePrototype.LOG, "Else 1!! ");
+			}
+		}
+		
+		for (EnemyModel enemy : enemies)
+		{
+			enemy.update();
+		
+			if (ninja.getBounds().overlaps(enemy.getBounds()))
+			{
+				GameModel.get().addTimeSinceCollision(Gdx.graphics.getDeltaTime());
+				if(GameModel.get().getTimeSinceCollision() > 0.5f)
+				{
+					ninja.resetStartPosition();
+					GameModel.get().setTimeSinceCollision(0);
+					GameModel.get().addAttempt();
+				}
+				
+				GameAudio.hitObstacle();
+				if (NinjaGamePrototype.DEBUG) Gdx.app.log(NinjaGamePrototype.LOG, "Hit 2!! ");
 			}
 		}
 	}
@@ -151,11 +173,28 @@ public class WorldModel extends Observable
 		this.map = map;
 	}
 
-	public boolean isNight() {
+	public boolean isNight()
+	{
 		return night;
 	}
 
-	public void setNight(boolean night) {
+	public void setNight(boolean night)
+	{
 		this.night = night;
+	}
+
+	public List<EnemyModel> getEnemies()
+	{
+		return enemies;
+	}
+
+	public void addEnemy(EnemyModel enemy)
+	{
+		this.enemies.add(enemy);
+	}
+	
+	public void removeEnemy(EnemyModel enemy)
+	{
+		this.enemies.remove(enemy);
 	}
 }

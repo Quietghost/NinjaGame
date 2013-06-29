@@ -3,13 +3,13 @@ package com.me.ninja_game_prototype.model;
 import java.util.Observable;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.glutils.FileTextureData;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 public abstract class Entity extends Observable
 {
 	protected Vector2 position;
+	protected Vector2 center;
 	protected float width;
 	protected float height;
 	protected Rectangle bounds;
@@ -21,6 +21,7 @@ public abstract class Entity extends Observable
 		this.width = width;
 		this.height = height;
 		bounds = new Rectangle(position.x, position.y, width, height);
+		this.center = new Vector2(position.x+width/2,position.y+height/2); 
 	}
 	
 	public Vector2 getPosition()
@@ -31,6 +32,44 @@ public abstract class Entity extends Observable
 	public void setPosition(Vector2 position)
 	{
 		this.position = position;
+		
+		if(bounds!=null)
+		{
+			this.bounds.x = position.x;
+			this.bounds.y = position.y;
+		}
+		
+		this.center.x = position.x+width/2;
+		this.center.y = position.y+height/2; 
+	}
+	
+	public void setPosition(float x, float y)
+	{
+		this.position.x = x;
+		this.position.y = y;
+		
+		if(bounds!=null)
+		{
+			this.bounds.x = x;
+			this.bounds.y = y;
+		}
+		
+		this.center.x = position.x+width/2;
+		this.center.y = position.y+height/2; 
+	}
+	
+	public void addPosition(Vector2 add) {
+		setPosition(position.x + add.x,position.y + add.y);
+	}
+	
+	public Rectangle getBounds()
+	{
+		return bounds;
+	}
+	
+	public void setBounds(Rectangle bounds)
+	{
+		this.bounds = bounds;
 	}
 	
 	public float getWidth()
@@ -53,20 +92,10 @@ public abstract class Entity extends Observable
 		this.height = height;
 	}
 	
-	public Rectangle getBounds()
-	{
-		return bounds;
-	}
-	
-	public void setBounds(Rectangle bounds)
-	{
-		this.bounds = bounds;
-	}
-	
-	private String getTexturePath()
-	{
-		return ((FileTextureData) texture.getTextureData()).getFileHandle().path();
-	}
+//	private String getTexturePath()
+//	{
+//		return ((FileTextureData) texture.getTextureData()).getFileHandle().path();
+//	}
 	
 	public Texture getTexture()
 	{
@@ -76,5 +105,9 @@ public abstract class Entity extends Observable
 	public void setTexture(Texture texture)
 	{
 		this.texture = texture;
+	}
+
+	public Vector2 getCenter() {
+		return center;
 	}
 }
