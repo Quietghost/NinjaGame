@@ -38,9 +38,6 @@ public abstract class Entity extends Observable
 			this.bounds.x = position.x;
 			this.bounds.y = position.y;
 		}
-		
-		this.center.x = position.x+width/2;
-		this.center.y = position.y+height/2; 
 	}
 	
 	public void setPosition(float x, float y)
@@ -53,9 +50,6 @@ public abstract class Entity extends Observable
 			this.bounds.x = x;
 			this.bounds.y = y;
 		}
-		
-		this.center.x = position.x+width/2;
-		this.center.y = position.y+height/2; 
 	}
 	
 	public void addPosition(Vector2 add) {
@@ -107,7 +101,10 @@ public abstract class Entity extends Observable
 		this.texture = texture;
 	}
 
-	public Vector2 getCenter() {
+	public Vector2 getCenter()
+	{
+		this.center.x = this.position.x+width/2;
+		this.center.y = this.position.y+height/2; 
 		return center;
 	}
 }
