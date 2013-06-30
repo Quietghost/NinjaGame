@@ -1,10 +1,13 @@
 package com.me.ninja_game_prototype.controller;
 
+import java.util.TimerTask;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.Timer;
 import com.me.ninja_game_prototype.audio.GameAudio;
 import com.me.ninja_game_prototype.helper.ConfigLoader;
 import com.me.ninja_game_prototype.helper.LevelLoader;
@@ -68,18 +71,22 @@ public class WorldController implements InputProcessor
 			switch(keycode){
 				case Keys.NUM_1:
 					if(!SongRecorder.get().isRecorded())
+						GameAudio.playPipeTune1();
 						SongRecorder.get().getRecordedSong().add("1");
 					break;
 				case Keys.NUM_2:
 					if(!SongRecorder.get().isRecorded())
+						GameAudio.playPipeTune2();
 						SongRecorder.get().getRecordedSong().add("2");
 					break;
 				case Keys.NUM_3:
 					if(!SongRecorder.get().isRecorded())
+						GameAudio.playPipeTune3();
 						SongRecorder.get().getRecordedSong().add("3");
 					break;
 				case Keys.NUM_4:
 					if(!SongRecorder.get().isRecorded())
+						GameAudio.playPipeTune4();
 						SongRecorder.get().getRecordedSong().add("4");
 					break;
 				case Keys.O:
@@ -97,6 +104,15 @@ public class WorldController implements InputProcessor
 				if(SongController.get().validateSong(SongRecorder.get().getRecordedSong())){
 					Gdx.app.log("SongController", SongController.get().getSongPlayed());
 					Gdx.app.log("SongController", "success");
+					
+					final Timer timer = new Timer();  
+			        timer.scheduleTask(new Timer.Task() {
+						@Override
+						public void run() {
+							SongController.get().replaySong(SongController.get().getSongPlayed());  
+						}
+			        }, 1f); 
+			        	
 					GameModel.get().setSongModeHide(true);
 					GameModel.get().setSongModeShow(false);
 				}else{

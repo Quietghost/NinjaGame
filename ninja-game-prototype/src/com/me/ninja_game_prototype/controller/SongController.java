@@ -1,6 +1,7 @@
 package com.me.ninja_game_prototype.controller;
 
 import com.badlogic.gdx.utils.Array;
+import com.me.ninja_game_prototype.audio.GameAudio;
 import com.me.ninja_game_prototype.helper.SongLoader;
 import com.me.ninja_game_prototype.helper.SongRecorder;
 import com.me.ninja_game_prototype.model.SongModel;
@@ -61,6 +62,28 @@ public class SongController {
 		SongRecorder.get().getRecordedSong().clear();
 		
 		return playedCorrectly;
+	}
+	
+	public void replaySong(String identifier){
+		
+		switch(identifier){
+			case "song_blind_guards":
+				GameAudio.playPipeSong1();
+				break;
+			case "song_eleminate_obstacle":
+				
+				break;
+			case "song_irritate_guards":
+				
+				break;
+			case "song_make_light":
+				
+				break;
+			case "song_teleport_me":
+				
+				break;
+		}
+		
 	}
 	
 	public void addSong(SongModel song){
