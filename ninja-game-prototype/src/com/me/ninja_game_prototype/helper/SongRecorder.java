@@ -1,6 +1,7 @@
-package com.me.ninja_game_prototype.model;
+package com.me.ninja_game_prototype.helper;
 
 import com.badlogic.gdx.utils.Array;
+import com.me.ninja_game_prototype.controller.ConfigController;
 
 public class SongRecorder {
 	/* static */
@@ -26,8 +27,8 @@ public class SongRecorder {
 	}
 	
 	public boolean isRecorded(){
-		//TODO Put size of a song in config file
-		if(this.recordedSong.size == 4){
+		
+		if(this.recordedSong.size == ConfigController.get().getConfig().getNotesCount()){
 			return true;
 		}else{
 			return false;

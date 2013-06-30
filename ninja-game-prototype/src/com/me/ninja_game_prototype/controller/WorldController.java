@@ -5,12 +5,12 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.me.ninja_game_prototype.NinjaGamePrototype;
 import com.me.ninja_game_prototype.audio.GameAudio;
+import com.me.ninja_game_prototype.helper.ConfigLoader;
 import com.me.ninja_game_prototype.helper.LevelLoader;
 import com.me.ninja_game_prototype.helper.SongLoader;
+import com.me.ninja_game_prototype.helper.SongRecorder;
 import com.me.ninja_game_prototype.model.GameModel;
-import com.me.ninja_game_prototype.model.SongRecorder;
 import com.me.ninja_game_prototype.model.WorldModel;
 import com.me.ninja_game_prototype.view.WorldView;
 
@@ -20,6 +20,7 @@ public class WorldController implements InputProcessor
 	{
 		Gdx.input.setInputProcessor(this);
 		
+		ConfigLoader.get().loadConfig();
 		LevelLoader.get().loadLevel(0);
 		SongLoader.get().loadSongs();
 		WorldView.get().init();

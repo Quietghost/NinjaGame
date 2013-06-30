@@ -1,10 +1,9 @@
 package com.me.ninja_game_prototype.controller;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
 import com.me.ninja_game_prototype.helper.SongLoader;
+import com.me.ninja_game_prototype.helper.SongRecorder;
 import com.me.ninja_game_prototype.model.SongModel;
-import com.me.ninja_game_prototype.model.SongRecorder;
 
 public class SongController {
 	/* static */
@@ -49,8 +48,7 @@ public class SongController {
 				}
 			}
 			
-			//TODO Put in config-File
-			if (correctNotes == 4){
+			if (correctNotes == ConfigController.get().getConfig().getNotesCount()){
 				playedCorrectly = true;
 				SongController.get().setSongPlayed(songs.get(i).getIdentifier());
 				i = songs.size;
