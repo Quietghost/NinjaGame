@@ -1,5 +1,6 @@
 package com.me.ninja_game_prototype.controller;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
 import com.me.ninja_game_prototype.helper.SongLoader;
 import com.me.ninja_game_prototype.model.SongModel;
@@ -24,7 +25,7 @@ public class SongController {
 	
 	/* instance */
 	private Array<SongModel> songs = new Array<SongModel>();
-	private String songToRecord;
+	private String songPlayed;
 	private Array<String> songNotesToProve = new Array<String>();
 	
 	
@@ -35,18 +36,27 @@ public class SongController {
 	
 	public boolean validateSong(Array<String> songNotes){
 		
-		boolean playedCorrectly = true;
+		boolean playedCorrectly = false;
+		int correctNotes = 0;
 		
 		for(int i = 0; i < songs.size; i++){
-			if(songToRecord.equalsIgnoreCase(songs.get(i).getIdentifier())){
-				songNotesToProve = songs.get(i).getSongNotes();
+			
+			songNotesToProve = songs.get(i).getSongNotes();
+			
+			for(int j = 0; j < songNotesToProve.size;j++){
+				if(songNotesToProve.get(j).equalsIgnoreCase(SongRecorder.get().getRecordedSong().get(j))){
+					correctNotes++;
+				}
 			}
-		}
-		
-		for(int i = 0; i < songNotesToProve.size;i++){
-			if(songNotesToProve.get(i).equalsIgnoreCase(SongRecorder.get().getRecordedSong().get(i))){
+			
+			//TODO Put in config-File
+			if (correctNotes == 4){
+				playedCorrectly = true;
+				SongController.get().setSongPlayed(songs.get(i).getIdentifier());
+				i = songs.size;
 			}else{
-				playedCorrectly = false;
+				SongController.get().setSongPlayed("none");
+				correctNotes = 0;
 			}
 		}
 		
@@ -59,11 +69,11 @@ public class SongController {
 		this.songs.add(song);
 	}
 
-	public String getSongToRecord() {
-		return songToRecord;
+	public String getSongPlayed() {
+		return songPlayed;
 	}
 
-	public void setSongToRecord(String songToRecord) {
-		this.songToRecord = songToRecord;
+	public void setSongPlayed(String songPlayed) {
+		this.songPlayed = songPlayed;
 	}
 }

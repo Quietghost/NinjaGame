@@ -63,7 +63,7 @@ public class WorldController implements InputProcessor
 					break;
 			}
 		}else{
-			SongController.get().setSongToRecord("song_blind_guards");
+			
 			switch(keycode){
 				case Keys.NUM_1:
 					if(!SongRecorder.get().isRecorded())
@@ -94,9 +94,15 @@ public class WorldController implements InputProcessor
 			
 			if(SongRecorder.get().isRecorded()){
 				if(SongController.get().validateSong(SongRecorder.get().getRecordedSong())){
+					Gdx.app.log("SongController", SongController.get().getSongPlayed());
 					Gdx.app.log("SongController", "success");
+					GameModel.get().setSongModeHide(true);
+					GameModel.get().setSongModeShow(false);
 				}else{
+					Gdx.app.log("SongController", SongController.get().getSongPlayed());
 					Gdx.app.log("SongController", "failed");
+					GameModel.get().setSongModeHide(true);
+					GameModel.get().setSongModeShow(false);
 				}
 			}
 		}
