@@ -1,7 +1,5 @@
 package com.me.ninja_game_prototype.controller;
 
-import java.util.TimerTask;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;

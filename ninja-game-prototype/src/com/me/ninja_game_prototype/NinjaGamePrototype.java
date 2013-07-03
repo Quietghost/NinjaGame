@@ -2,7 +2,7 @@ package com.me.ninja_game_prototype;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.FPSLogger;
-import com.me.ninja_game_prototype.helper.SongLoader;
+import com.badlogic.gdx.tools.imagepacker.TexturePacker2;
 import com.me.ninja_game_prototype.screens.GameScreen;
 
 public class NinjaGamePrototype extends Game {
@@ -12,12 +12,19 @@ public class NinjaGamePrototype extends Game {
 	public static boolean DEBUG = false;
 	public static boolean SHOW_BOUNDINGBOXES = true;
 	public static boolean SHOW_ENEMYPATHS = true;
+	public static boolean PACK_TEXTURES = false;
 	
 	FPSLogger log;
 	
 	@Override
 	public void create() {	
 		log = new FPSLogger();
+		
+		// TODO texture-packs
+		if (PACK_TEXTURES)
+		{
+			TexturePacker2.process("../ninja-game-prototype-android/assets/data/walkingman/", "../ninja-game-prototype-android/assets/data/walkingman/", "walkingman.pack");
+		}
 		
 		// TODO App-Controller here
 		setScreen(new GameScreen(this));

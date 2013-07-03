@@ -2,7 +2,6 @@ package com.me.ninja_game_prototype.controller;
 
 import com.badlogic.gdx.utils.Array;
 import com.me.ninja_game_prototype.audio.GameAudio;
-import com.me.ninja_game_prototype.helper.SongLoader;
 import com.me.ninja_game_prototype.helper.SongRecorder;
 import com.me.ninja_game_prototype.model.SongModel;
 
@@ -29,10 +28,13 @@ public class SongController {
 	private Array<String> songNotesToProve = new Array<String>();
 	
 	
-	/*Methods*/
-	private void loadSongs(){
-		SongLoader.get().loadSongs();
-	}
+	/* methods */
+	
+	// no warnings please
+	
+//	private void loadSongs(){
+//		SongLoader.get().loadSongs();
+//	}
 	
 	public boolean validateSong(Array<String> songNotes){
 		

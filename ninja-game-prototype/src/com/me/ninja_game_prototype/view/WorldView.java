@@ -17,11 +17,11 @@ import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.Polyline;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -206,7 +206,17 @@ public class WorldView
 		if(!WorldModel.get().isNight())
 			batch.draw(ninja.getTexture(), ninja.getPosition().x, ninja.getPosition().y);
 		else
-			batch.draw(ninja.getNightTexture(), ninja.getPosition().x, ninja.getPosition().y);
+		{
+			// batch.draw(ninja.getNightTexture(), ninja.getPosition().x, ninja.getPosition().y);
+			
+			
+			TextureRegion frame = ninja.getIdle();
+			if(ninja.getVelocity().x != 0 || ninja.getVelocity().y != 0)
+			{
+				frame = ninja.getWalk();
+			}
+			batch.draw(frame, ninja.getPosition().x, ninja.getPosition().y);
+		}
 		
 		for (ObstacleModel obstacle : obstacles)
 		{
@@ -266,7 +276,7 @@ public class WorldView
 			rayhandler.setAmbientLight(0, 0, 0, 0);
 			for (EnemyModel enemy: enemies)
 			{
-				p = new PointLight(rayhandler, 50, new Color(255, 255, 255, 0.2f), 100, enemy.getCenter().x, enemy.getCenter().y);
+				p = new PointLight(rayhandler, 50, new Color(255, 255, 255, 0.2f), 300, enemy.getCenter().x, enemy.getCenter().y);
 			}
 			p = new PointLight(rayhandler, 5, new Color(255, 255, 255, 1), ninja.getWidth(), ninja.getCenter().x, ninja.getCenter().y);
 		}
