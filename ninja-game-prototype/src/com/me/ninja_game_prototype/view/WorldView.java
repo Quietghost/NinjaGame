@@ -1,6 +1,5 @@
 package com.me.ninja_game_prototype.view;
 
-import java.io.IOException;
 import java.util.List;
 
 import box2dLight.PointLight;
@@ -13,8 +12,7 @@ import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
-import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
-import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
@@ -28,11 +26,11 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.me.ninja_game_prototype.NinjaGamePrototype;
+import com.me.ninja_game_prototype.controller.SongController;
 import com.me.ninja_game_prototype.helper.ShaderSettings;
 import com.me.ninja_game_prototype.model.EnemyModel;
 import com.me.ninja_game_prototype.model.ExitModel;
 import com.me.ninja_game_prototype.model.FloorModel;
-import com.me.ninja_game_prototype.model.GameModel;
 import com.me.ninja_game_prototype.model.NinjaModel;
 import com.me.ninja_game_prototype.model.ObstacleModel;
 import com.me.ninja_game_prototype.model.WallModel;
@@ -63,7 +61,11 @@ public class WorldView
 	Texture panpipe;
 	float width, height;
 	ShapeRenderer shaperenderer;
-	ParticleEmitter hit;
+	ParticleEffect hit;
+	ParticleEffect toneEffect1;
+	ParticleEffect toneEffect2;
+	ParticleEffect toneEffect3;
+	ParticleEffect toneEffect4;
 	World box2dworld;
 	ShaderProgram shader;
 	Box2DDebugRenderer box2drenderer;
@@ -112,22 +114,25 @@ public class WorldView
 		
 		shaperenderer = new ShapeRenderer();
 		
-		hit = new ParticleEmitter();
-		
-		try
-		{
-			hit.load(Gdx.files.internal("data/particle").reader(5000));
-		}
-		catch(IOException e)
-		{
-			e.printStackTrace();
-		}
-		
-		Texture hitTexture = new Texture(Gdx.files.internal("data/particle.png"));
-		Sprite sparkle = new Sprite(hitTexture);
-		hit.setSprite(sparkle);
-		hit.getScale().setHigh(10);
+		hit = new ParticleEffect();
+		hit.load(Gdx.files.internal("data/particle"), Gdx.files.internal("data"));
 		hit.start();
+		
+		toneEffect1 = new ParticleEffect();
+		toneEffect1.load(Gdx.files.internal("data/songs/tone_new"), Gdx.files.internal("data/songs"));
+		toneEffect1.start();
+		
+		toneEffect2 = new ParticleEffect();
+		toneEffect2.load(Gdx.files.internal("data/songs/tone_new"), Gdx.files.internal("data/songs"));
+		toneEffect2.start();
+		
+		toneEffect3 = new ParticleEffect();
+		toneEffect3.load(Gdx.files.internal("data/songs/tone_new"), Gdx.files.internal("data/songs"));
+		toneEffect3.start();
+		
+		toneEffect4 = new ParticleEffect();
+		toneEffect4.load(Gdx.files.internal("data/songs/tone_new"), Gdx.files.internal("data/songs"));
+		toneEffect4.start();
 		
 		RayHandler.setGammaCorrection(true);
         RayHandler.useDiffuseLight(true);
@@ -201,8 +206,6 @@ public class WorldView
 			batch.draw(ninja.getTexture(), ninja.getPosition().x, ninja.getPosition().y);
 		else
 		{
-			// batch.draw(ninja.getNightTexture(), ninja.getPosition().x, ninja.getPosition().y);
-			
 			
 			TextureRegion frame = ninja.getIdle();
 			if(ninja.getVelocity().x != 0 || ninja.getVelocity().y != 0)
@@ -275,32 +278,51 @@ public class WorldView
 		}
 		rayhandler.updateAndRender();
 		
-		
-		if(GameModel.get().isSongModeShow())
-		{
-			menuBatch.begin();
-			fadeTimeAlpha = fadeTimeAlpha + Gdx.graphics.getDeltaTime();
-			if (fadeTimeAlpha >= 1.0f)
-			{
-				fadeTimeAlpha = 1.0f;
+		batch.begin();
+		if(SongController.get().getTonePlayed() != ""){
+			
+			switch (SongController.get().getTonePlayed()){
+			
+			case "X":
+				toneEffect1.setPosition(ninja.getPosition().x + ninja.getWidth(), ninja.getPosition().y + ninja.getHeight());
+				toneEffect1.draw(batch, Gdx.graphics.getDeltaTime());
+				break;
+			case "Y":
+				toneEffect2.setPosition(ninja.getPosition().x + ninja.getWidth(), ninja.getPosition().y + ninja.getHeight());
+				toneEffect2.draw(batch, Gdx.graphics.getDeltaTime());
+				break;
+			case "A":
+				toneEffect3.setPosition(ninja.getPosition().x + ninja.getWidth(), ninja.getPosition().y + ninja.getHeight());
+				toneEffect3.draw(batch, Gdx.graphics.getDeltaTime());
+				break;
+			case "B":
+				toneEffect4.setPosition(ninja.getPosition().x + ninja.getWidth(), ninja.getPosition().y + ninja.getHeight());
+				toneEffect4.draw(batch, Gdx.graphics.getDeltaTime());
+				break;
+				
+			
 			}
-			menuBatch.setColor(1.0f, 1.0f, 1.0f, fadeTimeAlpha);
-			menuBatch.draw(panpipe, Gdx.graphics.getWidth()/2 - panpipe.getWidth()/2, 
-					Gdx.graphics.getHeight()/2 - panpipe.getHeight()/2);
-			menuBatch.end();
+		}
+		batch.end();
+		
+		if(toneEffect1.isComplete()) {
+			SongController.get().setTonePlayed("");
+			toneEffect1.reset();
 		}
 		
-		if(GameModel.get().isSongModeHide())
-		{
-			menuBatch.begin();
-			fadeTimeAlpha = fadeTimeAlpha - Gdx.graphics.getDeltaTime();
-			if (fadeTimeAlpha <= 0.0f){
-				fadeTimeAlpha = 0.0f;
-			}
-			menuBatch.setColor(1.0f, 1.0f, 1.0f, fadeTimeAlpha);
-			menuBatch.draw(panpipe, Gdx.graphics.getWidth()/2 - panpipe.getWidth()/2, 
-					Gdx.graphics.getHeight()/2 - panpipe.getHeight()/2);
-			menuBatch.end();
+		if(toneEffect2.isComplete()) {
+			SongController.get().setTonePlayed("");
+			toneEffect2.reset();
+		}
+		
+		if(toneEffect3.isComplete()) {
+			SongController.get().setTonePlayed("");
+			toneEffect3.reset();
+		}
+		
+		if(toneEffect4.isComplete()) {
+			SongController.get().setTonePlayed("");
+			toneEffect4.reset();
 		}
 		
 	}

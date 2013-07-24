@@ -9,16 +9,21 @@ import com.me.ninja_game_prototype.audio.GameAudio;
 import com.me.ninja_game_prototype.helper.SongRecorder;
 import com.me.ninja_game_prototype.model.GameModel;
 import com.me.ninja_game_prototype.model.SongModel;
+import com.me.ninja_game_prototype.model.WorldModel;
 
 public class SongController implements InputProcessor {
 	/* static */
 	
 	/* singleton */
 	private static SongController instance;
+	public static final String tone_1 = "X";
+	public static final String tone_2 = "Y";
+	public static final String tone_3 = "A";
+	public static final String tone_4 = "B";
 
 	private SongController()
 	{
-		Gdx.input.setInputProcessor(this);
+		
 	}
 
 	public static SongController get() {
@@ -32,7 +37,7 @@ public class SongController implements InputProcessor {
 	private Array<SongModel> songs = new Array<SongModel>();
 	private String songPlayed;
 	private Array<String> songNotesToProve = new Array<String>();
-	
+	private String tonePlayed = "";
 	
 	/* methods */
 	
@@ -77,6 +82,7 @@ public class SongController implements InputProcessor {
 		switch(identifier){
 			case "song_blind_guards":
 				GameAudio.playPipeSong1();
+				WorldModel.get().setNight(false);
 				break;
 			case "song_eleminate_obstacle":
 				
@@ -106,38 +112,49 @@ public class SongController implements InputProcessor {
 		this.songPlayed = songPlayed;
 	}
 	
+	public String getTonePlayed() {
+		return tonePlayed;
+	}
+
+	public void setTonePlayed(String tonePlayed) {
+		this.tonePlayed = tonePlayed;
+	}
+
 	@Override
 	public boolean keyDown(int keycode)
 	{
-		if (GameModel.get().isSongModeShow()){
+		if (GameModel.get().isSongMode()){
+			
 			switch(keycode){
 				case Keys.NUM_1:
 					if(!SongRecorder.get().isRecorded())
 						GameAudio.playPipeTune1();
 						SongRecorder.get().getRecordedSong().add("1");
+						this.setTonePlayed(tone_1);
 					break;
 				case Keys.NUM_2:
 					if(!SongRecorder.get().isRecorded())
 						GameAudio.playPipeTune2();
 						SongRecorder.get().getRecordedSong().add("2");
+						this.setTonePlayed(tone_2);
 					break;
 				case Keys.NUM_3:
 					if(!SongRecorder.get().isRecorded())
 						GameAudio.playPipeTune3();
 						SongRecorder.get().getRecordedSong().add("3");
+						this.setTonePlayed(tone_3);
 					break;
 				case Keys.NUM_4:
 					if(!SongRecorder.get().isRecorded())
 						GameAudio.playPipeTune4();
 						SongRecorder.get().getRecordedSong().add("4");
+						this.setTonePlayed(tone_4);
 					break;
 				case Keys.O:
-					if (GameModel.get().isSongModeShow()){
-						GameModel.get().setSongModeHide(true);
-						GameModel.get().setSongModeShow(false);
+					if (GameModel.get().isSongMode()){
+						GameModel.get().setSongMode(false);
 					}else{
-						GameModel.get().setSongModeHide(false);
-						GameModel.get().setSongModeShow(true);
+						GameModel.get().setSongMode(true);
 					}
 					break;
 			}
@@ -154,30 +171,28 @@ public class SongController implements InputProcessor {
 							SongController.get().replaySong(SongController.get().getSongPlayed());  
 						}
 			        }, 1f); 
-			        	
-					GameModel.get().setSongModeHide(true);
-					GameModel.get().setSongModeShow(false);
+			        
+					GameModel.get().setSongMode(false);
 				}else{
 					Gdx.app.log("SongController", SongController.get().getSongPlayed());
 					Gdx.app.log("SongController", "failed");
-					GameModel.get().setSongModeHide(true);
-					GameModel.get().setSongModeShow(false);
+					
+					GameModel.get().setSongMode(false);
 				}
 			}
 		}
 		else
 		{
 			switch(keycode){
-			case Keys.O:
-				if (GameModel.get().isSongModeShow()){
-					GameModel.get().setSongModeHide(true);
-					GameModel.get().setSongModeShow(false);
-				}else{
-					GameModel.get().setSongModeHide(false);
-					GameModel.get().setSongModeShow(true);
-				}
-				break;
-		}
+				case Keys.O:
+					if (GameModel.get().isSongMode()){
+						GameModel.get().setSongMode(false);
+					}else{
+						WorldModel.get().setNight(true);
+						GameModel.get().setSongMode(true);
+					}
+					break;
+			}
 		}
 		
 		return false;

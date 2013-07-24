@@ -1,5 +1,7 @@
 package com.me.ninja_game_prototype.screens;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.me.ninja_game_prototype.NinjaGamePrototype;
 import com.me.ninja_game_prototype.controller.NinjaController;
@@ -16,12 +18,15 @@ public class GameScreen implements Screen{
 	NinjaGamePrototype game;
 	
 	public GameScreen (NinjaGamePrototype game){
+		
+		InputMultiplexer multiplexer = new InputMultiplexer();
 		this.game = game;
 		new WorldController();
 		ConfigLoader.get().loadConfig();
-		SongController.get(); // TODO: Singelton?
+		multiplexer.addProcessor(SongController.get()); // TODO: Singelton?
 		SongLoader.get().loadSongs(); // TODO: better in SongController
-		new NinjaController();
+		multiplexer.addProcessor(new NinjaController());
+		Gdx.input.setInputProcessor(multiplexer);
 	}
 	
 	@Override

@@ -1,6 +1,5 @@
 package com.me.ninja_game_prototype.controller;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
@@ -14,7 +13,7 @@ public class NinjaController implements InputProcessor
 {
 	public NinjaController()
 	{
-		Gdx.input.setInputProcessor(this);
+		
 	}
 
 	Vector3 touch = new Vector3();
@@ -23,7 +22,7 @@ public class NinjaController implements InputProcessor
 	@Override
 	public boolean keyDown(int keycode)
 	{
-		if (!GameModel.get().isSongModeShow()){
+		if (!GameModel.get().isSongMode()){
 			WorldModel.get().getNinja().setFlagInput(2);
 			WorldModel.get().setNight(true);
 		
@@ -44,6 +43,7 @@ public class NinjaController implements InputProcessor
 					WorldModel.get().getNinja().getVelocity().x = 1;
 					break;
 			}
+		
 		}
 		
 		return false;
