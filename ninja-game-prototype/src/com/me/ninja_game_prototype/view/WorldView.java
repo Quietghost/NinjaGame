@@ -14,7 +14,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
-import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -59,7 +58,6 @@ public class WorldView
 	
 	/* instance */
 	SpriteBatch batch;
-	PolygonSpriteBatch polyBatch;
 	SpriteBatch menuBatch;
 	OrthographicCamera cam;
 	Texture panpipe;
@@ -104,9 +102,6 @@ public class WorldView
 		batch = mapRenderer.getSpriteBatch();
 		batch.setShader(shader);
 		batch.setProjectionMatrix(cam.combined);
-		
-		polyBatch = new PolygonSpriteBatch();
-		polyBatch.setProjectionMatrix(cam.combined);
 		
 		menuBatch = new SpriteBatch();
 		menuBatch.setProjectionMatrix(cam.combined);
@@ -191,7 +186,6 @@ public class WorldView
 		}
 		
 		batch.begin();
-		polyBatch.begin();
 
 		mapRenderer.renderTileLayer(floor.getLayer());
 		mapRenderer.renderTileLayer(wall.getLayer());
@@ -228,7 +222,6 @@ public class WorldView
 		}
 
 		batch.end();
-		polyBatch.end();
 		
 		if (NinjaGamePrototype.SHOW_BOUNDINGBOXES || NinjaGamePrototype.SHOW_ENEMYPATHS)
 		{

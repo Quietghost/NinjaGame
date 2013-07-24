@@ -1,18 +1,24 @@
 package com.me.ninja_game_prototype.controller;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Timer;
 import com.me.ninja_game_prototype.audio.GameAudio;
 import com.me.ninja_game_prototype.helper.SongRecorder;
+import com.me.ninja_game_prototype.model.GameModel;
 import com.me.ninja_game_prototype.model.SongModel;
 
-public class SongController {
+public class SongController implements InputProcessor {
 	/* static */
 	
 	/* singleton */
 	private static SongController instance;
 
-	private SongController() {
-		
+	private SongController()
+	{
+		Gdx.input.setInputProcessor(this);
 	}
 
 	public static SongController get() {
@@ -98,5 +104,117 @@ public class SongController {
 
 	public void setSongPlayed(String songPlayed) {
 		this.songPlayed = songPlayed;
+	}
+	
+	@Override
+	public boolean keyDown(int keycode)
+	{
+		if (GameModel.get().isSongModeShow()){
+			switch(keycode){
+				case Keys.NUM_1:
+					if(!SongRecorder.get().isRecorded())
+						GameAudio.playPipeTune1();
+						SongRecorder.get().getRecordedSong().add("1");
+					break;
+				case Keys.NUM_2:
+					if(!SongRecorder.get().isRecorded())
+						GameAudio.playPipeTune2();
+						SongRecorder.get().getRecordedSong().add("2");
+					break;
+				case Keys.NUM_3:
+					if(!SongRecorder.get().isRecorded())
+						GameAudio.playPipeTune3();
+						SongRecorder.get().getRecordedSong().add("3");
+					break;
+				case Keys.NUM_4:
+					if(!SongRecorder.get().isRecorded())
+						GameAudio.playPipeTune4();
+						SongRecorder.get().getRecordedSong().add("4");
+					break;
+				case Keys.O:
+					if (GameModel.get().isSongModeShow()){
+						GameModel.get().setSongModeHide(true);
+						GameModel.get().setSongModeShow(false);
+					}else{
+						GameModel.get().setSongModeHide(false);
+						GameModel.get().setSongModeShow(true);
+					}
+					break;
+			}
+			
+			if(SongRecorder.get().isRecorded()){
+				if(SongController.get().validateSong(SongRecorder.get().getRecordedSong())){
+					Gdx.app.log("SongController", SongController.get().getSongPlayed());
+					Gdx.app.log("SongController", "success");
+					
+					final Timer timer = new Timer();  
+			        timer.scheduleTask(new Timer.Task() {
+						@Override
+						public void run() {
+							SongController.get().replaySong(SongController.get().getSongPlayed());  
+						}
+			        }, 1f); 
+			        	
+					GameModel.get().setSongModeHide(true);
+					GameModel.get().setSongModeShow(false);
+				}else{
+					Gdx.app.log("SongController", SongController.get().getSongPlayed());
+					Gdx.app.log("SongController", "failed");
+					GameModel.get().setSongModeHide(true);
+					GameModel.get().setSongModeShow(false);
+				}
+			}
+		}
+		else
+		{
+			switch(keycode){
+			case Keys.O:
+				if (GameModel.get().isSongModeShow()){
+					GameModel.get().setSongModeHide(true);
+					GameModel.get().setSongModeShow(false);
+				}else{
+					GameModel.get().setSongModeHide(false);
+					GameModel.get().setSongModeShow(true);
+				}
+				break;
+		}
+		}
+		
+		return false;
+	}
+
+	@Override
+	public boolean keyUp(int keycode) {
+		return false;
+	}
+
+	@Override
+	public boolean keyTyped(char character) {
+		return false;
+	}
+
+	@Override
+	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+		return false;
+	}
+
+	@Override
+	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+		return false;
+	}
+
+	@Override
+	public boolean touchDragged(int screenX, int screenY, int pointer) {
+		return false;
+	}
+
+	@Override
+	public boolean mouseMoved(int screenX, int screenY) {
+		return false;
+	}
+
+	@Override
+	public boolean scrolled(int amount) {
+		return false;
 	}
 }

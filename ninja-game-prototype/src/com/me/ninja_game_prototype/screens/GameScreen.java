@@ -2,7 +2,11 @@ package com.me.ninja_game_prototype.screens;
 
 import com.badlogic.gdx.Screen;
 import com.me.ninja_game_prototype.NinjaGamePrototype;
+import com.me.ninja_game_prototype.controller.NinjaController;
+import com.me.ninja_game_prototype.controller.SongController;
 import com.me.ninja_game_prototype.controller.WorldController;
+import com.me.ninja_game_prototype.helper.ConfigLoader;
+import com.me.ninja_game_prototype.helper.SongLoader;
 import com.me.ninja_game_prototype.model.GameModel;
 import com.me.ninja_game_prototype.model.WorldModel;
 import com.me.ninja_game_prototype.view.WorldView;
@@ -14,6 +18,10 @@ public class GameScreen implements Screen{
 	public GameScreen (NinjaGamePrototype game){
 		this.game = game;
 		new WorldController();
+		ConfigLoader.get().loadConfig();
+		SongController.get(); // TODO: Singelton?
+		SongLoader.get().loadSongs(); // TODO: better in SongController
+		new NinjaController();
 	}
 	
 	@Override
