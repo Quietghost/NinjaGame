@@ -20,13 +20,15 @@ public class NinjaModel extends MovableEntity
 	private Texture nightTexture;
 
 	/** Textures **/
-	private TextureRegion idleLeft;
-	private TextureRegion idleRight;
+	private TextureRegion idlePipePlaying;
 	
 	/** Animations **/
 	private float stateTime = 0;
 	private Animation walkLeftAnimation;
 	private Animation walkRightAnimation;
+	private Animation playingPipeAnimation;
+	private Animation idleLightAnimation;
+	private Animation idleNightAnimation;
 	
 	public NinjaModel(MapObject day, MapObject night)
 	{
@@ -43,25 +45,44 @@ public class NinjaModel extends MovableEntity
 		
 		this.startPosition = new Vector2(getPosition().x, getPosition().y);
 		
-		
 		// annimated sprite
-		TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("data/walkingman/walkingman.pack"));
-		idleLeft = atlas.findRegion("01");
-		idleRight = new TextureRegion(idleLeft);
-		idleRight.flip(true, false);
-		TextureRegion[] walkLeftFrames = new TextureRegion[4];
-		for (int i = 0; i < 4; i++) {
-			walkLeftFrames[i] = atlas.findRegion("0" + (i + 2));
+		TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("data/walkingman/ninja.pack"));
+		
+		idlePipePlaying = atlas.findRegion("Ninja_JinLi_flute");
+		
+		TextureRegion[] idleLight = new TextureRegion[3];
+		for (int i = 0; i < 3; i++) {
+			idleLight[i] = atlas.findRegion("Ninja_JinLi_idle", i + 1);
+		}
+		idleLightAnimation = new Animation(RUNNING_FRAME_DURATION, idleLight);
+		
+		TextureRegion[] idleNight = new TextureRegion[3];
+		for (int i = 0; i < 3; i++) {
+			idleNight[i] = atlas.findRegion("Ninja_JinLi_dark", i + 1);
+		}
+		idleNightAnimation = new Animation(RUNNING_FRAME_DURATION, idleNight);
+		
+		TextureRegion[] walkLeftFrames = new TextureRegion[3];
+		for (int i = 0; i < 3; i++) {
+			walkLeftFrames[i] = atlas.findRegion("Ninja_JinLi_dark", i + 1);
 		}
 		walkLeftAnimation = new Animation(RUNNING_FRAME_DURATION, walkLeftFrames);
 
-		TextureRegion[] walkRightFrames = new TextureRegion[4];
+		TextureRegion[] walkRightFrames = new TextureRegion[3];
 
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < 3; i++) {
 			walkRightFrames[i] = new TextureRegion(walkLeftFrames[i]);
 			walkRightFrames[i].flip(true, false);
 		}
 		walkRightAnimation = new Animation(RUNNING_FRAME_DURATION, walkRightFrames);
+		
+		TextureRegion[] playingPipeFrames = new TextureRegion[3];
+
+		for (int i = 0; i < 3; i++) {
+			playingPipeFrames[i] = atlas.findRegion("Ninja_JinLi_flute", i + 1);
+		}
+		playingPipeAnimation = new Animation(RUNNING_FRAME_DURATION, playingPipeFrames);
+		
 	}
 
 	public void update()
@@ -150,12 +171,26 @@ public class NinjaModel extends MovableEntity
 		return getVelocity().x<0;
 	}
 
-	public TextureRegion getIdle() {
-		return facingLeft() ? idleLeft : idleRight;
+	public TextureRegion getIdleLight() {
+		return idleLightAnimation.getKeyFrame(stateTime/3, true);
+	}
+	
+	public TextureRegion getIdleNight() {
+		return idleNightAnimation.getKeyFrame(stateTime/3, true);
 	}
 
 	public TextureRegion getWalk() {
-		System.out.println(stateTime);
+		
 		return facingLeft() ? walkLeftAnimation.getKeyFrame(stateTime, true) : walkRightAnimation.getKeyFrame(stateTime, true);
+	}
+	
+	public TextureRegion getPipePlaying() {
+		
+		return playingPipeAnimation.getKeyFrame(stateTime/3, true);
+	}
+	
+	public TextureRegion getIdlePipePlaying() {
+		
+		return idlePipePlaying;
 	}
 }

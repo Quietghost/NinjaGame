@@ -23,7 +23,7 @@ public class NinjaGamePrototype extends Game {
 		// TODO texture-packs
 		if (PACK_TEXTURES)
 		{
-			TexturePacker2.process("../ninja-game-prototype-android/assets/data/walkingman/", "../ninja-game-prototype-android/assets/data/walkingman/", "walkingman.pack");
+			TexturePacker2.process("../ninja-game-prototype-android/assets/data/walkingman/", "../ninja-game-prototype-android/assets/data/walkingman/", "ninja.pack");
 		}
 		
 		// TODO App-Controller here

@@ -16,15 +16,13 @@ public class SongController implements InputProcessor {
 	
 	/* singleton */
 	private static SongController instance;
-	public static final String tone_1 = "X";
-	public static final String tone_2 = "Y";
-	public static final String tone_3 = "A";
-	public static final String tone_4 = "B";
+	public static final String tone_1 = ConfigController.get().getConfig().getToneKey(0);
+	public static final String tone_2 = ConfigController.get().getConfig().getToneKey(1);
+	public static final String tone_3 = ConfigController.get().getConfig().getToneKey(2);
+	public static final String tone_4 = ConfigController.get().getConfig().getToneKey(3);
 
 	private SongController()
-	{
-		
-	}
+	{}
 
 	public static SongController get() {
 		if (SongController.instance == null) {
@@ -39,13 +37,6 @@ public class SongController implements InputProcessor {
 	private Array<String> songNotesToProve = new Array<String>();
 	private String tonePlayed = "";
 	
-	/* methods */
-	
-	// no warnings please
-	
-//	private void loadSongs(){
-//		SongLoader.get().loadSongs();
-//	}
 	
 	public boolean validateSong(Array<String> songNotes){
 		
@@ -82,7 +73,7 @@ public class SongController implements InputProcessor {
 		switch(identifier){
 			case "song_blind_guards":
 				GameAudio.playPipeSong1();
-				WorldModel.get().setNight(false);
+				
 				break;
 			case "song_eleminate_obstacle":
 				
@@ -91,7 +82,7 @@ public class SongController implements InputProcessor {
 				
 				break;
 			case "song_make_light":
-				
+				WorldModel.get().setNight(false);
 				break;
 			case "song_teleport_me":
 				

@@ -1,4 +1,11 @@
 {
-	notesCount: 4
+	notesCount: 4,
+	toneKeys: 
+	        [
+	                "X",
+	                "Y",
+	                "A",
+	                "B"
+	        ]
 	
 }

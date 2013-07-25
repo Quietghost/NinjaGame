@@ -1,6 +1,10 @@
 package com.me.ninja_game_prototype.view;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 import box2dLight.PointLight;
 import box2dLight.RayHandler;
@@ -25,14 +29,18 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
 import com.me.ninja_game_prototype.NinjaGamePrototype;
+import com.me.ninja_game_prototype.controller.ConfigController;
 import com.me.ninja_game_prototype.controller.SongController;
 import com.me.ninja_game_prototype.helper.ShaderSettings;
 import com.me.ninja_game_prototype.model.EnemyModel;
 import com.me.ninja_game_prototype.model.ExitModel;
 import com.me.ninja_game_prototype.model.FloorModel;
+import com.me.ninja_game_prototype.model.GameModel;
 import com.me.ninja_game_prototype.model.NinjaModel;
 import com.me.ninja_game_prototype.model.ObstacleModel;
+import com.me.ninja_game_prototype.model.SongModel;
 import com.me.ninja_game_prototype.model.WallModel;
 import com.me.ninja_game_prototype.model.WorldModel;
 
@@ -62,16 +70,15 @@ public class WorldView
 	float width, height;
 	ShapeRenderer shaperenderer;
 	ParticleEffect hit;
-	ParticleEffect toneEffect1;
-	ParticleEffect toneEffect2;
-	ParticleEffect toneEffect3;
-	ParticleEffect toneEffect4;
+	ParticleEffect toneEffect;
+	List<ParticleEffect> toneEffects = new ArrayList<ParticleEffect>();
 	World box2dworld;
 	ShaderProgram shader;
 	Box2DDebugRenderer box2drenderer;
 	RayHandler rayhandler;
 	PointLight p;
 	float fadeTimeAlpha = 0;
+	int index = 0;
 	
 	OrthogonalTiledMapRenderer mapRenderer;
 	
@@ -118,22 +125,14 @@ public class WorldView
 		hit.load(Gdx.files.internal("data/particle"), Gdx.files.internal("data"));
 		hit.start();
 		
-		toneEffect1 = new ParticleEffect();
-		toneEffect1.load(Gdx.files.internal("data/songs/tone_new"), Gdx.files.internal("data/songs"));
-		toneEffect1.start();
-		
-		toneEffect2 = new ParticleEffect();
-		toneEffect2.load(Gdx.files.internal("data/songs/tone_new"), Gdx.files.internal("data/songs"));
-		toneEffect2.start();
-		
-		toneEffect3 = new ParticleEffect();
-		toneEffect3.load(Gdx.files.internal("data/songs/tone_new"), Gdx.files.internal("data/songs"));
-		toneEffect3.start();
-		
-		toneEffect4 = new ParticleEffect();
-		toneEffect4.load(Gdx.files.internal("data/songs/tone_new"), Gdx.files.internal("data/songs"));
-		toneEffect4.start();
-		
+		for(int i = 0; i < ConfigController.get().getConfig().getNotesCount();i++){
+			toneEffect = new ParticleEffect();
+			toneEffect.load(Gdx.files.internal("data/songs/tone_" + (i+1) + ".p"), Gdx.files.internal("data/songs"));
+			toneEffect.start();
+			toneEffects.add(toneEffect);
+			
+		}
+			
 		RayHandler.setGammaCorrection(true);
         RayHandler.useDiffuseLight(true);
         
@@ -202,15 +201,26 @@ public class WorldView
 		for (ObstacleModel obstacle : obstacles)
 			batch.draw(obstacle.getTexture(), obstacle.getPosition().x, obstacle.getPosition().y);
 		
-		if(!WorldModel.get().isNight())
-			batch.draw(ninja.getTexture(), ninja.getPosition().x, ninja.getPosition().y);
+		if(!WorldModel.get().isNight()){
+			TextureRegion frame = ninja.getIdleLight();
+			batch.draw(frame, ninja.getPosition().x, ninja.getPosition().y);
+		}
 		else
 		{
 			
-			TextureRegion frame = ninja.getIdle();
+			TextureRegion frame = ninja.getIdleNight();
 			if(ninja.getVelocity().x != 0 || ninja.getVelocity().y != 0)
 			{
 				frame = ninja.getWalk();
+			}
+			batch.draw(frame, ninja.getPosition().x, ninja.getPosition().y);
+		}
+		
+		if(GameModel.get().isSongMode() || SongController.get().getTonePlayed() != ""){
+			
+			TextureRegion frame = ninja.getIdlePipePlaying();
+			if(SongController.get().getTonePlayed() != ""){
+				frame = ninja.getPipePlaying();
 			}
 			batch.draw(frame, ninja.getPosition().x, ninja.getPosition().y);
 		}
@@ -281,48 +291,18 @@ public class WorldView
 		batch.begin();
 		if(SongController.get().getTonePlayed() != ""){
 			
-			switch (SongController.get().getTonePlayed()){
-			
-			case "X":
-				toneEffect1.setPosition(ninja.getPosition().x + ninja.getWidth(), ninja.getPosition().y + ninja.getHeight());
-				toneEffect1.draw(batch, Gdx.graphics.getDeltaTime());
-				break;
-			case "Y":
-				toneEffect2.setPosition(ninja.getPosition().x + ninja.getWidth(), ninja.getPosition().y + ninja.getHeight());
-				toneEffect2.draw(batch, Gdx.graphics.getDeltaTime());
-				break;
-			case "A":
-				toneEffect3.setPosition(ninja.getPosition().x + ninja.getWidth(), ninja.getPosition().y + ninja.getHeight());
-				toneEffect3.draw(batch, Gdx.graphics.getDeltaTime());
-				break;
-			case "B":
-				toneEffect4.setPosition(ninja.getPosition().x + ninja.getWidth(), ninja.getPosition().y + ninja.getHeight());
-				toneEffect4.draw(batch, Gdx.graphics.getDeltaTime());
-				break;
+			index = ConfigController.get().getConfig().getToneKeyIndex(SongController.get().getTonePlayed());
+			toneEffects.get(index).setPosition(ninja.getPosition().x + ninja.getWidth(), ninja.getPosition().y + ninja.getHeight());
+			toneEffects.get(index).draw(batch, Gdx.graphics.getDeltaTime());
 				
-			
-			}
 		}
 		batch.end();
 		
-		if(toneEffect1.isComplete()) {
-			SongController.get().setTonePlayed("");
-			toneEffect1.reset();
-		}
-		
-		if(toneEffect2.isComplete()) {
-			SongController.get().setTonePlayed("");
-			toneEffect2.reset();
-		}
-		
-		if(toneEffect3.isComplete()) {
-			SongController.get().setTonePlayed("");
-			toneEffect3.reset();
-		}
-		
-		if(toneEffect4.isComplete()) {
-			SongController.get().setTonePlayed("");
-			toneEffect4.reset();
+		for(ParticleEffect toneEffect : toneEffects){
+			if (toneEffect.isComplete()) {
+				toneEffect.reset();
+				SongController.get().setTonePlayed("");
+			}
 		}
 		
 	}

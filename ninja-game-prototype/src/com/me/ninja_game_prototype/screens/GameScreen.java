@@ -19,12 +19,14 @@ public class GameScreen implements Screen{
 	
 	public GameScreen (NinjaGamePrototype game){
 		
-		InputMultiplexer multiplexer = new InputMultiplexer();
+		ConfigLoader.get().loadConfig();
+		SongLoader.get().loadSongs(); // TODO: better in SongController
+		
 		this.game = game;
 		new WorldController();
-		ConfigLoader.get().loadConfig();
+		
+		InputMultiplexer multiplexer = new InputMultiplexer();
 		multiplexer.addProcessor(SongController.get()); // TODO: Singelton?
-		SongLoader.get().loadSongs(); // TODO: better in SongController
 		multiplexer.addProcessor(new NinjaController());
 		Gdx.input.setInputProcessor(multiplexer);
 	}
