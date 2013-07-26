@@ -8,17 +8,17 @@ public class GameAudio {
 
 	private GameAudio(){}
 	
-	public static Music song = Gdx.audio.newMusic(Gdx.files.internal("data/asian_duet.mp3"));
-	public static Sound walk = Gdx.audio.newSound(Gdx.files.internal("data/walk_wood_normalspeed.mp3"));
-	public static Sound hit = Gdx.audio.newSound(Gdx.files.internal("data/hit_ouch.mp3"));
-	public static Sound exit = Gdx.audio.newSound(Gdx.files.internal("data/celebration.mp3"));
+	public static Music song = Gdx.audio.newMusic(Gdx.files.internal("data/music/asian_duet.mp3"));
+	public static Sound walk = Gdx.audio.newSound(Gdx.files.internal("data/sounds/walk_wood_normalspeed.mp3"));
+	public static Sound hit = Gdx.audio.newSound(Gdx.files.internal("data/sounds/hit_ouch.mp3"));
+	public static Sound exit = Gdx.audio.newSound(Gdx.files.internal("data/sounds/celebration.mp3"));
 	
-	public static Sound pipeTune1 = Gdx.audio.newSound(Gdx.files.internal("data/songs/pipe_tone1.wav"));
-	public static Sound pipeTune2 = Gdx.audio.newSound(Gdx.files.internal("data/songs/pipe_tone2.wav"));
-	public static Sound pipeTune3 = Gdx.audio.newSound(Gdx.files.internal("data/songs/pipe_tone3.wav"));
-	public static Sound pipeTune4 = Gdx.audio.newSound(Gdx.files.internal("data/songs/pipe_tone4.wav"));
+	public static Sound pipeTune1 = Gdx.audio.newSound(Gdx.files.internal("data/sounds/songs/pipe_tone1.wav"));
+	public static Sound pipeTune2 = Gdx.audio.newSound(Gdx.files.internal("data/sounds/songs/pipe_tone2.wav"));
+	public static Sound pipeTune3 = Gdx.audio.newSound(Gdx.files.internal("data/sounds/songs/pipe_tone3.wav"));
+	public static Sound pipeTune4 = Gdx.audio.newSound(Gdx.files.internal("data/sounds/songs/pipe_tone4.wav"));
 	
-	public static Sound pipeSong1 = Gdx.audio.newSound(Gdx.files.internal("data/songs/pipe_song1.wav"));
+	public static Sound pipeSong1 = Gdx.audio.newSound(Gdx.files.internal("data/sounds/songs/pipe_song1.wav"));
 	
 	public static void playMusic(boolean looping){
 		song.setLooping(looping);

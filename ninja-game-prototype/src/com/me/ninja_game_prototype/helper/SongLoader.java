@@ -31,7 +31,7 @@ public class SongLoader {
 	
 	public void loadSongs(){
 		
-		FileHandle file = Gdx.files.internal("data/songs/songs.txt");
+		FileHandle file = Gdx.files.internal("data/songs_config.txt");
 		Json  json = new Json();
 		
 		JsonReader reader = new JsonReader();

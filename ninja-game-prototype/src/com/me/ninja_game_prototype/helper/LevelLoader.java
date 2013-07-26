@@ -44,7 +44,7 @@ public class LevelLoader
 		
 		try {
 			TmxMapLoader loader = new TmxMapLoader();
-	        TiledMap map = loader.load("map4.tmx");	        
+	        TiledMap map = loader.load("data/maps/map4.tmx");	        
 	        WorldModel.get().setMap(map);
 	        
 	        @SuppressWarnings("rawtypes")

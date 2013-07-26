@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.tools.imagepacker.TexturePacker2;
 import com.me.ninja_game_prototype.screens.GameScreen;
+import com.me.ninja_game_prototype.screens.SplashScreen;
 
 public class NinjaGamePrototype extends Game {
 	
@@ -23,11 +24,11 @@ public class NinjaGamePrototype extends Game {
 		// TODO texture-packs
 		if (PACK_TEXTURES)
 		{
-			TexturePacker2.process("../ninja-game-prototype-android/assets/data/walkingman/", "../ninja-game-prototype-android/assets/data/walkingman/", "ninja.pack");
+			TexturePacker2.process("../ninja-game-prototype-android/assets/data/animations/", "../ninja-game-prototype-android/assets/data/animations/", "ninja.pack");
 		}
 		
 		// TODO App-Controller here
-		setScreen(new GameScreen(this));
+		setScreen(new SplashScreen(this));
 	}
 
 	@Override

@@ -28,7 +28,7 @@ public class ConfigLoader {
 	
 public void loadConfig(){
 		
-		FileHandle file = Gdx.files.internal("data/config.txt");
+		FileHandle file = Gdx.files.internal("data/game_config.txt");
 		Json json = new Json();
 		
 		ConfigModel config = json.fromJson(ConfigModel.class, file);

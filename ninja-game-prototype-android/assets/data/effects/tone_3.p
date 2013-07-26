@@ -137,7 +137,7 @@ aligned: false
 additive: true
 behind: false
 - Image Path -
-C:\Users\user\Pictures\panpipe-notes\in\tone_4.png
+C:\Users\user\Pictures\panpipe-notes\in\tone.png
 
 
 Small
@@ -306,4 +306,4 @@ aligned: false
 additive: true
 behind: false
 - Image Path -
-C:\Users\user\Pictures\panpipe-notes\in\tone_4.png
+C:\Users\user\Pictures\panpipe-notes\in\tone.png

@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" width="20" height="15" tilewidth="32" tileheight="32">
  <tileset firstgid="1" name="map" tilewidth="32" tileheight="32">
-  <image source="data/map.png" width="640" height="480"/>
+  <image source="map.png" width="640" height="480"/>
  </tileset>
  <tileset firstgid="301" name="obstacle_1" tilewidth="32" tileheight="32">
-  <image source="data/obstacle_1.png" width="32" height="32"/>
+  <image source="obstacle_1.png" width="32" height="32"/>
  </tileset>
  <tileset firstgid="302" name="obstacle_2" tilewidth="54" tileheight="46">
-  <image source="data/obstacle_2.png" width="54" height="46"/>
+  <image source="obstacle_2.png" width="54" height="46"/>
  </tileset>
  <tileset firstgid="303" name="ninja" tilewidth="27" tileheight="31">
-  <image source="data/ninja.png" width="27" height="31"/>
+  <image source="ninja.png" width="27" height="31"/>
  </tileset>
  <tileset firstgid="304" name="eyes" tilewidth="27" tileheight="31">
-  <image source="data/eyes.png" width="27" height="31"/>
+  <image source="eyes.png" width="27" height="31"/>
  </tileset>
  <tileset firstgid="305" name="enemy" tilewidth="27" tileheight="31">
-  <image source="data/enemy.png" width="27" height="31"/>
+  <image source="enemy.png" width="27" height="31"/>
  </tileset>
  <layer name="L_Floor" width="20" height="15">
   <data encoding="base64" compression="zlib">

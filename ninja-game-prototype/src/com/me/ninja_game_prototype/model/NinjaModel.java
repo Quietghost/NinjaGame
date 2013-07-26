@@ -46,7 +46,7 @@ public class NinjaModel extends MovableEntity
 		this.startPosition = new Vector2(getPosition().x, getPosition().y);
 		
 		// annimated sprite
-		TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("data/walkingman/ninja.pack"));
+		TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("data/animations/ninja.pack"));
 		
 		idlePipePlaying = atlas.findRegion("Ninja_JinLi_flute");
 		

@@ -25,9 +25,9 @@ public class EndScreen implements Screen
 		GameAudio.stopWalk();
 		this.game = game;
 		batch = new SpriteBatch();
-		font1 = new BitmapFont(Gdx.files.internal("data/font.fnt"), false);
-		font2 = new BitmapFont(Gdx.files.internal("data/font1.fnt"), false);
-		font3 = new BitmapFont(Gdx.files.internal("data/font2.fnt"), false);
+		font1 = new BitmapFont(Gdx.files.internal("data/fonts/font.fnt"), false);
+		font2 = new BitmapFont(Gdx.files.internal("data/fonts/font1.fnt"), false);
+		font3 = new BitmapFont(Gdx.files.internal("data/fonts/font2.fnt"), false);
 		str3 = "Failed attempts: " + GameModel.get().getAttempts();
 	}
 	

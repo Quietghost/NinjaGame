@@ -83,8 +83,6 @@ public class WorldView
 	
 	OrthogonalTiledMapRenderer mapRenderer;
 	
-	Sound sound = Gdx.audio.newSound(Gdx.files.internal("data/hit_ouch.mp3"));
-
 	public void init()
 	{
 		box2drenderer = new Box2DDebugRenderer(); // TODO non debug?
@@ -99,9 +97,6 @@ public class WorldView
 		
 		// TODO do wee need this?
 		WorldModel.get().getNinja().getNightTexture().setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
-		
-		panpipe = new Texture("data/panpipe2.png");
-		panpipe.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		
 		ShaderProgram.pedantic = false;
 		shader = new ShaderProgram(ShaderSettings.VERT, ShaderSettings.FRAG);
@@ -123,12 +118,12 @@ public class WorldView
 		shaperenderer = new ShapeRenderer();
 		
 		hit = new ParticleEffect();
-		hit.load(Gdx.files.internal("data/particle"), Gdx.files.internal("data"));
+		hit.load(Gdx.files.internal("data/effects/particle"), Gdx.files.internal("data/effects"));
 		hit.start();
 		
 		for(int i = 0; i < ConfigController.get().getConfig().getNotesCount();i++){
 			toneEffect = new ParticleEffect();
-			toneEffect.load(Gdx.files.internal("data/songs/tone_" + (i+1) + ".p"), Gdx.files.internal("data/songs"));
+			toneEffect.load(Gdx.files.internal("data/effects/tone_" + (i+1) + ".p"), Gdx.files.internal("data/effects"));
 			toneEffect.start();
 			toneEffects.add(toneEffect);
 			
