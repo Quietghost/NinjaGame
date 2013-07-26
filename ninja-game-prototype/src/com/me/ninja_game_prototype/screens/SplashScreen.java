@@ -15,7 +15,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.me.ninja_game_prototype.NinjaGamePrototype;
-import com.me.ninja_game_prototype.audio.GameAudio;
+import com.me.ninja_game_prototype.controller.WorldController;
 import com.me.ninja_game_prototype.view.tween.SpriteTween;
 
 public class SplashScreen implements Screen{
@@ -51,7 +51,7 @@ public class SplashScreen implements Screen{
 
 	@Override
 	public void show() {
-		GameAudio.playMusic(true);
+		WorldController.playMusic(true);
 		splashTexture = new Texture("data/splashScreen.png");
 		splashTexture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		

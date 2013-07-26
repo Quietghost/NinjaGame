@@ -28,7 +28,7 @@ public class NinjaGamePrototype extends Game {
 		}
 		
 		// TODO App-Controller here
-		setScreen(new SplashScreen(this));
+		setScreen(new GameScreen(this));
 	}
 
 	@Override

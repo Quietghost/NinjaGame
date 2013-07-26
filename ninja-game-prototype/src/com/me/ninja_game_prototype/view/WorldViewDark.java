@@ -44,29 +44,27 @@ import com.me.ninja_game_prototype.model.SongModel;
 import com.me.ninja_game_prototype.model.WallModel;
 import com.me.ninja_game_prototype.model.WorldModel;
 
-public class WorldView
+public class WorldViewDark
 {
 	/* static */
 	
 	/* singleton */
-	private static WorldView instance;
+	private static WorldViewDark instance;
 
-	private WorldView() {}
+	private WorldViewDark() {}
 
-	public static WorldView get()
+	public static WorldViewDark get()
 	{
-		if (WorldView.instance == null)
+		if (WorldViewDark.instance == null)
 		{
-			WorldView.instance = new WorldView();
+			WorldViewDark.instance = new WorldViewDark();
 		}
-		return WorldView.instance;
+		return WorldViewDark.instance;
 	}
 	
 	/* instance */
 	SpriteBatch batch;
-	SpriteBatch menuBatch;
 	OrthographicCamera cam;
-	Texture panpipe;
 	float width, height;
 	ShapeRenderer shaperenderer;
 	ParticleEffect hit;
@@ -95,9 +93,6 @@ public class WorldView
 		cam.setToOrtho(false, width, height);
 		cam.update();
 		
-		// TODO do wee need this?
-		WorldModel.get().getNinja().getNightTexture().setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
-		
 		ShaderProgram.pedantic = false;
 		shader = new ShaderProgram(ShaderSettings.VERT, ShaderSettings.FRAG);
 		
@@ -107,9 +102,6 @@ public class WorldView
 		batch = mapRenderer.getSpriteBatch();
 		batch.setShader(shader);
 		batch.setProjectionMatrix(cam.combined);
-		
-		menuBatch = new SpriteBatch();
-		menuBatch.setProjectionMatrix(cam.combined);
 		
 		shader.begin();
 		shader.setUniformf("resolution", Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -197,21 +189,16 @@ public class WorldView
 		for (ObstacleModel obstacle : obstacles)
 			batch.draw(obstacle.getTexture(), obstacle.getPosition().x, obstacle.getPosition().y);
 		
-		if(!WorldModel.get().isNight()){
-			frame = ninja.getIdleLight();
+		
+		if(!GameModel.get().isSongMode() && SongController.get().getTonePlayed() == ""){
+			frame = ninja.getIdleNight();
+			if(ninja.getVelocity().x != 0 || ninja.getVelocity().y != 0)
+			{
+				frame = ninja.getWalk();
+			}
 			batch.draw(frame, ninja.getPosition().x, ninja.getPosition().y);
 		}
-		else
-		{
-			if(!GameModel.get().isSongMode() && SongController.get().getTonePlayed() == ""){
-				frame = ninja.getIdleNight();
-				if(ninja.getVelocity().x != 0 || ninja.getVelocity().y != 0)
-				{
-					frame = ninja.getWalk();
-				}
-				batch.draw(frame, ninja.getPosition().x, ninja.getPosition().y);
-			}
-		}
+		
 		
 		if(GameModel.get().isSongMode() || SongController.get().getTonePlayed() != ""){
 			
@@ -269,20 +256,14 @@ public class WorldView
 
 		
 		rayhandler.removeAll();
-		if(!WorldModel.get().isNight())
+		
+		rayhandler.setAmbientLight(0, 0, 0, 0);
+		for (EnemyModel enemy: enemies)
 		{
-			p = new PointLight(rayhandler, 1000, Color.WHITE, 700, 0, height);
-			rayhandler.setAmbientLight(0.2f, 0.2f, 0.2f, 0.1f);
+			p = new PointLight(rayhandler, 50, new Color(255, 255, 255, 0.2f), 300, enemy.getCenter().x, enemy.getCenter().y);
 		}
-		else
-		{
-			rayhandler.setAmbientLight(0, 0, 0, 0);
-			for (EnemyModel enemy: enemies)
-			{
-				p = new PointLight(rayhandler, 50, new Color(255, 255, 255, 0.2f), 300, enemy.getCenter().x, enemy.getCenter().y);
-			}
-			p = new PointLight(rayhandler, 5, new Color(255, 255, 255, 1), ninja.getWidth(), ninja.getCenter().x, ninja.getCenter().y);
-		}
+		p = new PointLight(rayhandler, 5, new Color(255, 255, 255, 1), ninja.getWidth(), ninja.getCenter().x, ninja.getCenter().y);
+		
 		rayhandler.updateAndRender();
 		
 		batch.begin();

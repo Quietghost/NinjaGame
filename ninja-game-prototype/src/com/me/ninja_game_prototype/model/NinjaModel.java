@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Vector2;
-import com.me.ninja_game_prototype.audio.GameAudio;
+import com.me.ninja_game_prototype.controller.NinjaController;
 import com.me.ninja_game_prototype.helper.MapObjectDateGatherer;
 
 public class NinjaModel extends MovableEntity
@@ -102,7 +102,7 @@ public class NinjaModel extends MovableEntity
 				}else{
 					setPosition(new Vector2(getGoal().x - getBounds().width/2, goal.y - getBounds().height/2));
 					setVelocity(new Vector2(0, 0));
-					GameAudio.stopWalk();
+					NinjaController.stopWalk();
 				}
 				break;
 			case 2:

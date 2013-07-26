@@ -6,7 +6,8 @@ import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.me.ninja_game_prototype.NinjaGamePrototype;
-import com.me.ninja_game_prototype.audio.GameAudio;
+import com.me.ninja_game_prototype.controller.NinjaController;
+import com.me.ninja_game_prototype.controller.WorldController;
 import com.me.ninja_game_prototype.model.GameModel;
 
 public class EndScreen implements Screen
@@ -22,7 +23,8 @@ public class EndScreen implements Screen
 	
 	
 	public EndScreen(NinjaGamePrototype game){
-		GameAudio.stopWalk();
+		NinjaController.stopWalk();
+		WorldController.playExit();
 		this.game = game;
 		batch = new SpriteBatch();
 		font1 = new BitmapFont(Gdx.files.internal("data/fonts/font.fnt"), false);

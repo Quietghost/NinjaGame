@@ -7,7 +7,7 @@ import java.util.Observable;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.me.ninja_game_prototype.NinjaGamePrototype;
-import com.me.ninja_game_prototype.audio.GameAudio;
+import com.me.ninja_game_prototype.controller.NinjaController;
 
 public class WorldModel extends Observable
 {
@@ -125,7 +125,7 @@ public class WorldModel extends Observable
 				
 				if (obstacle.isRumble() && obstacle.isAudioFlag())
 				{
-					GameAudio.hitObstacle();
+					NinjaController.hitObstacle();
 					if (NinjaGamePrototype.DEBUG) Gdx.app.log(NinjaGamePrototype.LOG, "Hit 1!! ");
 					obstacle.setAudioFlag(false);
 				}
@@ -152,7 +152,7 @@ public class WorldModel extends Observable
 					GameModel.get().addAttempt();
 				}
 				
-				GameAudio.hitObstacle();
+				NinjaController.hitObstacle();
 				if (NinjaGamePrototype.DEBUG) Gdx.app.log(NinjaGamePrototype.LOG, "Hit 2!! ");
 			}
 		}

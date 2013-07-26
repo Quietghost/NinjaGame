@@ -5,7 +5,6 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Timer;
-import com.me.ninja_game_prototype.audio.GameAudio;
 import com.me.ninja_game_prototype.helper.SongRecorder;
 import com.me.ninja_game_prototype.model.GameModel;
 import com.me.ninja_game_prototype.model.SongModel;
@@ -16,10 +15,10 @@ public class SongController implements InputProcessor {
 	
 	/* singleton */
 	private static SongController instance;
-	public static final String tone_1 = ConfigController.get().getConfig().getToneKey(0);
-	public static final String tone_2 = ConfigController.get().getConfig().getToneKey(1);
-	public static final String tone_3 = ConfigController.get().getConfig().getToneKey(2);
-	public static final String tone_4 = ConfigController.get().getConfig().getToneKey(3);
+	static final String tone_1 = ConfigController.get().getConfig().getToneKey(0);
+	static final String tone_2 = ConfigController.get().getConfig().getToneKey(1);
+	static final String tone_3 = ConfigController.get().getConfig().getToneKey(2);
+	static final String tone_4 = ConfigController.get().getConfig().getToneKey(3);
 
 	private SongController()
 	{}
@@ -72,7 +71,7 @@ public class SongController implements InputProcessor {
 		
 		switch(identifier){
 			case "song_blind_guards":
-				GameAudio.playPipeSong1();
+				NinjaController.playPipeSong1();
 				
 				break;
 			case "song_eleminate_obstacle":
@@ -119,28 +118,28 @@ public class SongController implements InputProcessor {
 			switch(keycode){
 				case Keys.NUM_1:
 					if(!SongRecorder.get().isRecorded() && this.getTonePlayed() == ""){
-						GameAudio.playPipeTune1();
+						NinjaController.playPipeTune1();
 						SongRecorder.get().getRecordedSong().add("1");
 						this.setTonePlayed(tone_1);
 					}
 					break;
 				case Keys.NUM_2:
 					if(!SongRecorder.get().isRecorded() && this.getTonePlayed() == ""){
-						GameAudio.playPipeTune2();
+						NinjaController.playPipeTune2();
 						SongRecorder.get().getRecordedSong().add("2");
 						this.setTonePlayed(tone_2);
 					}
 					break;
 				case Keys.NUM_3:
 					if(!SongRecorder.get().isRecorded() && this.getTonePlayed() == ""){
-						GameAudio.playPipeTune3();
+						NinjaController.playPipeTune3();
 						SongRecorder.get().getRecordedSong().add("3");
 						this.setTonePlayed(tone_3);
 					}
 					break;
 				case Keys.NUM_4:
 					if(!SongRecorder.get().isRecorded() && this.getTonePlayed() == ""){
-						GameAudio.playPipeTune4();
+						NinjaController.playPipeTune4();
 						SongRecorder.get().getRecordedSong().add("4");
 						this.setTonePlayed(tone_4);
 					}
