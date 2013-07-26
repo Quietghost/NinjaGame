@@ -118,32 +118,37 @@ public class SongController implements InputProcessor {
 			
 			switch(keycode){
 				case Keys.NUM_1:
-					if(!SongRecorder.get().isRecorded())
+					if(!SongRecorder.get().isRecorded() && this.getTonePlayed() == ""){
 						GameAudio.playPipeTune1();
 						SongRecorder.get().getRecordedSong().add("1");
 						this.setTonePlayed(tone_1);
+					}
 					break;
 				case Keys.NUM_2:
-					if(!SongRecorder.get().isRecorded())
+					if(!SongRecorder.get().isRecorded() && this.getTonePlayed() == ""){
 						GameAudio.playPipeTune2();
 						SongRecorder.get().getRecordedSong().add("2");
 						this.setTonePlayed(tone_2);
+					}
 					break;
 				case Keys.NUM_3:
-					if(!SongRecorder.get().isRecorded())
+					if(!SongRecorder.get().isRecorded() && this.getTonePlayed() == ""){
 						GameAudio.playPipeTune3();
 						SongRecorder.get().getRecordedSong().add("3");
 						this.setTonePlayed(tone_3);
+					}
 					break;
 				case Keys.NUM_4:
-					if(!SongRecorder.get().isRecorded())
+					if(!SongRecorder.get().isRecorded() && this.getTonePlayed() == ""){
 						GameAudio.playPipeTune4();
 						SongRecorder.get().getRecordedSong().add("4");
 						this.setTonePlayed(tone_4);
+					}
 					break;
 				case Keys.O:
 					if (GameModel.get().isSongMode()){
 						GameModel.get().setSongMode(false);
+						this.resetSongPlaying();
 					}else{
 						GameModel.get().setSongMode(true);
 					}
@@ -187,6 +192,12 @@ public class SongController implements InputProcessor {
 		}
 		
 		return false;
+	}
+
+	public void resetSongPlaying() {
+		this.setTonePlayed("");
+		SongRecorder.get().getRecordedSong().clear();
+		
 	}
 
 	@Override

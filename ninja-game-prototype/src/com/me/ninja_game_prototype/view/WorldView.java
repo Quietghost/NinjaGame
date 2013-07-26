@@ -79,6 +79,7 @@ public class WorldView
 	PointLight p;
 	float fadeTimeAlpha = 0;
 	int index = 0;
+	TextureRegion frame;
 	
 	OrthogonalTiledMapRenderer mapRenderer;
 	
@@ -202,23 +203,24 @@ public class WorldView
 			batch.draw(obstacle.getTexture(), obstacle.getPosition().x, obstacle.getPosition().y);
 		
 		if(!WorldModel.get().isNight()){
-			TextureRegion frame = ninja.getIdleLight();
+			frame = ninja.getIdleLight();
 			batch.draw(frame, ninja.getPosition().x, ninja.getPosition().y);
 		}
 		else
 		{
-			
-			TextureRegion frame = ninja.getIdleNight();
-			if(ninja.getVelocity().x != 0 || ninja.getVelocity().y != 0)
-			{
-				frame = ninja.getWalk();
+			if(!GameModel.get().isSongMode() && SongController.get().getTonePlayed() == ""){
+				frame = ninja.getIdleNight();
+				if(ninja.getVelocity().x != 0 || ninja.getVelocity().y != 0)
+				{
+					frame = ninja.getWalk();
+				}
+				batch.draw(frame, ninja.getPosition().x, ninja.getPosition().y);
 			}
-			batch.draw(frame, ninja.getPosition().x, ninja.getPosition().y);
 		}
 		
 		if(GameModel.get().isSongMode() || SongController.get().getTonePlayed() != ""){
 			
-			TextureRegion frame = ninja.getIdlePipePlaying();
+			frame = ninja.getIdlePipePlaying();
 			if(SongController.get().getTonePlayed() != ""){
 				frame = ninja.getPipePlaying();
 			}
