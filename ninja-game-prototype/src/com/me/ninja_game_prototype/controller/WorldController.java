@@ -5,6 +5,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.me.ninja_game_prototype.helper.LevelLoader;
+import com.me.ninja_game_prototype.view.WorldView;
 import com.me.ninja_game_prototype.view.WorldViewDark;
 import com.me.ninja_game_prototype.view.WorldViewLight;
 
@@ -16,7 +17,6 @@ public class WorldController
 	
 	public WorldController()
 	{
-		
 		LevelLoader.get().loadLevel(0);
 		WorldViewLight.get().init();
 		WorldViewDark.get().init();
