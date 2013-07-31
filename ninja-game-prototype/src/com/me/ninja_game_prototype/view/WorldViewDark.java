@@ -67,13 +67,17 @@ public class WorldViewDark extends WorldView
 		mapRenderer.renderTileLayer(exit.getLayer());
 		
 		for (EnemyModel enemy: enemies)
+		{
 			batch.draw(enemy.getTexture(), enemy.getPosition().x, enemy.getPosition().y);
+		}
 		
 		for (ObstacleModel obstacle : obstacles)
+		{
 			batch.draw(obstacle.getTexture(), obstacle.getPosition().x, obstacle.getPosition().y);
+		}
 		
-		
-		if(!GameModel.get().isSongMode() && SongController.get().getTonePlayed() == ""){
+		if(!GameModel.get().isSongMode() && SongController.get().getTonePlayed() == "")
+		{
 			frame = ninja.getIdleNight();
 			if(ninja.getVelocity().x != 0 || ninja.getVelocity().y != 0)
 			{
@@ -81,9 +85,9 @@ public class WorldViewDark extends WorldView
 			}
 			batch.draw(frame, ninja.getPosition().x, ninja.getPosition().y);
 		}
-		
-		
-		if(GameModel.get().isSongMode() || SongController.get().getTonePlayed() != ""){
+				
+		if(GameModel.get().isSongMode() || SongController.get().getTonePlayed() != "")
+		{
 			
 			frame = ninja.getIdlePipePlaying();
 			if(SongController.get().getTonePlayed() != ""){
@@ -150,16 +154,18 @@ public class WorldViewDark extends WorldView
 		rayhandler.updateAndRender();
 		
 		batch.begin();
-		if(SongController.get().getTonePlayed() != ""){
+		if(SongController.get().getTonePlayed() != "")
+		{
 			
 			index = ConfigController.get().getConfig().getToneKeyIndex(SongController.get().getTonePlayed());
 			toneEffects.get(index).setPosition(ninja.getPosition().x + ninja.getWidth(), ninja.getPosition().y + ninja.getHeight());
 			toneEffects.get(index).draw(batch, Gdx.graphics.getDeltaTime());
-				
 		}
+		
 		batch.end();
 		
-		for(ParticleEffect toneEffect : toneEffects){
+		for(ParticleEffect toneEffect : toneEffects)
+		{
 			if (toneEffect.isComplete()) {
 				toneEffect.reset();
 				SongController.get().setTonePlayed("");
@@ -170,6 +176,7 @@ public class WorldViewDark extends WorldView
 	
 	public void dispose()
 	{
+		// TODO: dispose
 		batch.dispose();
 //		ninjaTexture.dispose();
 //		obstacleTexture1.dispose();

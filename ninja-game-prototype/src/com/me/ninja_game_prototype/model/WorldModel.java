@@ -31,6 +31,7 @@ public class WorldModel extends Observable
 	
 	/* instance */
 	private TiledMap map;
+	private List<SpezialFloorModel> spezialfloors = new ArrayList<SpezialFloorModel>();
 	private List<ObstacleModel> obstacles = new ArrayList<ObstacleModel>();
 	private List<EnemyModel> enemies = new ArrayList<EnemyModel>();
 	private ExitModel exit;
@@ -196,5 +197,20 @@ public class WorldModel extends Observable
 	public void removeEnemy(EnemyModel enemy)
 	{
 		this.enemies.remove(enemy);
+	}
+
+	public List<SpezialFloorModel> getSpezialFloors()
+	{
+		return spezialfloors;
+	}
+
+	public void addSpezialFloor(SpezialFloorModel spezialfloor)
+	{
+		this.spezialfloors.add(spezialfloor);
+	}
+	
+	public void removeSpezialFloor(SpezialFloorModel spezialfloor)
+	{
+		this.spezialfloors.remove(spezialfloor);
 	}
 }

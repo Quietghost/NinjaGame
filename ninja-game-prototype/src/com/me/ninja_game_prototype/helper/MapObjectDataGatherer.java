@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.me.ninja_game_prototype.model.Entity;
 import com.me.ninja_game_prototype.model.WorldModel;
 
-public class MapObjectDateGatherer
+public class MapObjectDataGatherer
 {
 	public static void gather(MapObject source, Entity destination)
 	{

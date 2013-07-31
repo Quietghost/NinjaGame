@@ -16,6 +16,7 @@ import com.me.ninja_game_prototype.model.ExitModel;
 import com.me.ninja_game_prototype.model.FloorModel;
 import com.me.ninja_game_prototype.model.NinjaModel;
 import com.me.ninja_game_prototype.model.ObstacleModel;
+import com.me.ninja_game_prototype.model.SpezialFloorModel;
 import com.me.ninja_game_prototype.model.WallModel;
 import com.me.ninja_game_prototype.model.WorldModel;
 
@@ -44,7 +45,7 @@ public class LevelLoader
 		
 		try {
 			TmxMapLoader loader = new TmxMapLoader();
-	        TiledMap map = loader.load("data/maps/map4.tmx");	        
+	        TiledMap map = loader.load("data/maps/map5.tmx");	        
 	        WorldModel.get().setMap(map);
 	        
 	        @SuppressWarnings("rawtypes")
@@ -53,6 +54,15 @@ public class LevelLoader
 	        WorldModel.get().setExit(new ExitModel((TiledMapTileLayer) map.getLayers().get("L_Exit")));
 	        WorldModel.get().setFloor(new FloorModel((TiledMapTileLayer) map.getLayers().get("L_Floor")));
 	        WorldModel.get().setWall(new WallModel((TiledMapTileLayer) map.getLayers().get("L_Wall")));
+	        
+	        // load floors
+	        MapLayer spezialfloors = map.getLayers().get("O_Floors");
+	        it = spezialfloors.getObjects().iterator();
+	        while (it.hasNext())
+	        {
+	        	PolygonMapObject mo = (PolygonMapObject) it.next();
+	        	WorldModel.get().addSpezialFloor(new SpezialFloorModel(mo.getName(), mo.getPolygon()));
+			}
 	        
 	        // load obstacles
 	        MapLayer obstacles = map.getLayers().get("O_Obstacles");

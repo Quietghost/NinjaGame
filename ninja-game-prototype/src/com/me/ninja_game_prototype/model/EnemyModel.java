@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
-import com.me.ninja_game_prototype.helper.MapObjectDateGatherer;
+import com.me.ninja_game_prototype.helper.MapObjectDataGatherer;
 
 public class EnemyModel extends MovableEntity
 {
@@ -15,7 +15,7 @@ public class EnemyModel extends MovableEntity
 	public EnemyModel(MapObject o, Polygon path)
 	{
 		super(0, new Vector2(0,0), 0, 0);
-		MapObjectDateGatherer.gather(o, this);
+		MapObjectDataGatherer.gather(o, this);
 		setSpeed(30);
 		
 		this.path = path; 

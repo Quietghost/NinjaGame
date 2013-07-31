@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Vector2;
 import com.me.ninja_game_prototype.controller.NinjaController;
-import com.me.ninja_game_prototype.helper.MapObjectDateGatherer;
+import com.me.ninja_game_prototype.helper.MapObjectDataGatherer;
 
 public class NinjaModel extends MovableEntity
 {
@@ -34,11 +34,11 @@ public class NinjaModel extends MovableEntity
 	{
 		super(0, new Vector2(0,0), 0, 0);
 		
-		MapObjectDateGatherer.gather(night, this);
+		MapObjectDataGatherer.gather(night, this);
 		this.nightTexture = getTexture();
 		
 		float w = getWidth(); float h = getHeight();
-		MapObjectDateGatherer.gather(day, this);
+		MapObjectDataGatherer.gather(day, this);
 		
 		// Do ninja textures day and night have different dimensions?
 		if (getWidth()!=w || getHeight()!=h) System.exit(0);

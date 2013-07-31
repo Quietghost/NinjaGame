@@ -2,7 +2,7 @@ package com.me.ninja_game_prototype.model;
 
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Vector2;
-import com.me.ninja_game_prototype.helper.MapObjectDateGatherer;
+import com.me.ninja_game_prototype.helper.MapObjectDataGatherer;
 
 public class ObstacleModel extends Entity
 {
@@ -13,7 +13,7 @@ public class ObstacleModel extends Entity
 	public ObstacleModel(MapObject o)
 	{
 		super(new Vector2(0,0), 0, 0);
-		MapObjectDateGatherer.gather(o, this);
+		MapObjectDataGatherer.gather(o, this);
 	}
 
 	public void update()
