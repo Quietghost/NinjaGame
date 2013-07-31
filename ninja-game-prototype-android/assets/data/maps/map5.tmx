@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="20" height="15" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="map" tilewidth="32" tileheight="32">
+  <image source="map.png" width="640" height="480"/>
+ </tileset>
+ <tileset firstgid="301" name="obstacle_1" tilewidth="32" tileheight="32">
+  <image source="obstacle_1.png" width="32" height="32"/>
+ </tileset>
+ <tileset firstgid="302" name="obstacle_2" tilewidth="54" tileheight="46">
+  <image source="obstacle_2.png" width="54" height="46"/>
+ </tileset>
+ <tileset firstgid="303" name="ninja" tilewidth="27" tileheight="31">
+  <image source="ninja.png" width="27" height="31"/>
+ </tileset>
+ <tileset firstgid="304" name="eyes" tilewidth="27" tileheight="31">
+  <image source="eyes.png" width="27" height="31"/>
+ </tileset>
+ <tileset firstgid="305" name="enemy" tilewidth="27" tileheight="31">
+  <image source="enemy.png" width="27" height="31"/>
+ </tileset>
+ <layer name="L_Floor" width="20" height="15">
+  <data encoding="base64" compression="zlib">
+   eJyt0UWIEFAUQNEZXditM3YH2J1gd4LdCXYn2J1gd4LdCXYn2J1gdy7s9szuu5/HO4u/+HfzIiJif6KIJi3pSE8GMpKJzGQhK9nITg5ykovc5Al6eclHfgpQkEIUpghFKUZxSlCSUpSmDGUpF/TKU4GKVKIyVahKNapTg5rUojZ1qEs96tMg6DWkEY1pQlOa0ZwWtKQVrWlDW9rRng50pFPQ60wXutKN7vSgJ73oTR/60o/+DGAggxjMkKA3lGEMZwQjGcVoxjCWcYxnAhOZxGSmMJVpQW86M5jJLGYzh7nMYz4LWMgiFrOEpSxjOSuC3kpWsZo1rGUd69nARjaxmS1sZRvb2cFOdgW93exhL/vYzwEOcojDHOEoxzjOCU5yitOcCXpnOcd5LnCRS1zmCle5xnVucJNb3OYOd7kX9O7zgIc84jFPeMoznvOCl7ziNW94yzve8yHoxdztI5/4zBe+8o3v/OAnv/jNH/7GfIy0xCFu5P+9eN7xSUBCEpGYJCQlGclJQUpSkZo0RBEd9GJz/gHZxHO3
+  </data>
+ </layer>
+ <layer name="L_Exit" width="20" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUYAMnqGzeHSqbNxIBAFbeAaU=
+  </data>
+ </layer>
+ <layer name="L_Wall" width="20" height="15">
+  <data encoding="base64" compression="zlib">
+   eJyt09kRwVAAheF7iZ3YZ+wktgQl0AM90EPSQ9IDPVCEIvRAB/70cM7M9/q/HWuMySEPBwUUUUIZFVRRQx0NuGiihTY66KKHvtEtQCjsHXES9s64CHtX3IS9CLGwlyAV9u54CHtPvIS9bG9x7yNsffET9hzL/62uN6A1xAhjTDDFDHMs4MHHEiusscEWAULssMcBfyCeDkE=
+  </data>
+ </layer>
+ <objectgroup name="O_Obstacles" width="20" height="15">
+  <object name="Box_1" gid="301" x="280" y="200">
+   <properties>
+    <property name="gid" value="301"/>
+   </properties>
+  </object>
+  <object name="Cabinet_1" gid="302" x="192" y="343">
+   <properties>
+    <property name="gid" value="302"/>
+   </properties>
+  </object>
+  <object name="Cabinet_2" gid="302" x="464" y="244">
+   <properties>
+    <property name="gid" value="302"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="O_Ninja" width="20" height="15">
+  <object name="day" gid="303" x="238" y="88">
+   <properties>
+    <property name="gid" value="303"/>
+   </properties>
+  </object>
+  <object name="night" gid="304" x="238" y="88">
+   <properties>
+    <property name="gid" value="304"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="O_Enemies" width="20" height="15">
+  <object name="Enemy_1" gid="305" x="284" y="326">
+   <properties>
+    <property name="gid" value="305"/>
+   </properties>
+  </object>
+  <object name="Enemy_2" gid="305" x="582" y="414">
+   <properties>
+    <property name="gid" value="305"/>
+   </properties>
+  </object>
+  <object name="Enemy_3" gid="305" x="282" y="241">
+   <properties>
+    <property name="gid" value="305"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="O_Enemies_Path" width="20" height="15">
+  <object name="Enemy_1" x="284" y="326">
+   <polygon points="0,0 -6,29 -40,38 -99,38 -129,17 -127,-23 -103,-56 -50,-58 -9,-31"/>
+  </object>
+  <object name="Enemy_2" x="582" y="414">
+   <polygon points="0,6 -531,13 -525,-2 -8,-7"/>
+  </object>
+ </objectgroup>
+ <objectgroup name="O_Floors" width="20" height="15">
+  <object name="Stone_1" x="347" y="58">
+   <polygon points="0,0 86,-7 76,375 -13,379"/>
+  </object>
+ </objectgroup>
+</map>
