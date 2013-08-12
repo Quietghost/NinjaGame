@@ -11,8 +11,7 @@ import com.me.ninja_game_prototype.helper.ConfigLoader;
 import com.me.ninja_game_prototype.helper.SongLoader;
 import com.me.ninja_game_prototype.model.GameModel;
 import com.me.ninja_game_prototype.model.WorldModel;
-import com.me.ninja_game_prototype.view.WorldViewDark;
-import com.me.ninja_game_prototype.view.WorldViewLight;
+import com.me.ninja_game_prototype.view.WorldView;
 
 public class GameScreen implements Screen{
 
@@ -37,11 +36,8 @@ public class GameScreen implements Screen{
 	{
 		if(!GameModel.get().isGameEnd()){
 			WorldModel.get().update();
-			if (WorldModel.get().isNight()){
-				WorldViewDark.get().render();
-			}else{
-				WorldViewLight.get().render();
-			}
+			WorldView.get().render();
+			
 		}else{
 			game.setScreen(new EndScreen(game));
 		}
@@ -75,7 +71,7 @@ public class GameScreen implements Screen{
 	@Override
 	public void dispose() {
 		WorldModel.get().dispose();
-		WorldViewLight.get().dispose();
+		WorldView.get().dispose();
 	}
 
 }

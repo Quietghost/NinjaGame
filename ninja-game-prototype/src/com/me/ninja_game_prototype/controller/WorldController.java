@@ -4,8 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.me.ninja_game_prototype.helper.LevelLoader;
-import com.me.ninja_game_prototype.view.WorldViewDark;
-import com.me.ninja_game_prototype.view.WorldViewLight;
+import com.me.ninja_game_prototype.view.WorldView;
 
 public class WorldController
 {
@@ -16,8 +15,7 @@ public class WorldController
 	public WorldController()
 	{
 		LevelLoader.get().loadLevel(0);
-		WorldViewLight.get().init();
-		WorldViewDark.get().init();
+		WorldView.get().init();
 	}
 	
 	public static void playMusic(boolean looping){

@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.me.ninja_game_prototype.model.GameModel;
 import com.me.ninja_game_prototype.model.WorldModel;
-import com.me.ninja_game_prototype.view.WorldViewLight;
+import com.me.ninja_game_prototype.view.WorldView;
 
 public class NinjaController implements InputProcessor
 {
@@ -102,7 +102,7 @@ public class NinjaController implements InputProcessor
 			WorldModel.get().setNight(true);
 			
 			touch.set(screenX,screenY,0);
-			WorldViewLight.get().getCam().unproject(touch);
+			WorldView.get().getCam().unproject(touch);
 			vect2Touch.set(touch.x,touch.y);
 			
 			WorldModel.get().getNinja().setGoal(new Vector2(vect2Touch));
