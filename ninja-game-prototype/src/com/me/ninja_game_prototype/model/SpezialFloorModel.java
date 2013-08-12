@@ -9,7 +9,7 @@ public class SpezialFloorModel
 	
 	private String type;
 	
-	public SpezialFloorModel(String name,Polygon area)
+	public SpezialFloorModel(String name, Polygon area)
 	{
 		String[] tmp = name.split("_");
 		

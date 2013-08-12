@@ -10,6 +10,7 @@ import com.me.ninja_game_prototype.controller.WorldController;
 import com.me.ninja_game_prototype.helper.ConfigLoader;
 import com.me.ninja_game_prototype.helper.SongLoader;
 import com.me.ninja_game_prototype.model.GameModel;
+import com.me.ninja_game_prototype.model.SongModel;
 import com.me.ninja_game_prototype.model.WorldModel;
 import com.me.ninja_game_prototype.view.WorldView;
 
@@ -20,13 +21,12 @@ public class GameScreen implements Screen{
 	public GameScreen (NinjaGamePrototype game){
 		
 		ConfigLoader.get().loadConfig();
-		SongLoader.get().loadSongs(); // TODO: better in SongController
-		
+				
 		this.game = game;
 		new WorldController();
 		
 		InputMultiplexer multiplexer = new InputMultiplexer();
-		multiplexer.addProcessor(SongController.get()); // TODO: Singelton?
+		multiplexer.addProcessor(new SongController());
 		multiplexer.addProcessor(new NinjaController());
 		Gdx.input.setInputProcessor(multiplexer);
 	}

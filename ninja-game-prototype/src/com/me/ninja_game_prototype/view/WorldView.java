@@ -24,7 +24,6 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.me.ninja_game_prototype.NinjaGamePrototype;
 import com.me.ninja_game_prototype.controller.ConfigController;
-import com.me.ninja_game_prototype.controller.SongController;
 import com.me.ninja_game_prototype.helper.ShaderSettings;
 import com.me.ninja_game_prototype.model.EnemyModel;
 import com.me.ninja_game_prototype.model.ExitModel;
@@ -32,6 +31,7 @@ import com.me.ninja_game_prototype.model.FloorModel;
 import com.me.ninja_game_prototype.model.GameModel;
 import com.me.ninja_game_prototype.model.NinjaModel;
 import com.me.ninja_game_prototype.model.ObstacleModel;
+import com.me.ninja_game_prototype.model.SongModel;
 import com.me.ninja_game_prototype.model.WallModel;
 import com.me.ninja_game_prototype.model.WorldModel;
 
@@ -188,7 +188,7 @@ public class WorldView
 		}
 		else
 		{
-			if(!GameModel.get().isSongMode() && SongController.get().getTonePlayed() == ""){
+			if(!GameModel.get().isSongMode() && SongModel.get().getTonePlayed() == ""){
 				frame = ninja.getIdleNight();
 				if(ninja.getVelocity().x != 0 || ninja.getVelocity().y != 0)
 				{
@@ -198,10 +198,10 @@ public class WorldView
 			}
 		}
 		
-		if(GameModel.get().isSongMode() || SongController.get().getTonePlayed() != ""){
+		if(GameModel.get().isSongMode() || SongModel.get().getTonePlayed() != ""){
 			
 			frame = ninja.getIdlePipePlaying();
-			if(SongController.get().getTonePlayed() != ""){
+			if(SongModel.get().getTonePlayed() != ""){
 				frame = ninja.getPipePlaying();
 			}
 			batch.draw(frame, ninja.getPosition().x, ninja.getPosition().y);
@@ -271,9 +271,9 @@ public class WorldView
 		rayhandler.updateAndRender();
 		
 		batch.begin();
-		if(SongController.get().getTonePlayed() != ""){
+		if(SongModel.get().getTonePlayed() != ""){
 			
-			index = ConfigController.get().getConfig().getToneKeyIndex(SongController.get().getTonePlayed());
+			index = ConfigController.get().getConfig().getToneKeyIndex(SongModel.get().getTonePlayed());
 			toneEffects.get(index).setPosition(ninja.getPosition().x + ninja.getWidth(), ninja.getPosition().y + ninja.getHeight());
 			toneEffects.get(index).draw(batch, Gdx.graphics.getDeltaTime());
 				
@@ -283,7 +283,7 @@ public class WorldView
 		for(ParticleEffect toneEffect : toneEffects){
 			if (toneEffect.isComplete()) {
 				toneEffect.reset();
-				SongController.get().setTonePlayed("");
+				SongModel.get().setTonePlayed("");
 			}
 		}
 	}

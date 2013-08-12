@@ -12,6 +12,9 @@ import com.me.ninja_game_prototype.view.WorldView;
 
 public class NinjaController implements InputProcessor
 {
+	static final int keyboard = 2;
+	static final int touch_mouse = 1;
+	
 	public NinjaController()
 	{
 	}
@@ -32,7 +35,7 @@ public class NinjaController implements InputProcessor
 	public boolean keyDown(int keycode)
 	{
 		if (!GameModel.get().isSongMode()){
-			WorldModel.get().getNinja().setFlagInput(2);
+			WorldModel.get().getNinja().setFlagInput(keyboard);
 			WorldModel.get().setNight(true);
 		
 			if(!GameModel.get().isGameEnd())
@@ -98,7 +101,7 @@ public class NinjaController implements InputProcessor
 		if(!GameModel.get().isGameEnd()){
 			NinjaController.walk();
 			
-			WorldModel.get().getNinja().setFlagInput(1);
+			WorldModel.get().getNinja().setFlagInput(touch_mouse);
 			WorldModel.get().setNight(true);
 			
 			touch.set(screenX,screenY,0);

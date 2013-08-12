@@ -29,7 +29,7 @@ public class SongLoader {
 	/* instance */
 	
 	
-	public void loadSongs(){
+	public void loadSongs(SongController songController){
 		
 		FileHandle file = Gdx.files.internal("data/songs_config.txt");
 		Json  json = new Json();
@@ -42,7 +42,7 @@ public class SongLoader {
 		while(songJson != null){
 			
 			SongModel song = json.readValue(SongModel.class, songJson);
-			SongController.get().addSong(song);
+			songController.addSong(song);
 			
 			songJson = songJson.next();
 			

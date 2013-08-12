@@ -1,41 +1,36 @@
 package com.me.ninja_game_prototype.controller;
 
+import java.util.Observable;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Timer;
+import com.me.ninja_game_prototype.helper.SongLoader;
 import com.me.ninja_game_prototype.helper.SongRecorder;
 import com.me.ninja_game_prototype.model.GameModel;
 import com.me.ninja_game_prototype.model.SongModel;
 import com.me.ninja_game_prototype.model.WorldModel;
 
-public class SongController implements InputProcessor {
-	/* static */
+public class SongController extends Observable implements InputProcessor {
 	
-	/* singleton */
-	private static SongController instance;
-	static final String tone_1 = ConfigController.get().getConfig().getToneKey(0);
-	static final String tone_2 = ConfigController.get().getConfig().getToneKey(1);
-	static final String tone_3 = ConfigController.get().getConfig().getToneKey(2);
-	static final String tone_4 = ConfigController.get().getConfig().getToneKey(3);
-
-	private SongController()
-	{}
-
-	public static SongController get() {
-		if (SongController.instance == null) {
-			SongController.instance = new SongController();
-		}
-		return SongController.instance;
+	public SongController()
+	{
+		SongLoader.get().loadSongs(this);
+		
 	}
-	
+
 	/* instance */
 	private Array<SongModel> songs = new Array<SongModel>();
 	private String songPlayed;
 	private Array<String> songNotesToProve = new Array<String>();
-	private String tonePlayed = "";
 	
+
+	static final String tone_1 = ConfigController.get().getConfig().getToneKey(0);
+	static final String tone_2 = ConfigController.get().getConfig().getToneKey(1);
+	static final String tone_3 = ConfigController.get().getConfig().getToneKey(2);
+	static final String tone_4 = ConfigController.get().getConfig().getToneKey(3);
 	
 	public boolean validateSong(Array<String> songNotes){
 		
@@ -54,10 +49,10 @@ public class SongController implements InputProcessor {
 			
 			if (correctNotes == ConfigController.get().getConfig().getNotesCount()){
 				playedCorrectly = true;
-				SongController.get().setSongPlayed(songs.get(i).getIdentifier());
+				this.setSongPlayed(songs.get(i).getIdentifier());
 				i = songs.size;
 			}else{
-				SongController.get().setSongPlayed("none");
+				this.setSongPlayed("none");
 				correctNotes = 0;
 			}
 		}
@@ -102,13 +97,6 @@ public class SongController implements InputProcessor {
 		this.songPlayed = songPlayed;
 	}
 	
-	public String getTonePlayed() {
-		return tonePlayed;
-	}
-
-	public void setTonePlayed(String tonePlayed) {
-		this.tonePlayed = tonePlayed;
-	}
 
 	@Override
 	public boolean keyDown(int keycode)
@@ -117,31 +105,31 @@ public class SongController implements InputProcessor {
 			
 			switch(keycode){
 				case Keys.NUM_1:
-					if(!SongRecorder.get().isRecorded() && this.getTonePlayed() == ""){
+					if(!SongRecorder.get().isRecorded() && SongModel.get().getTonePlayed() == ""){
 						NinjaController.playPipeTune1();
 						SongRecorder.get().getRecordedSong().add("1");
-						this.setTonePlayed(tone_1);
+						SongModel.get().setTonePlayed(tone_1);
 					}
 					break;
 				case Keys.NUM_2:
-					if(!SongRecorder.get().isRecorded() && this.getTonePlayed() == ""){
+					if(!SongRecorder.get().isRecorded() && SongModel.get().getTonePlayed() == ""){
 						NinjaController.playPipeTune2();
 						SongRecorder.get().getRecordedSong().add("2");
-						this.setTonePlayed(tone_2);
+						SongModel.get().setTonePlayed(tone_2);
 					}
 					break;
 				case Keys.NUM_3:
-					if(!SongRecorder.get().isRecorded() && this.getTonePlayed() == ""){
+					if(!SongRecorder.get().isRecorded() && SongModel.get().getTonePlayed() == ""){
 						NinjaController.playPipeTune3();
 						SongRecorder.get().getRecordedSong().add("3");
-						this.setTonePlayed(tone_3);
+						SongModel.get().setTonePlayed(tone_3);
 					}
 					break;
 				case Keys.NUM_4:
-					if(!SongRecorder.get().isRecorded() && this.getTonePlayed() == ""){
+					if(!SongRecorder.get().isRecorded() && SongModel.get().getTonePlayed() == ""){
 						NinjaController.playPipeTune4();
 						SongRecorder.get().getRecordedSong().add("4");
-						this.setTonePlayed(tone_4);
+						SongModel.get().setTonePlayed(tone_4);
 					}
 					break;
 				case Keys.O:
@@ -155,21 +143,23 @@ public class SongController implements InputProcessor {
 			}
 			
 			if(SongRecorder.get().isRecorded()){
-				if(SongController.get().validateSong(SongRecorder.get().getRecordedSong())){
-					Gdx.app.log("SongController", SongController.get().getSongPlayed());
+				if(this.validateSong(SongRecorder.get().getRecordedSong())){
+					Gdx.app.log("SongController", this.getSongPlayed());
 					Gdx.app.log("SongController", "success");
+					
+					final String playedSong = this.getSongPlayed();
 					
 					final Timer timer = new Timer();  
 			        timer.scheduleTask(new Timer.Task() {
 						@Override
 						public void run() {
-							SongController.get().replaySong(SongController.get().getSongPlayed());  
+							replaySong(playedSong);  
 						}
 			        }, 1f); 
 			        
 					GameModel.get().setSongMode(false);
 				}else{
-					Gdx.app.log("SongController", SongController.get().getSongPlayed());
+					Gdx.app.log("SongController", this.getSongPlayed());
 					Gdx.app.log("SongController", "failed");
 					
 					GameModel.get().setSongMode(false);
@@ -194,7 +184,7 @@ public class SongController implements InputProcessor {
 	}
 
 	public void resetSongPlaying() {
-		this.setTonePlayed("");
+		SongModel.get().setTonePlayed("");
 		SongRecorder.get().getRecordedSong().clear();
 		
 	}

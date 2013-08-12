@@ -13,6 +13,8 @@ import com.me.ninja_game_prototype.helper.MapObjectDataGatherer;
 public class NinjaModel extends MovableEntity
 {
 	private static final float RUNNING_FRAME_DURATION = 0.2f;
+	static final int keyboard = 2;
+	static final int touch_mouse = 1;
 	
 	private Vector2 goal = new Vector2();
 	private Vector2 startPosition = new Vector2();
@@ -94,7 +96,7 @@ public class NinjaModel extends MovableEntity
 		
 		switch (flagInput)
 		{
-			case 1:
+			case touch_mouse:
 				if (!getBounds().contains(getGoal()) && getPosition().dst(getGoal()) > 5)
 				{		
 					// TODO try this: position.add(velocity.tmp().mul(delta)); 
@@ -105,7 +107,7 @@ public class NinjaModel extends MovableEntity
 					NinjaController.stopWalk();
 				}
 				break;
-			case 2:
+			case keyboard:
 				addPosition(getVelocity().cpy().scl(Gdx.graphics.getDeltaTime() * getSpeed()));
 				break;
 		}
