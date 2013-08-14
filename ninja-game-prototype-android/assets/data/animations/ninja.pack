@@ -3,66 +3,52 @@ ninja.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-Ninja_JinLi_dark
+ninja_pixel
+  rotate: false
+  xy: 1, 292
+  size: 512, 64
+  orig: 512, 64
+  offset: 0, 0
+  index: -1
+walkingman
+  rotate: false
+  xy: 1, 34
+  size: 32, 256
+  orig: 32, 256
+  offset: 0, 0
+  index: -1
+01
+  rotate: false
+  xy: 515, 325
+  size: 27, 31
+  orig: 27, 31
+  offset: 0, 0
+  index: -1
+02
   rotate: false
   xy: 1, 1
-  size: 32, 32
-  orig: 32, 32
+  size: 27, 31
+  orig: 27, 31
   offset: 0, 0
-  index: 1
-Ninja_JinLi_dark
+  index: -1
+03
   rotate: false
-  xy: 35, 1
-  size: 32, 32
-  orig: 32, 32
+  xy: 35, 259
+  size: 27, 31
+  orig: 27, 31
   offset: 0, 0
-  index: 2
-Ninja_JinLi_dark
+  index: -1
+04
   rotate: false
-  xy: 69, 1
-  size: 32, 32
-  orig: 32, 32
+  xy: 515, 292
+  size: 27, 31
+  orig: 27, 31
   offset: 0, 0
-  index: 3
-Ninja_JinLi_flute
+  index: -1
+05
   rotate: false
-  xy: 103, 1
-  size: 32, 32
-  orig: 32, 32
+  xy: 544, 325
+  size: 27, 31
+  orig: 27, 31
   offset: 0, 0
-  index: 1
-Ninja_JinLi_flute
-  rotate: false
-  xy: 137, 1
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: 2
-Ninja_JinLi_flute
-  rotate: false
-  xy: 171, 1
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: 3
-Ninja_JinLi_idle
-  rotate: false
-  xy: 205, 1
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: 1
-Ninja_JinLi_idle
-  rotate: false
-  xy: 239, 1
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: 2
-Ninja_JinLi_idle
-  rotate: false
-  xy: 273, 1
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: 3
+  index: -1

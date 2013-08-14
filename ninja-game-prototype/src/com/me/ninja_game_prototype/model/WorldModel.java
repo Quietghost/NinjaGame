@@ -2,13 +2,14 @@ package com.me.ninja_game_prototype.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.me.ninja_game_prototype.NinjaGamePrototype;
 import com.me.ninja_game_prototype.controller.NinjaController;
 
-public class WorldModel
+public class WorldModel extends Observable
 {
 	/* static */
 	
@@ -125,7 +126,10 @@ public class WorldModel
 				
 				if (obstacle.isRumble() && obstacle.isAudioFlag())
 				{
-					NinjaController.hitObstacle();
+					//NinjaController.hitObstacle();
+					setChanged();
+					notifyObservers(ObserverMessage.Collision_Obstacle);
+					
 					if (NinjaGamePrototype.DEBUG) Gdx.app.log(NinjaGamePrototype.LOG, "Hit 1!! ");
 					obstacle.setAudioFlag(false);
 				}
@@ -133,6 +137,7 @@ public class WorldModel
 			}
 			else
 			{
+				
 				obstacle.setRumble(false);
 				obstacle.setAudioFlag(true);
 			}
@@ -144,6 +149,9 @@ public class WorldModel
 		
 			if (ninja.getBounds().overlaps(enemy.getBounds()))
 			{
+				
+				enemy.setRumble(true);
+				
 				GameModel.get().addTimeSinceCollision(Gdx.graphics.getDeltaTime());
 				if(GameModel.get().getTimeSinceCollision() > 0.5f)
 				{
@@ -152,8 +160,21 @@ public class WorldModel
 					GameModel.get().addAttempt();
 				}
 				
-				NinjaController.hitObstacle();
-				if (NinjaGamePrototype.DEBUG) Gdx.app.log(NinjaGamePrototype.LOG, "Hit 2!! ");
+				if (enemy.isRumble() && enemy.isAudioFlag())
+				{
+					//NinjaController.hitObstacle();
+					setChanged();
+					notifyObservers(ObserverMessage.Collision_Enemy);
+					
+					if (NinjaGamePrototype.DEBUG) Gdx.app.log(NinjaGamePrototype.LOG, "Hit 2!! ");
+					enemy.setAudioFlag(false);
+				}
+				
+			}
+			else
+			{
+				enemy.setRumble(false);
+				enemy.setAudioFlag(true);
 			}
 		}
 	}

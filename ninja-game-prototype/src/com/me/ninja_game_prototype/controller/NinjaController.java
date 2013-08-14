@@ -25,8 +25,7 @@ public class NinjaController implements InputProcessor
 	static Sound pipeTune4 = Gdx.audio.newSound(Gdx.files.internal("data/sounds/songs/pipe_tone4.wav"));
 	
 	static Sound pipeSong1 = Gdx.audio.newSound(Gdx.files.internal("data/sounds/songs/pipe_song1.wav"));
-	static Sound walk = Gdx.audio.newSound(Gdx.files.internal("data/sounds/walk_wood_normalspeed.mp3"));
-	static Sound hit = Gdx.audio.newSound(Gdx.files.internal("data/sounds/hit_ouch.mp3"));
+	
 	
 	Vector3 touch = new Vector3();
 	Vector2 vect2Touch = new Vector2();
@@ -38,8 +37,8 @@ public class NinjaController implements InputProcessor
 			WorldModel.get().getNinja().setFlagInput(keyboard);
 			WorldModel.get().setNight(true);
 		
-			if(!GameModel.get().isGameEnd())
-				NinjaController.walk();
+			/*if(!GameModel.get().isGameEnd())
+				NinjaController.walk();*/
 			
 			switch(keycode){
 				case Keys.W:
@@ -64,25 +63,33 @@ public class NinjaController implements InputProcessor
 	@Override
 	public boolean keyUp(int keycode)
 	{
-		NinjaController.stopWalk();
+		//NinjaController.stopWalk();
 
-		if (keycode != Keys.O){
+		if (!GameModel.get().isSongMode()){
 			switch(keycode){
 				case Keys.W:
-					if(WorldModel.get().getNinja().getVelocity().y == 1)
+					if(WorldModel.get().getNinja().getVelocity().y == 1){
 						WorldModel.get().getNinja().getVelocity().y = 0;
+						WorldModel.get().getNinja().setFlagInput(0);
+					}
 					break;
 				case Keys.S:
-					if(WorldModel.get().getNinja().getVelocity().y == -1)
+					if(WorldModel.get().getNinja().getVelocity().y == -1){
 						WorldModel.get().getNinja().getVelocity().y = 0;
+						WorldModel.get().getNinja().setFlagInput(0);
+					}
 					break;
 				case Keys.A:
-					if(WorldModel.get().getNinja().getVelocity().x == -1)
+					if(WorldModel.get().getNinja().getVelocity().x == -1){
 						WorldModel.get().getNinja().getVelocity().x = 0;
+						WorldModel.get().getNinja().setFlagInput(0);
+					}
 					break;
 				case Keys.D:
-					if(WorldModel.get().getNinja().getVelocity().x == 1)
+					if(WorldModel.get().getNinja().getVelocity().x == 1){
 						WorldModel.get().getNinja().getVelocity().x = 0;
+						WorldModel.get().getNinja().setFlagInput(0);
+					}
 					break;
 			}
 		}
@@ -99,7 +106,7 @@ public class NinjaController implements InputProcessor
 	public boolean touchDown(int screenX, int screenY, int pointer, int button)
 	{
 		if(!GameModel.get().isGameEnd()){
-			NinjaController.walk();
+			//NinjaController.walk();
 			
 			WorldModel.get().getNinja().setFlagInput(touch_mouse);
 			WorldModel.get().setNight(true);
@@ -133,22 +140,7 @@ public class NinjaController implements InputProcessor
 		pipeSong1.play();
 	}
 	
-	public static void walk(){
-		long id = walk.play(1.0f);
-		walk.setLooping(id, true);
-	}
 	
-	public static void stopWalk(){
-		walk.stop();
-	}
-	
-	public static void hitObstacle(){
-		hit.play();
-	}
-	
-	public static void stopHitObstacle(){
-		hit.stop();
-	}
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button)

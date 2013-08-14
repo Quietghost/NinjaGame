@@ -23,8 +23,10 @@ public class EndScreen implements Screen
 	
 	
 	public EndScreen(NinjaGamePrototype game){
-		NinjaController.stopWalk();
+		//NinjaController.stopWalk();
+		
 		WorldController.playExit();
+		
 		this.game = game;
 		batch = new SpriteBatch();
 		font1 = new BitmapFont(Gdx.files.internal("data/fonts/font.fnt"), false);

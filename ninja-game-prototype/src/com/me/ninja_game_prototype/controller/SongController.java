@@ -27,10 +27,10 @@ public class SongController extends Observable implements InputProcessor {
 	private Array<String> songNotesToProve = new Array<String>();
 	
 
-	static final String tone_1 = ConfigController.get().getConfig().getToneKey(0);
-	static final String tone_2 = ConfigController.get().getConfig().getToneKey(1);
-	static final String tone_3 = ConfigController.get().getConfig().getToneKey(2);
-	static final String tone_4 = ConfigController.get().getConfig().getToneKey(3);
+	public static final String tone_1 = ConfigController.get().getConfig().getToneKey(0);
+	public static final String tone_2 = ConfigController.get().getConfig().getToneKey(1);
+	public static final String tone_3 = ConfigController.get().getConfig().getToneKey(2);
+	public static final String tone_4 = ConfigController.get().getConfig().getToneKey(3);
 	
 	public boolean validateSong(Array<String> songNotes){
 		
@@ -170,6 +170,11 @@ public class SongController extends Observable implements InputProcessor {
 		{
 			switch(keycode){
 				case Keys.O:
+					WorldModel.get().getNinja().getVelocity().y = 0;
+					WorldModel.get().getNinja().getVelocity().x = 0;
+					
+					WorldModel.get().getNinja().setFlagInput(0);
+					
 					if (GameModel.get().isSongMode()){
 						GameModel.get().setSongMode(false);
 					}else{

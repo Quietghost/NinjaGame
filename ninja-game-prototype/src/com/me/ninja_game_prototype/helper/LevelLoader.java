@@ -94,6 +94,8 @@ public class LevelLoader
 	        NinjaModel ninja = new NinjaModel(map.getLayers().get("O_Ninja").getObjects().get("day"), map.getLayers().get("O_Ninja").getObjects().get("night"));
 	        ninja.setSpeed(60); // TODO load from configuration
 	        WorldModel.get().setNinja(ninja);
+	     
+	        
 	        
 	        // TODO remove debug
 	        // ------------------------------------------

@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Vector2;
-import com.me.ninja_game_prototype.controller.NinjaController;
 import com.me.ninja_game_prototype.helper.MapObjectDataGatherer;
 
 public class NinjaModel extends MovableEntity
@@ -48,7 +47,7 @@ public class NinjaModel extends MovableEntity
 		this.startPosition = new Vector2(getPosition().x, getPosition().y);
 		
 		// annimated sprite
-		TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("data/animations/ninja.pack"));
+		TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("data/animations/ninja_pixel.pack"));
 		
 		idlePipePlaying = atlas.findRegion("Ninja_JinLi_flute");
 		
@@ -101,14 +100,26 @@ public class NinjaModel extends MovableEntity
 				{		
 					// TODO try this: position.add(velocity.tmp().mul(delta)); 
 					addPosition(getVelocity().cpy().scl(Gdx.graphics.getDeltaTime() * getSpeed()));
+					
+					setChanged();
+					notifyObservers(ObserverMessage.Ninja_Walk);
+					
 				}else{
 					setPosition(new Vector2(getGoal().x - getBounds().width/2, goal.y - getBounds().height/2));
 					setVelocity(new Vector2(0, 0));
-					NinjaController.stopWalk();
+					
+					setChanged();
+					notifyObservers(ObserverMessage.Ninja_Walk_Stop);
 				}
 				break;
 			case keyboard:
+				setChanged();
+				notifyObservers(ObserverMessage.Ninja_Walk);
+				
 				addPosition(getVelocity().cpy().scl(Gdx.graphics.getDeltaTime() * getSpeed()));
+				break;
+			default:
+				WorldModel.get().getNinja().setFlagInput(0);
 				break;
 		}
 		
@@ -128,9 +139,6 @@ public class NinjaModel extends MovableEntity
 //			}
 			GameModel.get().setGameEnd(true);
 		}
-
-		setChanged();
-		notifyObservers(ObserverMessage.NINJA);
 	}
 
 	public Vector2 getGoal()

@@ -11,6 +11,8 @@ public class EnemyModel extends MovableEntity
 	private Vector2 goal;
 	private Polygon path;
 	private int pathIndex = 0;
+	private boolean rumble;
+	private boolean audioFlag = true;
 	
 	public EnemyModel(MapObject o, Polygon path)
 	{
@@ -40,10 +42,34 @@ public class EnemyModel extends MovableEntity
 		getVelocity().y = yDiff / (Math.abs(xDiff)+Math.abs(yDiff));
 		
 		addPosition(getVelocity().cpy().scl(Gdx.graphics.getDeltaTime() * getSpeed()));
+		
+		setChanged();
+		notifyObservers(this);
+		
 	}
 
 	public float[] getTransformedVertices() {
 		if (path==null) return new float[0];
 		return path.getTransformedVertices();
+	}
+	
+	public boolean isRumble()
+	{
+		return rumble;
+	}
+
+	public void setRumble(boolean rumble)
+	{
+		this.rumble = rumble;
+	}
+
+	public boolean isAudioFlag()
+	{
+		return audioFlag;
+	}
+
+	public void setAudioFlag(boolean audioFlag)
+	{
+		this.audioFlag = audioFlag;
 	}
 }

@@ -6,10 +6,12 @@ import com.badlogic.gdx.Screen;
 import com.me.ninja_game_prototype.NinjaGamePrototype;
 import com.me.ninja_game_prototype.controller.NinjaController;
 import com.me.ninja_game_prototype.controller.SongController;
+import com.me.ninja_game_prototype.controller.SoundSystem;
 import com.me.ninja_game_prototype.controller.WorldController;
 import com.me.ninja_game_prototype.helper.ConfigLoader;
 import com.me.ninja_game_prototype.helper.SongLoader;
 import com.me.ninja_game_prototype.model.GameModel;
+import com.me.ninja_game_prototype.model.NinjaModel;
 import com.me.ninja_game_prototype.model.SongModel;
 import com.me.ninja_game_prototype.model.WorldModel;
 import com.me.ninja_game_prototype.view.WorldView;
@@ -24,6 +26,10 @@ public class GameScreen implements Screen{
 				
 		this.game = game;
 		new WorldController();
+		SoundSystem sound = new SoundSystem();
+		
+		WorldModel.get().addObserver(sound);
+		WorldModel.get().getNinja().addObserver(sound);
 		
 		InputMultiplexer multiplexer = new InputMultiplexer();
 		multiplexer.addProcessor(new SongController());
