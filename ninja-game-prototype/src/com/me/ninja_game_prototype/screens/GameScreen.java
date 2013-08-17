@@ -1,5 +1,7 @@
 package com.me.ninja_game_prototype.screens;
 
+import java.util.Iterator;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
@@ -10,6 +12,7 @@ import com.me.ninja_game_prototype.controller.SoundSystem;
 import com.me.ninja_game_prototype.controller.WorldController;
 import com.me.ninja_game_prototype.helper.ConfigLoader;
 import com.me.ninja_game_prototype.helper.SongLoader;
+import com.me.ninja_game_prototype.model.EnemyModel;
 import com.me.ninja_game_prototype.model.GameModel;
 import com.me.ninja_game_prototype.model.NinjaModel;
 import com.me.ninja_game_prototype.model.SongModel;
@@ -22,19 +25,25 @@ public class GameScreen implements Screen{
 	
 	public GameScreen (NinjaGamePrototype game){
 		
-		ConfigLoader.get().loadConfig();
-				
 		this.game = game;
 		new WorldController();
-		SoundSystem sound = new SoundSystem();
 		
-		WorldModel.get().addObserver(sound);
-		WorldModel.get().getNinja().addObserver(sound);
+		WorldModel.get().addObserver(SoundSystem.get());
+		WorldModel.get().getNinja().addObserver(SoundSystem.get());
 		
 		InputMultiplexer multiplexer = new InputMultiplexer();
 		multiplexer.addProcessor(new SongController());
 		multiplexer.addProcessor(new NinjaController());
 		Gdx.input.setInputProcessor(multiplexer);
+		
+		@SuppressWarnings("rawtypes")
+		Iterator it;
+		it = WorldModel.get().getEnemies().iterator();
+		
+		while (it.hasNext()){
+			EnemyModel enemy = (EnemyModel) it.next();
+			enemy.addObserver(SoundSystem.get());
+		}
 	}
 	
 	@Override

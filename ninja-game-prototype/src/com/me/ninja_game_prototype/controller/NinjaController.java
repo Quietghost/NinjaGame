@@ -7,6 +7,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.me.ninja_game_prototype.model.GameModel;
+import com.me.ninja_game_prototype.model.ObserverMessage;
 import com.me.ninja_game_prototype.model.WorldModel;
 import com.me.ninja_game_prototype.view.WorldView;
 
@@ -64,31 +65,31 @@ public class NinjaController implements InputProcessor
 	public boolean keyUp(int keycode)
 	{
 		//NinjaController.stopWalk();
-
+		
 		if (!GameModel.get().isSongMode()){
 			switch(keycode){
 				case Keys.W:
 					if(WorldModel.get().getNinja().getVelocity().y == 1){
 						WorldModel.get().getNinja().getVelocity().y = 0;
-						WorldModel.get().getNinja().setFlagInput(0);
+						//WorldModel.get().getNinja().setFlagInput(0);
 					}
 					break;
 				case Keys.S:
 					if(WorldModel.get().getNinja().getVelocity().y == -1){
 						WorldModel.get().getNinja().getVelocity().y = 0;
-						WorldModel.get().getNinja().setFlagInput(0);
+						//WorldModel.get().getNinja().setFlagInput(0);
 					}
 					break;
 				case Keys.A:
 					if(WorldModel.get().getNinja().getVelocity().x == -1){
 						WorldModel.get().getNinja().getVelocity().x = 0;
-						WorldModel.get().getNinja().setFlagInput(0);
+						//WorldModel.get().getNinja().setFlagInput(0);
 					}
 					break;
 				case Keys.D:
 					if(WorldModel.get().getNinja().getVelocity().x == 1){
 						WorldModel.get().getNinja().getVelocity().x = 0;
-						WorldModel.get().getNinja().setFlagInput(0);
+						//WorldModel.get().getNinja().setFlagInput(0);
 					}
 					break;
 			}

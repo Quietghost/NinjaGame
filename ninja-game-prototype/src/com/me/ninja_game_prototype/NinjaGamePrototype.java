@@ -3,6 +3,7 @@ package com.me.ninja_game_prototype;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.tools.imagepacker.TexturePacker2;
+import com.me.ninja_game_prototype.helper.ConfigLoader;
 import com.me.ninja_game_prototype.screens.GameScreen;
 
 public class NinjaGamePrototype extends Game {
@@ -12,7 +13,7 @@ public class NinjaGamePrototype extends Game {
 	public static boolean DEBUG = true;
 	public static boolean SHOW_BOUNDINGBOXES = true;
 	public static boolean SHOW_ENEMYPATHS = true;
-	public static boolean PACK_TEXTURES = true;
+	public static boolean PACK_TEXTURES = false;
 	
 	FPSLogger log;
 	
@@ -20,10 +21,12 @@ public class NinjaGamePrototype extends Game {
 	public void create() {	
 		log = new FPSLogger();
 		
+		ConfigLoader.get().loadConfig();
+		
 		// TODO texture-packs
 		if (PACK_TEXTURES)
 		{
-			TexturePacker2.process("../ninja-game-prototype-android/assets/data/animations/", "../ninja-game-prototype-android/assets/data/animations/", "ninja.pack");
+			//TexturePacker2.process("../ninja-game-prototype-android/assets/data/animations/", "../ninja-game-prototype-android/assets/data/animations/", "ninja.pack");
 		}
 		
 		// TODO App-Controller here

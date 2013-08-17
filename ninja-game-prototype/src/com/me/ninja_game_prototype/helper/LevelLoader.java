@@ -11,6 +11,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Polygon;
+import com.me.ninja_game_prototype.controller.SoundSystem;
 import com.me.ninja_game_prototype.model.EnemyModel;
 import com.me.ninja_game_prototype.model.ExitModel;
 import com.me.ninja_game_prototype.model.FloorModel;
@@ -88,6 +89,7 @@ public class LevelLoader
 	        {
 	        	MapObject mo = (MapObject) it.next();
 	        	WorldModel.get().addEnemy(new EnemyModel(mo, paths.get(mo.getName())));
+	        	
 			}
 	        
 	        // load ninja

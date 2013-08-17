@@ -13,6 +13,7 @@ public class EnemyModel extends MovableEntity
 	private int pathIndex = 0;
 	private boolean rumble;
 	private boolean audioFlag = true;
+	private boolean walkingSound = false;
 	
 	public EnemyModel(MapObject o, Polygon path)
 	{
@@ -71,5 +72,13 @@ public class EnemyModel extends MovableEntity
 	public void setAudioFlag(boolean audioFlag)
 	{
 		this.audioFlag = audioFlag;
+	}
+
+	public boolean isWalkingSound() {
+		return walkingSound;
+	}
+
+	public void setWalkingSound(boolean walkingSound) {
+		this.walkingSound = walkingSound;
 	}
 }

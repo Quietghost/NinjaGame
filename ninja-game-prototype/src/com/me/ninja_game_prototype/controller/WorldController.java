@@ -8,9 +8,7 @@ import com.me.ninja_game_prototype.view.WorldView;
 
 public class WorldController
 {
-	
 	static Music song = Gdx.audio.newMusic(Gdx.files.internal("data/music/asian_duet.mp3"));
-	static Sound exit = Gdx.audio.newSound(Gdx.files.internal("data/sounds/celebration.mp3"));
 	
 	public WorldController()
 	{
@@ -28,11 +26,5 @@ public class WorldController
 		song.stop();
 	}
 
-	public static void playExit(){
-		exit.play();
-	}
 	
-	public static void stopExit(){
-		exit.stop();
-	}
 }

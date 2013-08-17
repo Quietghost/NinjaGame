@@ -19,6 +19,7 @@ public class NinjaModel extends MovableEntity
 	private Vector2 startPosition = new Vector2();
 	private int flagInput;
 	private Texture nightTexture;
+	private int walking;
 
 	/** Textures **/
 	private TextureRegion idlePipePlaying;
@@ -104,21 +105,32 @@ public class NinjaModel extends MovableEntity
 					setChanged();
 					notifyObservers(ObserverMessage.Ninja_Walk);
 					
+					
 				}else{
 					setPosition(new Vector2(getGoal().x - getBounds().width/2, goal.y - getBounds().height/2));
 					setVelocity(new Vector2(0, 0));
 					
 					setChanged();
 					notifyObservers(ObserverMessage.Ninja_Walk_Stop);
+					WorldModel.get().getNinja().setFlagInput(0);
 				}
 				break;
 			case keyboard:
-				setChanged();
-				notifyObservers(ObserverMessage.Ninja_Walk);
 				
 				addPosition(getVelocity().cpy().scl(Gdx.graphics.getDeltaTime() * getSpeed()));
+				
+				if (WorldModel.get().getNinja().getVelocity().y == 0 && WorldModel.get().getNinja().getVelocity().x == 0){
+					setChanged();
+					notifyObservers(ObserverMessage.Ninja_Walk_Stop);
+					WorldModel.get().getNinja().setFlagInput(0);
+				}else{
+					setChanged();
+					notifyObservers(ObserverMessage.Ninja_Walk);
+				}
+				
 				break;
 			default:
+				
 				WorldModel.get().getNinja().setFlagInput(0);
 				break;
 		}
@@ -202,5 +214,13 @@ public class NinjaModel extends MovableEntity
 	public TextureRegion getIdlePipePlaying() {
 		
 		return idlePipePlaying;
+	}
+
+	public int getWalking() {
+		return walking;
+	}
+
+	public void setWalking(int walking) {
+		this.walking = walking;
 	}
 }
