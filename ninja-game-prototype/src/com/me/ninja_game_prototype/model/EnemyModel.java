@@ -1,6 +1,7 @@
 package com.me.ninja_game_prototype.model;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
@@ -53,6 +54,29 @@ public class EnemyModel extends MovableEntity
 		if (path==null) return new float[0];
 		return path.getTransformedVertices();
 	}
+	
+	public boolean facingLeft()
+	{
+		return getVelocity().x<0;
+	}
+	
+	public boolean facingUp()
+	{
+		return getVelocity().y<0;
+	}
+
+	/*public TextureRegion getIdleLight() {
+		return idleLightAnimation.getKeyFrame(stateTime/3, true);
+	}
+	
+	public TextureRegion getIdleNight() {
+		return idleNightAnimation.getKeyFrame(stateTime/3, true);
+	}
+
+	public TextureRegion getWalk() {
+		
+		return facingLeft() ? walkLeftAnimation.getKeyFrame(stateTime, true) : walkRightAnimation.getKeyFrame(stateTime, true);
+	}*/
 	
 	public boolean isRumble()
 	{
