@@ -1,7 +1,6 @@
 package com.me.ninja_game_prototype.model;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
@@ -25,6 +24,7 @@ public class EnemyModel extends MovableEntity
 		this.path = path; 
 	}
 
+	@Override
 	public void update()
 	{
 		if (path==null) return;

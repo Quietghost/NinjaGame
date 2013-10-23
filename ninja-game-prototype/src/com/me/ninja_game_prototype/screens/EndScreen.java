@@ -6,9 +6,7 @@ import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.me.ninja_game_prototype.NinjaGamePrototype;
-import com.me.ninja_game_prototype.controller.NinjaController;
 import com.me.ninja_game_prototype.controller.SoundSystem;
-import com.me.ninja_game_prototype.controller.WorldController;
 import com.me.ninja_game_prototype.model.GameModel;
 
 public class EndScreen implements Screen

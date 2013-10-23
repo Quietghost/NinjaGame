@@ -2,7 +2,6 @@ package com.me.ninja_game_prototype.controller;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
 import com.me.ninja_game_prototype.helper.LevelLoader;
 import com.me.ninja_game_prototype.view.WorldView;
 

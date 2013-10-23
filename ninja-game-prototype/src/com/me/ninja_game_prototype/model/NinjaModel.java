@@ -87,6 +87,7 @@ public class NinjaModel extends MovableEntity
 		
 	}
 
+	@Override
 	public void update()
 	{
 		stateTime += Gdx.graphics.getDeltaTime();

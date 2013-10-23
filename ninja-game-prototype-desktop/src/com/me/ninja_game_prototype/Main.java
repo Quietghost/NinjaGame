@@ -7,9 +7,11 @@ public class Main {
 	public static void main(String[] args) {
 		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
 		cfg.title = "The 36 Chambers of the Panpipe Ninjas " + NinjaGamePrototype.VERSION;
+		cfg.vSyncEnabled = true;
 		cfg.useGL20 = true;
 		cfg.width = 640;
 		cfg.height = 480;
+		cfg.resizable = true;
 			
 		new LwjglApplication(new NinjaGamePrototype(), cfg);
 	}

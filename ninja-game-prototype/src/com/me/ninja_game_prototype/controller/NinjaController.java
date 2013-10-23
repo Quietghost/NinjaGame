@@ -7,7 +7,6 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.me.ninja_game_prototype.model.GameModel;
-import com.me.ninja_game_prototype.model.ObserverMessage;
 import com.me.ninja_game_prototype.model.WorldModel;
 import com.me.ninja_game_prototype.view.WorldView;
 

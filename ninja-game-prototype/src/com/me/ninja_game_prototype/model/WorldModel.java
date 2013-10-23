@@ -7,7 +7,6 @@ import java.util.Observable;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.me.ninja_game_prototype.NinjaGamePrototype;
-import com.me.ninja_game_prototype.controller.NinjaController;
 
 public class WorldModel extends Observable
 {

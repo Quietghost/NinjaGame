@@ -8,7 +8,7 @@ import aurelienribon.tweenengine.TweenManager;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.GL10;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -36,7 +36,7 @@ public class SplashScreen implements Screen{
 	@Override
 	public void render(float delta) {
 		Gdx.gl.glClearColor(1, 1, 1, 0);
-		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		manager.update(delta);
 		
 		batch.begin();
@@ -82,7 +82,7 @@ public class SplashScreen implements Screen{
 	
 	private void tweenCompleted() {
 		if (NinjaGamePrototype.DEBUG) Gdx.app.log(NinjaGamePrototype.LOG, "finished");
-		game.setScreen(new GameScreen(game));
+		game.setScreen(new MainMenu(game));
 	}
 	
 	@Override

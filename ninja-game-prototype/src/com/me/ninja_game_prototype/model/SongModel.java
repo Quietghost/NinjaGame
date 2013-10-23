@@ -1,7 +1,6 @@
 package com.me.ninja_game_prototype.model;
 
 import com.badlogic.gdx.utils.Array;
-import com.me.ninja_game_prototype.controller.ConfigController;
 
 public class SongModel {
 

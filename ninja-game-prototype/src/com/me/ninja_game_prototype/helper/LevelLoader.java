@@ -11,7 +11,6 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Polygon;
-import com.me.ninja_game_prototype.controller.SoundSystem;
 import com.me.ninja_game_prototype.model.EnemyModel;
 import com.me.ninja_game_prototype.model.ExitModel;
 import com.me.ninja_game_prototype.model.FloorModel;
