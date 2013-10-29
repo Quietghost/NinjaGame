@@ -38,6 +38,7 @@ public class WorldModel extends Observable
 	private FloorModel floor;
 	private WallModel wall;
 	private boolean night = false;
+	private boolean menuShown = false;
 
 	public void clear()
 	{
@@ -102,6 +103,14 @@ public class WorldModel extends Observable
 	public void setWall(WallModel wall)
 	{
 		this.wall = wall;
+	}
+	
+	public boolean isMenuShown() {
+		return menuShown;
+	}
+
+	public void setMenuShown(boolean menuShown) {
+		this.menuShown = menuShown;
 	}
 
 	public void update()

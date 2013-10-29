@@ -31,7 +31,7 @@ public class MainMenu implements Screen{
     private Skin skin;
     private Table table;
     private TweenManager tweenManager;
-    private Game game;
+    private NinjaGamePrototype game;
     
     public MainMenu(NinjaGamePrototype game){
 		this.game = game;
@@ -79,7 +79,7 @@ public class MainMenu implements Screen{
 
                                     @Override
                                     public void run() {
-                                            //((Game) Gdx.app.getApplicationListener()).setScreen(new LevelMenu());
+                                    	((Game) Gdx.app.getApplicationListener()).setScreen(new LevelMenu(game));
                                     }
                             })));
                     }
@@ -95,7 +95,7 @@ public class MainMenu implements Screen{
 
                                     @Override
                                     public void run() {
-                                            //((Game) Gdx.app.getApplicationListener()).setScreen(new Settings());
+                                            ((Game) Gdx.app.getApplicationListener()).setScreen(new Settings(game));
                                     }
                             })));
                     }
@@ -165,7 +165,7 @@ public class MainMenu implements Screen{
 
     @Override
     public void hide() {
-            dispose();
+            //dispose();
     }
 
     @Override

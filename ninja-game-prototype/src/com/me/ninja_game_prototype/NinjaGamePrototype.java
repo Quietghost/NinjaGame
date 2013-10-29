@@ -8,6 +8,7 @@ import com.me.ninja_game_prototype.screens.SplashScreen;
 
 public class NinjaGamePrototype extends Game {
 	
+	public static final String TITLE = "Panpipe Nijas";
 	public static final String VERSION = "0.0.1 PreAlpha";
 	public static final String LOG = "Panpipe Ninja";
 	public static boolean DEBUG = true;
